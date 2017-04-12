@@ -1,7 +1,19 @@
 <template>
 	<div class="body">
 		<top></top>
-		<left></left>
+
+		<el-row :gutter="20">
+			<el-col :span="3">
+				<div class="page-left">
+					<left></left>
+				</div>
+			</el-col>
+			<el-col :span="21">
+				<div class="page-right">
+					<!--内容区域-->
+				</div>
+			</el-col>
+		</el-row>
 	</div>
 </template>
 <style lang="scss" scope>

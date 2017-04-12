@@ -114,3 +114,38 @@ s, i, em {
 .hide {
     display: none
 }
+
+.body{
+
+    .page-left{
+        .el-menu{
+            .el-submenu{
+                .el-menu-item-group{
+                    >ul{
+                        >.el-menu-item{
+                            padding-left: 52px !important;
+                            height:36px;
+                            line-height: 36px;
+                            font-size: 14px;
+                            border-right: 2px solid transparent;
+                            transition: all 1s;
+                            &:hover{
+                                background-color: rgba(96,163,255,.3);
+                            }
+                            &.is-active{
+                                background-color: rgba(96,163,255,.1);
+                                border-right-color: #60a3ff;
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    .page-right{
+
+    }
+
+}
