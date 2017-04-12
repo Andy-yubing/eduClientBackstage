@@ -1,4 +1,4 @@
-import login from "./views/login/index.vue";
+import login from "./views/login/login.vue";
 import body from "./views/compontents/common/body.vue";
 export default{
 	 mode: 'history',

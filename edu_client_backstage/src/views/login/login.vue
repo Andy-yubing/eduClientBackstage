@@ -1,7 +1,7 @@
 <template>
 	<div id="login">
 		<el-row type="flex"  justify="center" class="login_top">
-		  <el-col :span="6" class="text-center"><img src="../../assets/images/logo.png" height="37" width="151" alt=""></el-col>
+		  <el-col :span="6" class="text-center"><img src="../../assets/images/logo.png" height="37" width="151" alt=""></el-col>    
 		  <el-col :span="10"></el-col>
 		  <el-col :span="6" class="text-center"><h3>教育行业大数据应用服务平台</h3></el-col>
 		</el-row>
@@ -17,7 +17,6 @@
 			</el-form>
 			 <el-button type="primary" @click="submitForm('numberValidateForm')">立即提交</el-button>
 		</div>
-		
 	</div>
 </template>
 <script>
@@ -44,7 +43,10 @@
 <style lang="scss" scope>
 	#login{
 		height: 100%;
-		background-color: #8492A6; 
+		background: url("../../assets/images/login.png");
+		-webkit-background-size: 100% 100%; 
+		-o-background-size: 100% 100%; 
+		background-size: 100% 100%; 
 		position: relative;
 		.login_top{
 			padding-top: 10px; 
