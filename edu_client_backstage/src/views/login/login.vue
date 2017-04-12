@@ -9,17 +9,21 @@
 			<h2 class="text-center">慧数教育后台总管</h2>
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm"  class="demo-ruleForm">
 				<el-form-item  prop="name">
-				    <el-input v-model="ruleForm.name"></el-input>
+				    <el-input v-model="ruleForm.name" placeholder="请输入名称"></el-input>
 				 </el-form-item>
 				<el-form-item  prop="pass">
-			    	<el-input type="password" v-model="ruleForm.pass" auto-complete="off"></el-input>
+			    	<el-input type="password" v-model="ruleForm.pass" auto-complete="off" placeholder="请输入密码"></el-input>
 			    </el-form-item>
-			</el-form>
-			 <el-button type="primary" @click="submitForm('numberValidateForm')">立即提交</el-button>
+			    <el-form-item class="btn-box">
+                	<el-button type="primary" @click="submitForm('ruleForm')">立即提交</el-button>
+            	</el-form-item>
+			</el-form> 
+			<!--  <el-button type="primary" @click="submitForm()">立即提交</el-button> -->
 		</div>
 	</div>
 </template>
 <script>
+	 import "./js/security.js";
 	 export default{
 	 	data(){
 	 		return {
@@ -29,13 +33,32 @@
 	 			},
 	 			rules:{
 	 				name:[
-		            { required: true, message: '请输入手机号', trigger: 'blur' },
-		            //{ min: 3, max: 11, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+		            { required: true, message: '请输入账号', trigger: 'blur' },
+		            { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
 		          ],
 		          pass:[
 		          	{ required: true, message: '请输入密码', trigger: 'blur' },	
+		          	{ min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
 		          ]
 	 			}
+	 		}
+	 	},
+	 	methods:{
+	 		submitForm(formName){
+	 			this.$refs[formName].validate((valid)=>{
+	 				if(valid){
+	 					this.$http.post("/apis/security/generateKey.do").then((res)=>{
+	 						  let exponent = res.data.data.publicKeyExponent;
+                              let modulus = res.data.data.publicKeyModulus;
+                              RSAUtils.setMaxDigits(200);
+                              let key = new RSAUtils.getKeyPair(exponent, "", modulus);
+                              var password =  $('input[type=password]').val();
+                             
+	 					},(err)=>{
+	 						
+	 					})
+	 				}
+	 			})
 	 		}
 	 	}
      }
@@ -81,6 +104,5 @@
 				margin: 0 auto;  
 			}
 		}
-
 	}
 </style>
