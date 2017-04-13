@@ -1,19 +1,16 @@
 <template>
 	<div class="body">
-		<top></top>
-
-		<el-row :gutter="20">
-			<el-col :span="3">
-				<div class="page-left">
-					<left></left>
-				</div>
-			</el-col>
-			<el-col :span="21">
-				<div class="page-right">
-					<!--内容区域-->
-				</div>
-			</el-col>
-		</el-row>
+		<div class="page-top">
+			<top></top>
+		</div>
+		<div class="page-left">
+			<left></left>
+		</div>
+		<div class="page-right">
+			<div class="content-wrap">
+				<router-view></router-view>
+			</div>
+		</div>
 	</div>
 </template>
 <style lang="scss" scope>
