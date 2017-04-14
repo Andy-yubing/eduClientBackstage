@@ -246,6 +246,33 @@ s, i, em {
                 }
             }
         }
+
+        .manage-pagination{
+            height: 28px;
+
+            .btn-prev{
+                padding-right: 10px;
+                padding-left: 10px;
+                margin-right: 20px;
+                border-right: 1px solid #d1dbe5;
+                border-radius: 2px;
+
+                .el-icon::before{
+                    content: '上一页';
+                }
+            }
+
+            .btn-next{
+                padding-right: 10px;
+                padding-left: 10px;
+                border-left: 1px solid #d1dbe5;
+                border-radius: 2px;
+
+                .el-icon::before{
+                    content: '下一页';
+                }
+            }
+        }
     }
 
 }

@@ -1,10 +1,11 @@
 <template>
 	<div class="left">
 		<el-menu :default-active="activeMenu"  :router=true class="" @open="handleOpen" @close="handleClose"  theme="dark">
-			<el-menu-item index="overallManage"><i class="nav-icon nav-icon1"></i>全局管理</el-menu-item>
+			<el-menu-item index="globalControl"><i class="nav-icon nav-icon1"></i>全局管理</el-menu-item>
 			<el-submenu index="memberManage">
 				<template slot="title"><i class="nav-icon nav-icon2"></i>会员管理</template>
 				<el-menu-item-group>
+					<el-menu-item index="memberManage">会员列表</el-menu-item>
 					<el-menu-item index="memberCheck">会员审核</el-menu-item>
 					<el-menu-item index="memberAdd">添加会员</el-menu-item>
 				</el-menu-item-group>
@@ -21,7 +22,7 @@
 	 export default{
 	     data(){
 	        return{
-                activeMenu: 'overallManage',
+                activeMenu: 'globalControl',
 			}
 		 },
 		 methods: {
