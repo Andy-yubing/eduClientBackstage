@@ -55,14 +55,14 @@
         margin: 20px;
 
         .addMemberForm{
-            width: 800px;
-            margin: auto;
+            padding: 20px;
+            border: 1px solid #f0f0f0;
 
             .el-form-item{
-                width: 390px;
+                width: calc(50% - 10px);
 
                 .el-form-item__content{
-                    width: 250px;
+                    width: calc(100% - 100px);
                 }
             }
         }
