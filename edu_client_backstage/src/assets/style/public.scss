@@ -50,7 +50,7 @@ table {
 
 body {
     font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-    font-size: 12px; 
+    font-size: 14px;
     color: #666;
 }
 
@@ -116,7 +116,6 @@ s, i, em {
 }
 
 .body{
-    font-size: 0;
 
     .page-top{
         width: 100%;
@@ -213,7 +212,7 @@ s, i, em {
     }
 
     .page-right{
-        width: calc(100% - 190px);
+        width: calc(100% - 200px);
         display: inline-block;
         vertical-align: top;
 
@@ -221,13 +220,29 @@ s, i, em {
             box-shadow: none;
             margin-top: 10px;
 
+            &.no-padding{
+                .el-card__body{
+                    padding: 0px;
+                }
+            }
+
             .el-card__header{
                 background: #f1f1f1;
                 font-size: 18px;
             }
 
+            &.graph-card{
+                .el-card__body{
+                    height: 348px;
+                }
+            }
+
             .el-card__body{
-                height: 348px;
+
+                //不能上下居中 overflow设置成auto就好了
+                .el-input-number{
+                    overflow: auto;
+                }
             }
 
             &.tabs-card{
@@ -271,6 +286,16 @@ s, i, em {
                 .el-icon::before{
                     content: '下一页';
                 }
+            }
+        }
+
+        .manage-form{
+            padding: 20px;
+            width: 80%;
+            margin: auto;
+
+            .el-form-item__content{
+                width:  calc(100% - 100px);
             }
         }
     }

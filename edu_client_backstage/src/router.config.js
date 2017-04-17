@@ -4,6 +4,7 @@ import globalControl from './views/compontents/globalControl/globalControl.vue';
 import memberManage from './views/compontents/memberControl/memberManage.vue';
 import memberCheck from "./views/compontents/memberControl/memberCheck/memberCheck.vue";
 import memberAdd from "./views/compontents/memberControl/memberAdd/memberAdd.vue";
+import packageManage from "./views/compontents/packageManagement/packageManage.vue";
 import systemSet from './views/compontents/systemSet/systemSet.vue';
 
 export default{
@@ -33,6 +34,10 @@ export default{
 				{
 					path: 'memberAdd',
 					component: memberAdd
+				},
+				{
+					path: 'packageManage',
+					component: packageManage
 				},
 				{
 					name: 'systemSet',

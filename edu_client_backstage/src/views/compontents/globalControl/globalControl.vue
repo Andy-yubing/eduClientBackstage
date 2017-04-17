@@ -41,7 +41,7 @@
 		<div class="middle">
 			<el-row :gutter="10">
 				<el-col :span="12">
-					<el-card class="control-card">
+					<el-card class="control-card graph-card">
 						<div slot="header" class="title">
 							周签约会员统计
 						</div>
@@ -49,7 +49,7 @@
 					</el-card>
 				</el-col>
 				<el-col :span="12">
-					<el-card class="control-card">
+					<el-card class="control-card graph-card">
 						<div slot="header" class="title">
 							全国会员分布
 						</div>
@@ -57,7 +57,7 @@
 					</el-card>
 				</el-col>
 				<el-col :span="12">
-					<el-card class="control-card">
+					<el-card class="control-card graph-card">
 						<div slot="header" class="title">
 							会员雷达热图
 						</div>
@@ -65,7 +65,7 @@
 					</el-card>
 				</el-col>
 				<el-col :span="12">
-					<el-card class="control-card">
+					<el-card class="control-card graph-card">
 						<div class="title" slot="header">
 							会员类型占比
 						</div>
@@ -77,7 +77,7 @@
 		<div class="bottom">
 			<el-row :gutter="10">
 				<el-col :span="24">
-					<el-card class="control-card tabs-card">
+					<el-card class="control-card graph-card tabs-card">
 						<div class="title" slot="header">会员量统计</div>
 						<el-tabs v-model="activeName" @tab-click="tabsClick" class="tabs tabs-right control-tabs">
 							<el-tab-pane label="月统计" name="month">

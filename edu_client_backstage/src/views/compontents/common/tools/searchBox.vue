@@ -30,7 +30,7 @@
         </el-row>
         <el-row>
             <el-col :span="4">
-                <el-button @click="sortByDate">按日期排序 <i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                <el-button @click="sortByDate" type="primary">按日期排序 <i class="el-icon-arrow-down el-icon--right"></i></el-button>
             </el-col>
             <el-col :span="16">
                 <div class="page-bar">
@@ -172,8 +172,9 @@
                             {id: 1, text: '今日新增', selected: false},
                             {id: 2, text: '昨日新增', selected: false},
                             {id: 3, text: '近7天新增', selected: false},
-                            {id: 4, text: '自定义', selected: false}
-                        ]
+//                            {id: 4, text: '自定义', selected: false, dateBox: 'show'}
+                        ],
+//                        'hasDateBox': true
                     },
                     {
                         'id': 3,
