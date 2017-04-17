@@ -6,6 +6,10 @@ import memberCheck from "./views/compontents/memberControl/memberCheck/memberChe
 import memberAdd from "./views/compontents/memberControl/memberAdd/memberAdd.vue";
 import packageManage from "./views/compontents/packageManagement/packageManage.vue";
 import systemSet from './views/compontents/systemSet/systemSet.vue';
+import administrator from './views/compontents/administrator/administrator.vue';
+import administratorList from './views/compontents/administrator/list/administratorList.vue';
+import administratorInfo from './views/compontents/administrator/detail/administratorInfo.vue';
+import systemMessage from './views/compontents/systemMessage/systemMessage.vue';
 
 export default{
 	 mode: 'history',
@@ -40,9 +44,35 @@ export default{
 					component: packageManage
 				},
 				{
+					name: 'administrator',
+					path: 'administrator',
+					component: administrator,
+					children: [
+						{
+							path: '',
+							component: administratorList
+						}
+					]
+				},
+				{
+					path: 'administratorInfo',
+					component: administrator,
+					children: [
+						{
+							path: '',
+							component: administratorInfo
+                        }
+					]
+				},
+				{
 					name: 'systemSet',
 					path: 'systemSet',
 					component: systemSet
+				},
+				{
+					name: 'systemMessage',
+					path: 'systemMessage',
+					component: systemMessage
 				}
 			]
 		},
