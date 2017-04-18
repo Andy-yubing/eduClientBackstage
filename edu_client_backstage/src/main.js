@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import routerConfig from "./router.config.js"
 import './assets/style/public.scss'
+import './utils'
 require('jquery');//jq成为全局
 Vue.config.debug=true; 
 Vue.use(ElementUI);
