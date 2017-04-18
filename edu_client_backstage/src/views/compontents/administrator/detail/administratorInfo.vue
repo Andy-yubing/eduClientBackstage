@@ -32,7 +32,19 @@
             </div>
         </div>
         <div class="pwd-wrap">
-
+            <el-row>
+                <el-col :span="3">输入密码</el-col>
+                <el-col :span="5">
+                    <el-input></el-input>
+                </el-col>
+                <el-col :span="5">
+                    <el-input></el-input>
+                </el-col>
+                <el-col :span="6">
+                    <el-button type="primary">确认</el-button>
+                    <el-button type="primary">设为初始密码</el-button>
+                </el-col>
+            </el-row>
         </div>
 
         <div class="log-wrap">

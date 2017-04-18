@@ -2,6 +2,7 @@ import login from "./views/login/login.vue";
 import body from "./views/compontents/common/body.vue";
 import globalControl from './views/compontents/globalControl/globalControl.vue';
 import memberManage from './views/compontents/memberControl/memberManage.vue';
+import memberList from './views/compontents/memberControl/memberList/memberList.vue';
 import memberCheck from "./views/compontents/memberControl/memberCheck/memberCheck.vue";
 import memberAdd from "./views/compontents/memberControl/memberAdd/memberAdd.vue";
 import packageManage from "./views/compontents/packageManagement/packageManage.vue";
@@ -15,7 +16,14 @@ export default{
 	 mode: 'history',
 	 base:__dirname,
 	 routes : [ 
-		{path:"/",component:login},
+		{
+			path:"/login",
+			component:login
+		},
+		 {
+		 	path: "/",
+			redirect: '/body/globalControl',
+		 },
 		{
 			path:"/body",
 			component:body,
@@ -29,7 +37,13 @@ export default{
 				{
 					name: 'memberManage',
 					path: 'memberManage',
-					component: memberManage
+					component: memberManage,
+					children: [
+						{
+							path: '',
+							component: memberList
+						}
+					]
 				},
 				{
 					path: 'memberCheck',

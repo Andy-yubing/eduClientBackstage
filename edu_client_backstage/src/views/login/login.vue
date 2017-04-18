@@ -7,12 +7,12 @@
 		</el-row>
 		<div class="login_body">
 			<h2 class="text-center">慧数教育后台总管</h2>
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm"  class="demo-ruleForm">
-				<el-form-item  prop="name">
-				    <el-input v-model="ruleForm.name" placeholder="请输入名称"></el-input>
+			<el-form :model="ruleForm" :rules="rules" ref="ruleForm"  class="ruleForm" action="/apis/login.do" method="post">
+				<el-form-item  prop="user">
+				    <el-input v-model="ruleForm.user" placeholder="请输入名称" name="username"></el-input>
 				 </el-form-item>
 				<el-form-item  prop="pass">
-			    	<el-input type="password" v-model="ruleForm.pass" auto-complete="off" placeholder="请输入密码"></el-input>
+			    	<el-input type="password" v-model="ruleForm.pass" name="password" auto-complete="off" placeholder="请输入密码"></el-input>
 			    </el-form-item>
 			    <el-form-item class="btn-box">
                 	<el-button type="primary" @click="submitForm('ruleForm')">立即提交</el-button>
@@ -28,11 +28,11 @@
 	 	data(){
 	 		return {
 	 			ruleForm:{
-	 				name:"",
+                    user:"",
 	 				pass:"",
 	 			},
 	 			rules:{
-	 				name:[
+	 				user:[
 		            { required: true, message: '请输入账号', trigger: 'blur' },
 		            { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
 		          ],
@@ -47,19 +47,26 @@
 	 		submitForm(formName){
 	 			this.$refs[formName].validate((valid)=>{
 	 				if(valid){
-	 					this.$http.post("/apis/security/generateKey.do").then((res)=>{
-	 						  let exponent = res.data.data.publicKeyExponent;
-                              let modulus = res.data.data.publicKeyModulus;
-                              RSAUtils.setMaxDigits(200);
-                              let key = new RSAUtils.getKeyPair(exponent, "", modulus);
-                              var password =  $('input[type=password]').val();
-                             
-	 					},(err)=>{
-	 						
-	 					})
+	 					this.$http.post("/apis/security/generateKey.do").then(
+	 					    function (response) {
+								console.log(response)
+								if(response.data.success){
+                                    let exponent = response.data.data.publicKeyExponent;
+                                    let modulus = response.data.data.publicKeyModulus;
+                                    RSAUtils.setMaxDigits(200);
+                                    let key = new RSAUtils.getKeyPair(exponent, "", modulus);
+                                    var password =  $('input[type=password]').val();
+                                    let encrypedPwd = RSAUtils.encryptedString(key,password);
+                                    $('input[name=password]').val(encrypedPwd);
+                                    $(".ruleForm").submit();
+								}else {
+								    console.error(response.data.message)
+								}
+                            }
+	 					)
 	 				}
 	 			})
-	 		}
+	 		},
 	 	}
      }
 </script>
