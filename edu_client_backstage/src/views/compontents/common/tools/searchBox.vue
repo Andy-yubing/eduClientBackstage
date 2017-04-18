@@ -14,8 +14,8 @@
                         @click="searchLiClick(item, index1, data)" :class="{'search-selected': item.selected}" v-if="item.text != ''">
                         {{item.text}}
                     </li>
-                    <li class="search-list date-span" v-show="show" v-for="item in data.searchList" v-if="item.dateBox == 'show'">
-                        <el-date-picker v-model="publishDate" type="daterange" placeholder="选择日期范围" @change="publishDateChange" range-separator=" 至 ">
+                    <li class="search-list date-span" v-for="item in data.searchList" v-if="item.dateBox == 'show'" v-show="item.show">
+                        <el-date-picker v-model="item.model" type="daterange" placeholder="选择日期范围" @change="dateRangeChange" range-separator=" 至 ">
                         </el-date-picker>
                     </li>
                     <li class="search-list date-span" v-for="item in data.searchList" v-else-if="item.dateBox == 'exact'">
@@ -44,7 +44,7 @@
                 </div>
             </el-col>
             <el-col :span="4">
-                <el-input placeholder="输入高校关键字/手机号" icon="search" @blur="keywordSearch"></el-input>
+                <el-input placeholder="输入高校关键字/手机号" icon="search" @blur="keywordSearch" v-model="keyword"></el-input>
             </el-col>
         </el-row>
     </div>
@@ -71,8 +71,8 @@
                     .search-list {
                         display: inline-block;
                         text-align: center;
-                        padding-left: 15px;
-                        padding-right: 15px;
+                        padding-left: 12px;
+                        padding-right: 12px;
                         cursor: pointer;
                     }
                     &:first-child {
@@ -85,7 +85,7 @@
 
                     .icon-list{
                         position: absolute;
-                        right: 0px;
+                        right: -5px;
                         top: 0px;
                     }
                 }
@@ -122,38 +122,51 @@
                 searchData:[
                     {
                         'id': 0,
-                        'name': 'region',
+                        'name': 'area',
                         'title' :  '地区:',
                         'searchList': [
                             {id: 0, text: '全部', selected: true},
-                            {id: 1, text: '安徽', selected: false},
-                            {id: 2, text: '北京', selected: false},
+                            {id: 1, text: '北京', selected: false},
+                            {id: 2, text: '天津', selected: false},
                             {id: 3, text: '河北', selected: false},
-                            {id: 4, text: '山西', selected: false},
-                            {id: 5, text: '内蒙古', selected: false},
-                            {id: 6, text: '辽宁', selected: false},
-                            {id: 7, text: '吉林', selected: false},
-                            {id: 8, text: '黑龙江', selected: false},
-                            {id: 9, text: '上海', selected: false},
-                            {id: 10, text: '江苏', selected: false},
-                            {id: 11, text: '浙江', selected: false},
-                            {id: 12, text: '深圳', selected: false},
-                            {id: 13, text: '苏州', selected: false},
-                            {id: 14, text: '杭州', selected: false},
-                            {id: 15, text: '天津', selected: false},
-                            {id: 16, text: '青岛', selected: false},
-                            {id: 17, text: '广州', selected: false},
-                            {id: 18, text: '济南', selected: false},
-                            {id: 19, text: '宁波', selected: false},
-                            {id: 20, text: '厦门', selected: false},
-                            {id: 21, text: '成都', selected: false},
-                            {id: 22, text: '武汉', selected: false},
+                            {id: 4, text: '上海', selected: false},
+                            {id: 5, text: '湖北', selected: false},
+                            {id: 6, text: '广东', selected: false},
+                            {id: 7, text: '湖南', selected: false},
+                            {id: 8, text: '山西', selected: false},
+                            {id: 9, text: '内蒙古', selected: false},
+                            {id: 10, text: '辽宁', selected: false},
+                            {id: 11, text: '吉林', selected: false},
+                            {id: 12, text: '黑龙江', selected: false},
+                            {id: 13, text: '江苏', selected: false},
+                            {id: 14, text: '浙江', selected: false},
+                            {id: 15, text: '安徽', selected: false},
+                            {id: 16, text: '福建', selected: false},
+                            {id: 17, text: '江西', selected: false},
+                            {id: 18, text: '山东', selected: false},
+                            {id: 19, text: '河南', selected: false},
+                            {id: 20, text: '广西', selected: false},
+                            {id: 21, text: '海南', selected: false},
+                            {id: 22, text: '重庆', selected: false},
+                            {id: 23, text: '四川', selected: false},
+                            {id: 24, text: '贵州', selected: false},
+                            {id: 25, text: '云南', selected: false},
+                            {id: 26, text: '西藏', selected: false},
+                            {id: 27, text: '陕西', selected: false},
+                            {id: 28, text: '甘肃', selected: false},
+                            {id: 29, text: '青海', selected: false},
+                            {id: 30, text: '宁夏', selected: false},
+                            {id: 31, text: '新疆', selected: false},
+                            {id: 32, text: '台湾', selected: false},
+                            {id: 33, text: '澳门', selected: false},
+                            {id: 34, text: '香港', selected: false},
+                            {id: 35, text: '钓鱼岛', selected: false},
                         ],
                         'hasMore': true
                     },
                     {
                         'id': 1,
-                        'name': 'memberLevel',
+                        'name': 'userLevel',
                         'title': '会员级别:',
                         'searchList': [
                             {id: 0, text: '全部', selected: true, showCharacter: false},
@@ -172,9 +185,9 @@
                             {id: 1, text: '今日新增', selected: false},
                             {id: 2, text: '昨日新增', selected: false},
                             {id: 3, text: '近7天新增', selected: false},
-//                            {id: 4, text: '自定义', selected: false, dateBox: 'show'}
+                            {id: 4, text: '自定义', selected: false, dateBox: 'show', model: '', show: false}
                         ],
-//                        'hasDateBox': true
+                        'hasDateBox': true
                     },
                     {
                         'id': 3,
@@ -185,13 +198,13 @@
                             {id: 1, text: '已到期', selected: false},
                             {id: 2, text: '未到期', selected: false},
                             {id: 3, text: '即将到期', selected: false},
-                            {id: 4, text: '自定义', selected: false, dateBox: 'show'}
+                            {id: 4, text: '自定义', selected: false, dateBox: 'show', model: '', show: false}
                         ],
                         'hasDateBox': true
                     },
                     {
                         'id': 4,
-                        'name': 'publishDateTime',
+                        'name': 'createDate',
                         'title': '时间:',
                         'searchList': [
                             {id: 0, text: '全部', selected: true},
@@ -202,13 +215,12 @@
                         'hasDateBox': false
                     }
                 ],
-                show: false,
                 publishDate: [],
                 foldRegion: false,
                 exactDate: '',
-                pageNumber: 20,
-                total: 100,
-                defaultDateSort: 'DESC'
+                pageNumber: 0,
+                defaultDateSort: 'DESC',
+                keyword: ''
             }
         },
         components: {},
@@ -243,16 +255,19 @@
                 }
                 item.selected = true;
 
+                let searchList = data.searchList;
+                let lastSearchData = searchList[searchList.length - 1];
                 if (data.hasDateBox == true && !item.dateBox) {
-                    this.show = false;
+                    lastSearchData.show = false;
+                    lastSearchData.model = '';
                 }
 
                 if (item.dateBox == 'show') {
-                    this.show = true;
+                    item.show = true;
                 }
 
-                if (data.name === 'publishDateTime') {
-                    if (item.text === '自定义时间') {
+                if (data.name === 'memberStatus' || data.name === 'newMember') {
+                    if (item.text === '自定义') {
                         //如果是自定义时间，触发回调放在控件的change中
                         return;
                     } else {
@@ -279,13 +294,6 @@
                 }
             },
 
-            /**日历控件改变*/
-            publishDateChange() {
-                if (this.publishDate.length > 0) {
-                    this.$emit('searchDataChange', this.buildParam());
-                }
-            },
-
             /**构建参数对象*/
             buildParam() {
                 let result = {};
@@ -300,58 +308,65 @@
                             for (var k = 0; k < searchList.length; k++) {
                                 if (searchList[k].selected) {
                                     var text = searchList[k].text;
-                                    if (name === 'university') {
-                                        var univs = [];
-                                        if (text != '全部') {
-                                            univs.push(text);
+
+                                    if(name === 'newMember'){
+                                        if(text === '自定义'){
+                                            if(searchList[k].model.length === 2 && searchList[k].model[0] != null){
+                                                result.createStartDate = searchList[k].model[0].format('yyyy-MM-dd 00:00:00');
+                                                result.createEndDate = searchList[k].model[1].format('yyyy-MM-dd 23:59:59');
+                                            }
+                                        }else if(text === '今日新增'){
+                                            let today = new Date();
+                                            result.createStartDate = today.format('yyyy-MM-dd 00:00:00');
+                                            result.createEndDate = today.format('yyyy-MM-dd 23:59:59');
+                                        }else if(text === '昨日新增'){
+                                            let yesterday = new Date().getTime() - 24 * 3600 * 1000;
+                                            result.createStartDate = new Date(yesterday).format('yyyy-MM-dd 00:00:00');
+                                            result.createEndDate = new Date(yesterday).format('yyyy-MM-dd 23:59:59');
+                                        }else if(text === '近7天新增'){
+                                            let today = new Date();
+                                            let week = today.getTime() - 24 *　3600 * 1000 * 6;
+                                            result.createEndDate = today.format('yyyy-MM-dd 23:59:59');
+                                            result.createStartDate = new Date(week).format('yyyy-MM-dd 00:00:00');
                                         }
-                                        result[name] = univs;
-                                        break;
-                                    }
-                                    if (text === '不限') {
                                         break;
                                     }
 
-                                    if (name === 'publishDateTime') {
-
-                                        var publishDateTime = {};
-                                        var startSuffix = " 00:00:00";
-                                        var endSuffix = " 23:59:59";
-                                        var format = 'yyyy-MM-dd';
-
-                                        if (text === '自定义时间') {
-                                            publishDateTime.startDate = this.publishDate[0].format(format) + startSuffix;
-                                            publishDateTime.endDate = this.publishDate[1].format(format) + endSuffix;
-                                        } else {
-                                            var now = new Date();
-                                            var nowDate = now.format(format);
-                                            var oneDayMills = 1000 * 60 * 60 * 24;
-                                            if (text === '今天') {
-                                                publishDateTime.startDate = nowDate + startSuffix;
-                                                publishDateTime.endDate = nowDate + endSuffix;
+                                    if(name === 'memberStatus'){
+                                        if(text === '自定义'){
+                                            if(searchList[k].model.length === 2 && searchList[k].model[0] != null){
+                                                result.expireStartDate = searchList[k].model[0].format('yyyy-MM-dd 00:00:00');
+                                                result.expireEndDate =  searchList[k].model[1].format('yyyy-MM-dd 00:00:00');
                                             }
-                                            if (text === '昨天') {
-                                                var date = new Date(now.getTime() - oneDayMills).format(format);
-                                                publishDateTime.startDate = date + startSuffix;
-                                                publishDateTime.endDate = date + endSuffix;
-                                            }
-                                            if (text === '近7天') {
-                                                var date = new Date(now.getTime() - oneDayMills * 7).format(format);
-                                                publishDateTime.startDate = date + startSuffix;
-                                                publishDateTime.endDate = nowDate + endSuffix;
-                                            }
-                                            if (text === '近一个月') {
-                                                var date = new Date(now.getTime() - oneDayMills * 30).format(format);
-                                                publishDateTime.startDate = date + startSuffix;
-                                                publishDateTime.endDate = nowDate + endSuffix;
-                                            }
-
+                                        }else if(text != '全部'){
+                                            result.status = text;
                                         }
-                                        result['startDate'] = publishDateTime.startDate;
-                                        result['endDate'] = publishDateTime.endDate;
                                         break;
                                     }
-                                    result[name] = text;
+
+                                    if(name === 'createDate'){
+                                        if(text === '今天'){
+                                            let today = new Date();
+                                            result.createStartDate = today.format('yyyy-MM-dd 00:00:00');
+                                            result.createEndDate = today.format('yyyy-MM-dd 23:59:59');
+                                        }else if(text === '昨天'){
+                                            let yesterday = new Date().getTime() - 24 * 3600 * 1000;
+                                            result.createStartDate = new Date(yesterday).format('yyyy-MM-dd 00:00:00');
+                                            result.createEndDate = new Date(yesterday).format('yyyy-MM-dd 23:59:59');
+                                        }else if(text === '近7天'){
+                                            let today = new Date();
+                                            let week = today.getTime() - 24 *　3600 * 1000 * 6;
+                                            result.createEndDate = today.format('yyyy-MM-dd 23:59:59');
+                                            result.createStartDate = new Date(week).format('yyyy-MM-dd 00:00:00');
+                                        }
+
+                                        break;
+                                    }
+
+                                    if(text != '全部'){
+                                        result[name] = text;
+                                    }
+
                                     break;
                                 }
 
@@ -367,6 +382,15 @@
                         }
                     }
                 }
+
+                result.pageNumber = this.pageNumber;
+                result.pageSize = 10;
+                result.orders = [
+                    {
+                        createDate: this.defaultDateSort
+                    }
+                ];
+                result.keyword = this.keyword;
                 return result;
             },
             /**
@@ -377,7 +401,8 @@
             },
 
             handleCurrentChange(pageNumber){
-                console.log(pageNumber)
+                this.pageNumber = pageNumber - 1;
+                this.$emit('searchDataChange', this.buildParam());
             },
 
             sortByDate(event){
@@ -391,15 +416,20 @@
                     let $target = $(event.target);
                     $target.find('i').removeClass('el-icon-arrow-up').addClass('el-icon-arrow-down');
                 }
+                this.$emit('searchDataChange', this.buildParam());
             },
 
             keywordSearch(event){
-                console.info(event)
-            }
+                this.$emit('searchDataChange', this.buildParam());
+            },
+
+            dateRangeChange(){
+                this.$emit('searchDataChange', this.buildParam());
+            },
         },
         mounted() {
             this.showFoldIcon();
         },
-        props: ["searchNames"],
+        props: ["searchNames", "total"],
     }
 </script>

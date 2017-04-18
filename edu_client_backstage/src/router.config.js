@@ -36,7 +36,6 @@ export default{
 					component: globalControl
 				},
 				{
-					name: 'memberManage',
 					path: 'memberManage',
 					component: memberManage,
 					children: [
@@ -69,7 +68,6 @@ export default{
 					component: packageManage
 				},
 				{
-					name: 'administrator',
 					path: 'administrator',
 					component: administrator,
 					children: [

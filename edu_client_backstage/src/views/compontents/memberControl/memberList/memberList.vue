@@ -1,6 +1,6 @@
 <template>
     <div class="memberList">
-        <searchBox :searchNames="searchNames" :searchDataChange="searchDataChange"></searchBox>
+        <searchBox :searchNames="searchNames" @searchDataChange="searchDataChange" :total="total"></searchBox>
 
         <div class="table-box">
             <el-table :data="userList" border style="width: 100%;">
@@ -41,22 +41,35 @@
     export default{
         data(){
             return{
-                searchNames: ['region', 'memberLevel', 'newMember', 'memberStatus'],
+                searchNames: ['area', 'userLevel', 'newMember', 'memberStatus'],
                 userList: [],
+                param: {
+                    pageSize: 10,
+                    pageNumber: 0,
+                    orders: [
+                        {
+                            property: 'createDate',
+                            direction: 'DESC'
+                        }
+                    ]
+                },
+                total: 0
             }
         },
         components: {searchBox},
         methods: {
-            searchDataChange(){
-
+            searchDataChange(data){
+                this.param = data;
+                this.getMemberList();
             },
 
             getMemberList(){
-                this.$http.post('/apis/userMgrt/getUserList.json').then(
+                this.$http.post('/apis/userMgrt/getUserMgrtList.json', this.param).then(
                     (response) => {
-                        console.log(response.data.data.content)
+                        console.log(response.data.data)
                         if(response.data.success){
                             this.userList = response.data.data.content;
+                            this.total = response.data.data.totalElements;
                         }else {
                             console.error(response.data)
                         }
@@ -79,7 +92,7 @@
                 let todaySecond = new Date(today).getTime();
                 if(endDate < todaySecond){
                     return '已过期';
-                }else if((endDate - todaySecond) <= 24 * 3600 * 1000 * 30){
+                }else if((endDate - todaySecond) <= 24 * 3600 * 1000 * 5){
                     return '即将到期';
                 }else {
                     return '未过期';
@@ -99,10 +112,10 @@
             }
         },
         created(){
-            this.getMemberList()
+//            this.getMemberList();
         },
         mounted(){
-
+            this.getMemberList();
         }
     }
 </script>
