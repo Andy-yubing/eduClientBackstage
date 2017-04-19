@@ -7,7 +7,7 @@
 				<el-menu-item-group>
 					<el-menu-item index="memberManage">会员列表</el-menu-item>
 					<el-menu-item index="memberCheck">会员审核</el-menu-item>
-					<el-menu-item index="memberAdd">添加会员</el-menu-item>
+					<!--<el-menu-item index="memberAdd">添加会员</el-menu-item>-->
 				</el-menu-item-group>
 			</el-submenu>
 			<el-menu-item index="administrator"><i class="nav-icon nav-icon3"></i>管理员</el-menu-item>
@@ -41,7 +41,7 @@
                          if(url.indexOf("globalControl")!= -1) nowNav="globalControl";
                          if(url.indexOf("memberManage")!= -1) nowNav="memberManage";
                          if(url.indexOf("memberCheck") != -1) nowNav="memberCheck";
-                         if(url.indexOf("memberAdd") != -1) nowNav="memberAdd";
+//                         if(url.indexOf("memberAdd") != -1) nowNav="memberAdd";
                          if(url.indexOf("package") != -1) nowNav="packageManage";
                          if(url.indexOf("administrator") != -1) nowNav="administrator";
                          if(url.indexOf("systemSet") != -1) nowNav="systemSet";

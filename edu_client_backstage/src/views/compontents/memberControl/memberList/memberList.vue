@@ -41,7 +41,7 @@
     export default{
         data(){
             return{
-                searchNames: ['area', 'userLevel', 'newMember', 'memberStatus'],
+                searchNames: ['area', 'level', 'newMember', 'memberStatus'],
                 userList: [],
                 param: {
                     pageSize: 10,
@@ -65,6 +65,7 @@
             },
 
             getMemberList(){
+                console.log(this.param)
                 this.$http.post('/apis/userMgrt/getUserMgrtList.json', this.param).then(
                     (response) => {
 //                        console.log(response.data.data)
@@ -84,7 +85,10 @@
             },
 
             formatEndDate(row, col){
-                return new Date(row.expireDate).format('yyyy-MM-dd');
+                if(row.expireDate) {
+                    return new Date(row.expireDate).format('yyyy-MM-dd');
+                }
+                return '';
             },
 
             judgeStatus(row, col){

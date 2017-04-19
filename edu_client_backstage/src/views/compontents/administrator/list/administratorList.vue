@@ -1,5 +1,5 @@
 <template>
-    <div class="administrator">
+    <div class="administrator" v-loading="loading" element-loading-text="加载中……">
         <div class="page-wrap clearfix">
             <div class="left">
                 <el-button type="primary" @click="addAdministrator">添加管理员</el-button>
@@ -7,8 +7,8 @@
             <div class="right">
                 <el-pagination class="manage-pagination"
                                @current-change="handleCurrentChange"
-                               :current-page="pageNumber"
-                               :page-size="5"
+                               :current-page="param.pageNumber + 1"
+                               :page-size="10"
                                layout="prev, next, jumper, total"
                                :total="total">
                 </el-pagination>
@@ -27,7 +27,7 @@
                 </el-table-column>
                 <el-table-column prop="phoneNumber" label="手机号" align="center"></el-table-column>
                 <el-table-column prop="createDate" label="开通日期" align="center" :formatter="formatDate"></el-table-column>
-                <el-table-column prop="operate" label="操作" width="260" align="center">
+                <el-table-column prop="operate" label="操作" width="210" align="center">
                     <template scope="scope">
                         <el-button size="small" @click="editData(scope.row)">编辑</el-button>
                         <el-button size="small" @click="deleteData(scope.row)">删除</el-button>
@@ -73,7 +73,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogSubmit('addFormData')">确 定</el-button>
+                <el-button type="primary" @click="dialogSubmit('addFormData')" :loading="btnLoading">{{btnText}}</el-button>
             </div>
         </el-dialog>
     </div>
@@ -107,7 +107,6 @@
                 }
             };
             return{
-                pageNumber:　1,
                 total: 0,
                 dialogFormVisible: false,
                 addFormData: {
@@ -138,7 +137,14 @@
                     permissions: [
                         { type: 'array', required: true, message: '请至少选择一个权限', trigger: 'change'}
                     ]
-                }
+                },
+                btnText: '确 定',
+                btnLoading: false,
+                param: {
+                    pageNumber: 0,
+                    pageSize: 10
+                },
+                loading: true,
             }
         },
         methods: {
@@ -147,21 +153,51 @@
             },
 
             handleCurrentChange(pageNum){
-                console.log(pageNum)
+                this.param.pageNumber = pageNum - 1;
+                this.getAdminList();
             },
 
             resetFormData(){
                 this.addFormData = {
-                    name: '', account: '', dep: '', job: '', phoneNumber: '', email: '',  password: '', permissions: []
+                    name: '', account: '', dep: '', job: '', phoneNumber: '', email: '',  password: '', permissions: [], id: ''
                 }
             },
 
             editData(data){
-
+                console.log(data)
+                this.addFormData = data;
+                this.dialogFormVisible = true;
             },
 
             deleteData(data){
                 //后台请求删除该条数据后刷新表格
+                this.$confirm('是否删除该管理员', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$http.delete('/apis/userMgrt/deleteAdminById.do/' + data.id).then((response) => {
+                            if (response.data.success) {
+                                this.$message({
+                                    message: '删除成功',
+                                    type: 'success'
+                                });
+                                this.getAdminList();
+                            } else {
+                                console.error(response.data.message);
+                                return false;
+                            }
+                        }, (response) => {
+                            console.error(response);
+                            return false;
+                        }
+                    );
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
             },
 
             toDetailPage(data){
@@ -170,8 +206,10 @@
             },
 
             getAdminList(){
-                this.$http.post('/apis/userMgrt/getAdminList.json').then(
+                console.log(this.param)
+                this.$http.post('/apis/userMgrt/getAdminList.json', this.param).then(
                     function (response) {
+                        this.loading = false;
                         if(response.data.success){
                             this.adminList = response.data.data.content;
                             this.total = response.data.data.totalElements;
@@ -191,6 +229,10 @@
                 this.$refs[formName].validate(
                     function(valid){
                         if(valid){
+                            //先禁用保存按钮
+                            $this.btnText = '保存中';
+                            $this.btnLoading = true;
+                            console.log('lifei')
                             //密码加密
                             let password = $this.addFormData.password;
                             if(password != ''){
@@ -218,10 +260,14 @@
             },
 
             saveAdmin(){
-                console.log(this.addFormData)
                 this.$http.post('/apis/userMgrt/saveOrUpdateAdmin.do', this.addFormData).then(
                     function (response) {
-                        console.log(response.data)
+                        this.btnText = '确 定';
+                        this.btnLoading = false;
+                        if(response.data.success){
+                            this.dialogFormVisible = false;
+                            this.getAdminList();
+                        }
                     }
                 )
             }

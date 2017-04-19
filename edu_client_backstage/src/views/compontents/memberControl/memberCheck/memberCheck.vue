@@ -52,9 +52,11 @@
 
             searchDataChange(data){
                 this.param = data;
+                this.getList();
             },
 
             getList(){
+                console.log(this.param)
                 this.$http.post("/apis/userMgrt/getUserReviewList.json", this.param).then(
                     function (response) {
                         if(response.data.success){

@@ -166,7 +166,7 @@
                     },
                     {
                         'id': 1,
-                        'name': 'userLevel',
+                        'name': 'level',
                         'title': '会员级别:',
                         'searchList': [
                             {id: 0, text: '全部', selected: true, showCharacter: false},
@@ -387,10 +387,14 @@
                 result.pageSize = 10;
                 result.orders = [
                     {
-                        createDate: this.defaultDateSort
+                        property: 'createDate',
+                        direction: this.defaultDateSort
                     }
                 ];
-                result.keyword = this.keyword;
+
+                if(this.keyword != ''){
+                    result.keyword = this.keyword;
+                }
                 return result;
             },
             /**
