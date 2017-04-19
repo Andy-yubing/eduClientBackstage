@@ -1,5 +1,5 @@
 <template>
-    <div class="memberList">
+    <div class="memberList" v-loading="loading" element-loading-text="加载中……">
         <searchBox :searchNames="searchNames" @searchDataChange="searchDataChange" :total="total"></searchBox>
 
         <div class="table-box">
@@ -53,7 +53,8 @@
                         }
                     ]
                 },
-                total: 0
+                total: 0,
+                loading: true
             }
         },
         components: {searchBox},
@@ -66,8 +67,9 @@
             getMemberList(){
                 this.$http.post('/apis/userMgrt/getUserMgrtList.json', this.param).then(
                     (response) => {
-                        console.log(response.data.data)
+//                        console.log(response.data.data)
                         if(response.data.success){
+                            this.loading = false;
                             this.userList = response.data.data.content;
                             this.total = response.data.data.totalElements;
                         }else {

@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="table-wrap">
-            <el-table :data="tableData" border style="width: 100%">
+            <el-table :data="adminList" border style="width: 100%">
                 <el-table-column prop="name" label="管理员" align="center">
                     <template scope="scope">
                         <span @click="toDetailPage(scope.row)" class="pointer">{{scope.row.name}}</span>
@@ -23,30 +23,13 @@
                 </el-table-column>
                 <el-table-column prop="account" label="账号" align="center">
                 </el-table-column>
-                <el-table-column prop="department" label="所属部门" align="center">
+                <el-table-column prop="dep" label="所属部门" align="center">
                 </el-table-column>
-                <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-                <el-table-column prop="beginDate" label="开通日期" align="center"></el-table-column>
+                <el-table-column prop="phoneNumber" label="手机号" align="center"></el-table-column>
+                <el-table-column prop="createDate" label="开通日期" align="center" :formatter="formatDate"></el-table-column>
                 <el-table-column prop="operate" label="操作" width="260" align="center">
                     <template scope="scope">
-                        <el-popover ref="popover" placement="left" trigger="click" width="500">
-                            <el-form title="设置权限">
-                                <el-form-item>
-                                    <el-checkbox-group v-model="addFormData.checkList">
-                                        <el-checkbox label="会员管理"></el-checkbox>
-                                        <el-checkbox label="添加会员"></el-checkbox>
-                                        <el-checkbox label="会员审核"></el-checkbox>
-                                        <el-checkbox label="会员权限设置"></el-checkbox>
-                                        <el-checkbox label="查看会员详情"></el-checkbox>
-                                        <el-checkbox label="管理员功能"></el-checkbox>
-                                        <el-checkbox label="套餐管理"></el-checkbox>
-                                    </el-checkbox-group>
-                                </el-form-item>
-                            </el-form>
-                        </el-popover>
-                        <el-button type="primary" size="small" v-popover:popover>权限设置</el-button>
-
-                        <el-button size="small">编辑</el-button>
+                        <el-button size="small" @click="editData(scope.row)">编辑</el-button>
                         <el-button size="small" @click="deleteData(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -54,37 +37,37 @@
         </div>
 
         <el-dialog title="添加管理员" v-model="dialogFormVisible" class="addDialog" @close="resetFormData">
-            <el-form :model="addFormData" ref="addFormData" label-width="100px">
+            <el-form :model="addFormData" ref="addFormData" label-width="100px" class="manage-form" :rules="rules">
                 <el-form-item label="姓名" prop="name">
                     <el-input v-model="addFormData.name"></el-input>
                 </el-form-item>
                 <el-form-item label="账号" prop="account">
                     <el-input v-model="addFormData.account"></el-input>
                 </el-form-item>
-                <el-form-item label="所属部门" prop="department">
-                    <el-input v-model="addFormData.department"></el-input>
+                <el-form-item label="所属部门" prop="dep">
+                    <el-input v-model="addFormData.dep"></el-input>
                 </el-form-item>
                 <el-form-item label="职务" prop="job">
                     <el-input v-model="addFormData.job"></el-input>
                 </el-form-item>
-                <el-form-item label="手机号" prop="phone">
-                    <el-input v-model="addFormData.phone"></el-input>
+                <el-form-item label="手机号" prop="phoneNumber">
+                    <el-input v-model="addFormData.phoneNumber"></el-input>
                 </el-form-item>
                 <el-form-item label="E-mail" prop="email">
                     <el-input v-model="addFormData.email"></el-input>
                 </el-form-item>
-                <el-form-item label="初始密码" prop="originalPwd">
-                    <el-input v-model="addFormData.originalPwd"></el-input>
+                <el-form-item label="初始密码" prop="password">
+                    <el-input v-model="addFormData.password" placeholder="系统默认初始密码为联系人手机号" type="password"></el-input>
                 </el-form-item>
-                <el-form-item label="设置权限" prop="limit">
-                    <el-checkbox-group v-model="addFormData.checkList">
-                        <el-checkbox label="会员管理"></el-checkbox>
-                        <el-checkbox label="添加会员"></el-checkbox>
-                        <el-checkbox label="会员审核"></el-checkbox>
-                        <el-checkbox label="会员权限设置"></el-checkbox>
-                        <el-checkbox label="查看会员详情"></el-checkbox>
-                        <el-checkbox label="管理员功能"></el-checkbox>
-                        <el-checkbox label="套餐管理"></el-checkbox>
+                <el-form-item label="设置权限" prop="permissions">
+                    <el-checkbox-group v-model="addFormData.permissions">
+                        <el-checkbox label="会员管理" name="permissions"></el-checkbox>
+                        <el-checkbox label="添加会员" name="permissions"></el-checkbox>
+                        <el-checkbox label="会员审核" name="permissions"></el-checkbox>
+                        <el-checkbox label="会员权限设置" name="permissions"></el-checkbox>
+                        <el-checkbox label="查看会员详情" name="permissions"></el-checkbox>
+                        <el-checkbox label="管理员功能" name="permissions"></el-checkbox>
+                        <el-checkbox label="套餐管理" name="permissions"></el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
             </el-form>
@@ -115,19 +98,46 @@
 <script>
     export default{
         data(){
+            var validPhone = (rule, value, callback) => {
+                let phoneReg =  /^1(3|4|5|7|8)\d{9}$/;
+                if(!phoneReg.test(value)){
+                    callback(new Error('请输入正确的手机号码'));
+                }else {
+                    callback();
+                }
+            };
             return{
                 pageNumber:　1,
-                total: 5,
-                tableData: [
-                    {id: 0, name: '李四', account: 'HD-1011H', department: '医美事业部', phone: '13011112222', beginDate: '2016-01-01'},
-                    {id: 1, name: '李四', account: 'HD-1011H', department: '医美事业部', phone: '13011112222', beginDate: '2016-01-01'},
-                    {id: 2, name: '李四', account: 'HD-1011H', department: '医美事业部', phone: '13011112222', beginDate: '2016-01-01'},
-                    {id: 3, name: '李四', account: 'HD-1011H', department: '医美事业部', phone: '13011112222', beginDate: '2016-01-01'},
-                    {id: 4, name: '李四', account: 'HD-1011H', department: '医美事业部', phone: '13011112222', beginDate: '2016-01-01'}
-                ],
+                total: 0,
                 dialogFormVisible: false,
                 addFormData: {
-                    name: '', account: '', department: '', job: '', phone: '', originalPwd: '', checkList: []
+                    name: '', account: '', dep: '', job: '', phoneNumber: '', password: '', permissions: []
+                },
+                adminList: [],
+                rules: {
+                    name: [
+                        { required: true, message: '请输入姓名', trigger: 'blur' }
+                    ],
+                    account: [
+                        { required: true, message: '请输入账号', trigger: 'blur' }
+                    ],
+                    dep: [
+                        { required: true, message: '请输入所属部门', trigger: 'blur' }
+                    ],
+                    job: [
+                        { required: true, message: '请输入职务', trigger: 'blur' }
+                    ],
+                    phoneNumber: [
+                        { required: true, message: '请输入手机号', trigger: 'blur' },
+                        { validator: validPhone, trigger: 'blur'}
+                    ],
+                    email: [
+                        { required: true, message: '请输入邮箱', trigger: 'blur' },
+                        { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+                    ],
+                    permissions: [
+                        { type: 'array', required: true, message: '请至少选择一个权限', trigger: 'change'}
+                    ]
                 }
             }
         },
@@ -142,8 +152,12 @@
 
             resetFormData(){
                 this.addFormData = {
-                    name: '', account: '', department: '', job: '', phone: '', originalPwd: '', checkList: []
+                    name: '', account: '', dep: '', job: '', phoneNumber: '', email: '',  password: '', permissions: []
                 }
+            },
+
+            editData(data){
+
             },
 
             deleteData(data){
@@ -153,7 +167,67 @@
             toDetailPage(data){
                 console.log(data);
                 this.$router.push({path: '/body/administratorInfo', query: data});
+            },
+
+            getAdminList(){
+                this.$http.post('/apis/userMgrt/getAdminList.json').then(
+                    function (response) {
+                        if(response.data.success){
+                            this.adminList = response.data.data.content;
+                            this.total = response.data.data.totalElements;
+                        }else{
+                            console.error(response.data.message)
+                        }
+                    }
+                )
+            },
+
+            formatDate(row, col){
+                return new Date(row.createDate).format('yyyy-MM-dd');
+            },
+
+            dialogSubmit(formName){
+                let $this = this;
+                this.$refs[formName].validate(
+                    function(valid){
+                        if(valid){
+                            //密码加密
+                            let password = $this.addFormData.password;
+                            if(password != ''){
+                                $this.$http.post("/apis/security/generateKey.do").then(
+                                    function (response) {
+                                        if(response.data.success){
+                                            let exponent = response.data.data.publicKeyExponent;
+                                            let modulus = response.data.data.publicKeyModulus;
+                                            RSAUtils.setMaxDigits(200);
+                                            let key = new RSAUtils.getKeyPair(exponent, "", modulus);
+                                            let encrypedPwd = RSAUtils.encryptedString(key,password);
+                                            this.addFormData.password = encrypedPwd;
+                                            this.saveAdmin();
+                                        }else {
+                                            console.error(response.data.message)
+                                        }
+                                    }
+                                )
+                            }else{
+                                $this.saveAdmin();
+                            }
+                        }
+                    }
+                )
+            },
+
+            saveAdmin(){
+                console.log(this.addFormData)
+                this.$http.post('/apis/userMgrt/saveOrUpdateAdmin.do', this.addFormData).then(
+                    function (response) {
+                        console.log(response.data)
+                    }
+                )
             }
+        },
+        created(){
+            this.getAdminList();
         }
     }
 </script>

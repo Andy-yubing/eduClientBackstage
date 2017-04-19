@@ -5,38 +5,39 @@
                 <div class="info-wrap">
                     <div class="title">{{memberData.collegeName}}</div>
                     <el-row :gutter="20">
-                        <el-col :span="4" class="text-right">所属高校/单位</el-col>
+                        <el-col :span="2" class="text-right" :offset="2">所属高校</el-col>
                         <el-col :span="6">
                             <el-input v-model="memberData.collegeName"></el-input>
                         </el-col>
-                        <el-col :span="4" class="text-right" :offset="2">会员级别</el-col>
+                        <el-col :span="2" class="text-right" :offset="2">会员级别</el-col>
                         <el-col :span="6">
                             <el-input v-model="memberData.userLevel"></el-input>
                         </el-col>
                     </el-row>
                     <el-row :gutter="20">
-                        <el-col :span="4" class="text-right">注册日期</el-col>
+                        <el-col :span="2" class="text-right" :offset="2">注册日期</el-col>
                         <el-col :span="6">
                             <el-input v-model="createDate"></el-input>
                         </el-col>
-                        <el-col :span="4" class="text-right" :offset="2">联系人</el-col>
+                        <el-col :span="2" class="text-right" :offset="2">联系人</el-col>
                         <el-col :span="6">
                              <el-input v-model="memberData.realName"></el-input>
                         </el-col>
                     </el-row>
                     <el-row :gutter="20">
-                        <el-col :span="4" class="text-right">结束日期</el-col>
+                        <el-col :span="2" class="text-right" :offset="2">结束日期</el-col>
                         <el-col :span="6">
-                            <el-input v-model="endDate"></el-input></el-col>
-                        <el-col :span="4" class="text-right" :offset="2">邮箱</el-col>
+                            <el-input v-model="expireDate"></el-input>
+                        </el-col>
+                        <el-col :span="2" class="text-right" :offset="2">邮箱</el-col>
                         <el-col :span="6">
                             <el-input v-model="memberData.userEmail"></el-input></el-col>
                     </el-row>
                     <el-row :gutter="20">
-                        <el-col :span="4" class="text-right">主账号</el-col>
+                        <el-col :span="2" class="text-right" :offset="2">主账号</el-col>
                         <el-col :span="6">
                             <el-input v-model="memberData.userAccount"></el-input></el-col>
-                        <el-col :span="4" class="text-right" :offset="2">所在省市</el-col>
+                        <el-col :span="2" class="text-right" :offset="2">所在省市</el-col>
                         <el-col :span="6">
                             <el-input v-model="memberData.userPosition"></el-input></el-col>
                     </el-row>
@@ -44,7 +45,14 @@
                     <el-row :gutter="20">
                         <el-col :span="4" class="text-right">修改主账号密码</el-col>
                         <el-col :span="6">
-                            <el-input v-model="memberData.wd" type="password"></el-input>
+                            <el-input v-model="newPwd" type="password" placeholder="输入新密码"></el-input>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-input v-model="newPwdRepeat" type="password" placeholder="再次输入新密码"></el-input>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-button type="primary">确认</el-button>
+                            <el-button type="primary">设为初始密码</el-button>
                         </el-col>
                     </el-row>
                 </div>
@@ -194,7 +202,7 @@
         }
 
         .line{
-            width: 80%;
+            width: 100%;
             height: 1px;
             border-top: 1px solid #dfe6ec;
             margin: 20px auto;
@@ -265,20 +273,33 @@
                 timeLimit: '',
                 memberData:　'',
                 createDate: '',
-                endDate: ''
+                expireDate: '',
+                newPwd: '',
+                newPwdRepeat: ''
             }
         },
         methods: {
-
+            //todo  请求的结果和父组件传的参数内容一样
+//            getUserInfo(){
+//                this.$http.get('/apis/userMgrt/getUserById.do/' + this.memberData.id).then(
+//                    function (response) {
+//                        console.log(response.data)
+//                    }
+//                )
+//            }
         },
         created(){
             this.memberData = this.$route.query;
+            console.log( this.memberData)
             if(this.memberData.createDate != null && this.memberData.createDate != ''){
                 this.createDate = new Date(this.memberData.createDate).format('yyyy-MM-dd');
             }
-            if(this.memberData.endDate != null && this.memberData.endDate != ''){
-                this.endDate = new Date(this.memberData.endDate).format('yyyy-MM-dd');
+            if(this.memberData.expireDate != null && this.memberData.expireDate != ''){
+                this.expireDate = new Date(this.memberData.expireDate).format('yyyy-MM-dd');
             }
+        },
+        mounted(){
+//            this.getUserInfo();
         }
     }
 </script>

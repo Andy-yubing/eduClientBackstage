@@ -1,6 +1,6 @@
 <template>
     <div class="memberCheck">
-        <searchBox :searchNames="searchNames" @searchDataChange="searchDataChange"></searchBox>
+        <searchBox :searchNames="searchNames" @searchDataChange="searchDataChange" :total="total"></searchBox>
         <div class="content">
             <div class="table-box">
                 <el-table :data="checkList" border style="width: 100%;">
@@ -44,6 +44,7 @@
                         }
                     ]
                 },
+                total: 0
             }
         },
         components: {searchBox},
@@ -58,6 +59,7 @@
                     function (response) {
                         if(response.data.success){
                             this.checkList = response.data.data.content;
+                            this.total = response.data.data.totalElements;
                         }else{
                             console.error(response.data.message)
                         }
