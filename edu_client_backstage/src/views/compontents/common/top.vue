@@ -9,7 +9,9 @@
 		  		<ul class="leftICON">
 		  			<li></li>
 		  			<li></li>
-		  			<li></li>
+		  			<li>
+						<a href="/apis/logOut.do"></a>
+					</li>
 		  		</ul>
 		  </el-col>
 		</el-row>
@@ -38,12 +40,22 @@
 			}
 			>li:nth-child(3){
 				background: url("../../../assets/images/leftICON.png") -93px -2px no-repeat;
+				position: relative;
+
+
+				a{
+					display: inline-block;
+					width: 22px;
+					height: 22px;
+					position: absolute;
+					top: 0px;
+					left: 0px;
+				}
 			}
 		}
 	}
 </style>
 <script>
 	export default{
-		
 	}
 </script>

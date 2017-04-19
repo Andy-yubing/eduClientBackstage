@@ -12,14 +12,15 @@
                         </span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="subAccount" label="子账号" align="center" width="100px" :formatter="formatSubAccount"></el-table-column>
+                <el-table-column prop="subAccount" label="子账号" align="center" width="80px" :formatter="formatSubAccount"></el-table-column>
                 <el-table-column prop="area" label="所在省市" align="center"></el-table-column>
+                <el-table-column prop="userPhone" label="联系方式" align="center"></el-table-column>
                 <el-table-column prop="userLevel" label="会员级别" align="center"></el-table-column>
-                <el-table-column prop="createDate" label="开通日期" align="center" width="110px" :formatter="formatStartDate"></el-table-column>
-                <el-table-column prop="endDate" label="结束日期" align="center" width="110px" :formatter="formatEndDate"></el-table-column>
+                <el-table-column prop="createDate" label="开通日期" align="center" :formatter="formatStartDate" width="108"></el-table-column>
+                <el-table-column prop="endDate" label="结束日期" align="center" :formatter="formatEndDate" width="108"></el-table-column>
                 <el-table-column prop="status" label="状态" align="center"  width="100px" :formatter="judgeStatus"></el-table-column>
                 <el-table-column prop="reviewer" label="审核人" align="center"></el-table-column>
-                <el-table-column prop="operate" label="操作" width="160px" align="center">
+                <el-table-column prop="operate" label="操作" width="140px" align="center">
                     <template scope="scope">
                         <el-button size="small">编辑</el-button>
                         <el-button size="small">权限</el-button>
@@ -54,7 +55,7 @@
                     ]
                 },
                 total: 0,
-                loading: true
+                loading: false
             }
         },
         components: {searchBox},

@@ -301,6 +301,10 @@ s, i, em {
             .el-form-item__content{
                 width:  calc(100% - 100px);
             }
+
+            .el-select{
+                width: 100%;
+            }
         }
     }
 

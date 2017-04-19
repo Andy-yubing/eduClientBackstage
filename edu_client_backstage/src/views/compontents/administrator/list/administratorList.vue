@@ -36,7 +36,7 @@
             </el-table>
         </div>
 
-        <el-dialog title="添加管理员" v-model="dialogFormVisible" class="addDialog" @close="resetFormData">
+        <el-dialog :title="dialogTitle" v-model="dialogFormVisible" class="addDialog" @close="resetFormData('addFormData')">
             <el-form :model="addFormData" ref="addFormData" label-width="100px" class="manage-form" :rules="rules">
                 <el-form-item label="姓名" prop="name">
                     <el-input v-model="addFormData.name"></el-input>
@@ -57,18 +57,13 @@
                     <el-input v-model="addFormData.email"></el-input>
                 </el-form-item>
                 <el-form-item label="初始密码" prop="password">
-                    <el-input v-model="addFormData.password" placeholder="系统默认初始密码为联系人手机号" type="password"></el-input>
+                    <el-input v-model="addFormData.password" placeholder="系统默认初始密码为联系人手机号" type="password" :disabled="pwdFlag"></el-input>
                 </el-form-item>
                 <el-form-item label="设置权限" prop="permissions">
-                    <el-checkbox-group v-model="addFormData.permissions">
-                        <el-checkbox label="会员管理" name="permissions"></el-checkbox>
-                        <el-checkbox label="添加会员" name="permissions"></el-checkbox>
-                        <el-checkbox label="会员审核" name="permissions"></el-checkbox>
-                        <el-checkbox label="会员权限设置" name="permissions"></el-checkbox>
-                        <el-checkbox label="查看会员详情" name="permissions"></el-checkbox>
-                        <el-checkbox label="管理员功能" name="permissions"></el-checkbox>
-                        <el-checkbox label="套餐管理" name="permissions"></el-checkbox>
-                    </el-checkbox-group>
+                    <el-select v-model="addFormData.permissions" multiple placeholder="请选择权限">
+                        <el-option v-for="item in permissionOpt" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -82,17 +77,17 @@
     .administrator{
         margin: 20px;
 
-        .page-wrap{
-            margin-bottom: 10px;
+    .page-wrap{
+        margin-bottom: 10px;
 
-            .left{
-                float: left;
-            }
+    .left{
+        float: left;
+    }
 
-            .right{
-                float:  right;
-            }
-        }
+    .right{
+        float:  right;
+    }
+    }
     }
 </style>
 <script>
@@ -110,7 +105,7 @@
                 total: 0,
                 dialogFormVisible: false,
                 addFormData: {
-                    name: '', account: '', dep: '', job: '', phoneNumber: '', password: '', permissions: []
+                    name: '', account: '', dep: '', job: '', phoneNumber: '', password: '', permissions: ''
                 },
                 adminList: [],
                 rules: {
@@ -133,9 +128,6 @@
                     email: [
                         { required: true, message: '请输入邮箱', trigger: 'blur' },
                         { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
-                    ],
-                    permissions: [
-                        { type: 'array', required: true, message: '请至少选择一个权限', trigger: 'change'}
                     ]
                 },
                 btnText: '确 定',
@@ -144,11 +136,39 @@
                     pageNumber: 0,
                     pageSize: 10
                 },
-                loading: true,
+                loading: false,
+                dialogTitle: '添加管理员',
+                pwdFlag: false,
+                permissionOpt: [
+                    {
+                        value: 23,
+                        label: '会员管理'
+                    }, {
+                        value: 24,
+                        label: '添加会员'
+                    }, {
+                        value: 25,
+                        label: '会员审核'
+                    }, {
+                        value: 26,
+                        label: '会员权限设置'
+                    }, {
+                        value: 27,
+                        label: '查看会员详情'
+                    }, {
+                        value: 28,
+                        label: '管理员功能'
+                    }, {
+                        value: 11,
+                        label: '套餐管理'
+                    }
+                ],
             }
         },
         methods: {
             addAdministrator(){
+                this.dialogTitle = '添加管理员';
+                this.pwdFlag = false;
                 this.dialogFormVisible = true;
             },
 
@@ -157,15 +177,15 @@
                 this.getAdminList();
             },
 
-            resetFormData(){
-                this.addFormData = {
-                    name: '', account: '', dep: '', job: '', phoneNumber: '', email: '',  password: '', permissions: [], id: ''
-                }
+            resetFormData(formName){
+                this.$refs[formName].resetFields();
+                this.pwdFlag = false;
             },
 
             editData(data){
-                console.log(data)
-                this.addFormData = data;
+                this.dialogTitle = '编辑管理员';
+                this.pwdFlag = true;
+                this.addFormData = jQuery.extend({}, data);
                 this.dialogFormVisible = true;
             },
 
@@ -206,12 +226,12 @@
             },
 
             getAdminList(){
-                console.log(this.param)
                 this.$http.post('/apis/userMgrt/getAdminList.json', this.param).then(
                     function (response) {
                         this.loading = false;
                         if(response.data.success){
                             this.adminList = response.data.data.content;
+                            console.log(this.adminList)
                             this.total = response.data.data.totalElements;
                         }else{
                             console.error(response.data.message)
@@ -225,6 +245,7 @@
             },
 
             dialogSubmit(formName){
+
                 let $this = this;
                 this.$refs[formName].validate(
                     function(valid){
@@ -232,10 +253,10 @@
                             //先禁用保存按钮
                             $this.btnText = '保存中';
                             $this.btnLoading = true;
-                            console.log('lifei')
-                            //密码加密
+
+                            //密码加密  仅在添加管理员时才有校验
                             let password = $this.addFormData.password;
-                            if(password != ''){
+                            if(password != '' && $this.pwdFlag === false){
                                 $this.$http.post("/apis/security/generateKey.do").then(
                                     function (response) {
                                         if(response.data.success){

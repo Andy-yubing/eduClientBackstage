@@ -17,6 +17,7 @@
 				<el-form-item class="btn-box">
 					<el-button type="primary" @click="submitForm('ruleForm')">立即提交</el-button>
 				</el-form-item>
+				<input type="hidden" name="type" value="admin">
 			</el-form>
 			<!--  <el-button type="primary" @click="submitForm()">立即提交</el-button> -->
 		</div>
@@ -34,7 +35,7 @@
                 rules:{
                     user:[
                         { required: true, message: '请输入账号', trigger: 'blur' },
-                        { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
+                        { min: 5, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
                     ],
                     pass:[
                         { required: true, message: '请输入密码', trigger: 'blur' },

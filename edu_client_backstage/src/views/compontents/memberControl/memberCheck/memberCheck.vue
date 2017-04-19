@@ -8,7 +8,7 @@
                     <el-table-column prop="userAccount" label="主账号" align="center" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="realName" label="称呼" align="center"></el-table-column>
                     <el-table-column prop="userDepartment" label="职务" align="center" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="area" label="所在省市" align="center"></el-table-column>
+                    <el-table-column prop="userPhone" label="联系方式" align="center"></el-table-column>
                     <el-table-column prop="userPosition" label="详细地址" align="center" width="250px" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="createDate" label="申请日期" align="center" width="110px" :formatter="formatDate"></el-table-column>
                     <el-table-column prop="operate" label="操作" width="190px" align="center">
