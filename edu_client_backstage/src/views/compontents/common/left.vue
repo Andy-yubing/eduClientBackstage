@@ -6,7 +6,7 @@
 				<template slot="title"><i class="nav-icon nav-icon2"></i>会员管理</template>
 				<el-menu-item-group>
 					<el-menu-item index="memberManage">会员列表</el-menu-item>
-					<el-menu-item index="memberCheck">会员审核</el-menu-item>
+					<el-menu-item index="memberCheck">审核</el-menu-item>
 					<!--<el-menu-item index="memberAdd">添加会员</el-menu-item>-->
 				</el-menu-item-group>
 			</el-submenu>

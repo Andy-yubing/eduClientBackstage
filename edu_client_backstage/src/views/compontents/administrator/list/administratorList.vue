@@ -128,7 +128,7 @@
                     email: [
                         { required: true, message: '请输入邮箱', trigger: 'blur' },
                         { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
-                    ]
+                    ],
                 },
                 btnText: '确 定',
                 btnLoading: false,
@@ -136,7 +136,7 @@
                     pageNumber: 0,
                     pageSize: 10
                 },
-                loading: false,
+                loading: true,
                 dialogTitle: '添加管理员',
                 pwdFlag: false,
                 permissionOpt: [

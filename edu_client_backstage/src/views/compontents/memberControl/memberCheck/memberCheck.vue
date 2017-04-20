@@ -1,29 +1,57 @@
 <template>
-    <div class="memberCheck">
-        <searchBox :searchNames="searchNames" @searchDataChange="searchDataChange" :total="total"></searchBox>
-        <div class="content">
-            <div class="table-box">
-                <el-table :data="checkList" border style="width: 100%;">
-                    <el-table-column prop="collegeName" label="所在高校" align="center" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="userAccount" label="主账号" align="center" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="realName" label="称呼" align="center"></el-table-column>
-                    <el-table-column prop="userDepartment" label="职务" align="center" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="userPhone" label="联系方式" align="center"></el-table-column>
-                    <el-table-column prop="userPosition" label="详细地址" align="center" width="250px" :show-overflow-tooltip="true"></el-table-column>
-                    <el-table-column prop="createDate" label="申请日期" align="center" width="110px" :formatter="formatDate"></el-table-column>
-                    <el-table-column prop="operate" label="操作" width="190px" align="center">
-                        <template scope="scope">
-                            <el-button v-if="scope.row.accountType == '未开通'" size="small" @click="openTrialEvent(scope.row)">开通试用</el-button>
-                            <el-button size="small" @click="openFormalEvent(scope.row)">转为正式</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </div>
-        </div>
+    <div class="check">
+        <el-tabs v-model="activeName">
+            <el-tab-pane label="会员审核" name="memberCheck">
+                <div class="memberCheck">
+                    <searchBox :searchNames="searchNames" @searchDataChange="searchDataChange" :total="total"></searchBox>
+                    <div class="content">
+                        <div class="table-box">
+                            <el-table :data="checkList" border style="width: 100%;">
+                                <el-table-column prop="collegeName" label="所在高校" align="center" :show-overflow-tooltip="true"></el-table-column>
+                                <el-table-column prop="userAccount" label="主账号" align="center" :show-overflow-tooltip="true"></el-table-column>
+                                <el-table-column prop="realName" label="称呼" align="center"></el-table-column>
+                                <el-table-column prop="userDepartment" label="职务" align="center" :show-overflow-tooltip="true"></el-table-column>
+                                <el-table-column prop="userPhone" label="联系方式" align="center"></el-table-column>
+                                <el-table-column prop="userPosition" label="详细地址" align="center" width="250px" :show-overflow-tooltip="true"></el-table-column>
+                                <el-table-column prop="createDate" label="申请日期" align="center" width="110px" :formatter="formatDate"></el-table-column>
+                                <el-table-column prop="operate" label="操作" width="190px" align="center">
+                                    <template scope="scope">
+                                        <el-button v-if="scope.row.accountType == '未开通'" size="small" @click="openTrialEvent(scope.row)">开通试用</el-button>
+                                        <el-button size="small" @click="openFormalEvent(scope.row)">转为正式</el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                    </div>
+                </div>
+            </el-tab-pane>
+            <el-tab-pane label="订单审核" name="orderCheck">
+                <div class="orderCheck">
+                    <searchBox :searchNames="searchNames" @searchDataChange="searcgDataChange" :total="ordersTotal"></searchBox>
+                    <div class="content">
+                        <el-table :data="orderList" border style="width: 100%">
+                            <el-table-column prop="userAccount" label="账号" align="center"></el-table-column>
+                            <el-table-column prop="packageType" label="套餐类型" align="center"></el-table-column>
+                            <el-table-column prop="totalPrice" label="总金额" align="center"></el-table-column>
+                            <el-table-column prop="timeLimit" label="时间期限" align="center"></el-table-column>
+                            <el-table-column prop="phone" label="联系方式" align="center"></el-table-column>
+                            <el-table-column prop="email" label="Email" align="center"></el-table-column>
+                            <el-table-column prop="isPay" label="是否支付" align="center"></el-table-column>
+                        </el-table>
+                    </div>
+                </div>
+            </el-tab-pane>
+            <el-tab-pane label="预到期会员" name="memberExpire">
+
+            </el-tab-pane>
+        </el-tabs>
     </div>
+
+
+
 </template>
 <style lang="scss" scoped>
-    .memberCheck{
+    .check{
         margin: 20px;
     }
 </style>
@@ -44,7 +72,9 @@
                         }
                     ]
                 },
-                total: 0
+                total: 0,
+                activeName: 'memberCheck',
+                orderList: []
             }
         },
         components: {searchBox},
