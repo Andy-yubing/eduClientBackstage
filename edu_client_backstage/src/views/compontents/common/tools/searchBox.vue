@@ -213,6 +213,27 @@
                             {id: 3, text: '近7天', selected: false},
                         ],
                         'hasDateBox': false
+                    },
+                    {
+                        'id': 5,
+                        'name': 'packageType',
+                        'title': '套餐类型',
+                        'searchList': [
+                            {id: 0, text: '全部', selected: true},
+                            {id: 1, text: 'A套餐', selected: false},
+                            {id: 2, text: 'B套餐', selected: false},
+                            {id: 3, text: 'C套餐', selected: false},
+                        ]
+                    },
+                    {
+                        'id': 6,
+                        'name': 'orderStatue',
+                        'title': '订单状态',
+                        'searchList': [
+                            {id: 0, text: '全部', selected: true},
+                            {id: 1, text: '已支付', selected: false},
+                            {id: 2, text: '未支付', selected: false}
+                        ]
                     }
                 ],
                 publishDate: [],

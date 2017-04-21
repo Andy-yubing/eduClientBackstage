@@ -1,6 +1,6 @@
 <template>
-    <div class="check">
-        <el-tabs v-model="activeName">
+    <div class="check" id="check">
+        <el-tabs v-model="activeName" @tab-click="handleTabsClick" id="check-tabs">
             <el-tab-pane label="会员审核" name="memberCheck">
                 <div class="memberCheck">
                     <searchBox :searchNames="searchNames" @searchDataChange="searchDataChange" :total="total"></searchBox>
@@ -27,7 +27,7 @@
             </el-tab-pane>
             <el-tab-pane label="订单审核" name="orderCheck">
                 <div class="orderCheck">
-                    <searchBox :searchNames="searchNames" @searchDataChange="searcgDataChange" :total="ordersTotal"></searchBox>
+                    <searchBox :searchNames="searchNames1" @searchDataChange="searchDataChange" :total="ordersTotal"></searchBox>
                     <div class="content">
                         <el-table :data="orderList" border style="width: 100%">
                             <el-table-column prop="userAccount" label="账号" align="center"></el-table-column>
@@ -37,12 +37,35 @@
                             <el-table-column prop="phone" label="联系方式" align="center"></el-table-column>
                             <el-table-column prop="email" label="Email" align="center"></el-table-column>
                             <el-table-column prop="isPay" label="是否支付" align="center"></el-table-column>
+                            <el-table-column label="操作" align="center">
+                                <template scope="scope">
+                                    <el-button size="small" v-if="scope.row.isPay == '否'" @click="changeOrderStatus(scope.row)">生效</el-button>
+                                </template>
+                            </el-table-column>
                         </el-table>
                     </div>
                 </div>
             </el-tab-pane>
             <el-tab-pane label="预到期会员" name="memberExpire">
-
+                <searchBox :searchNames="searchNames2" @searchDataChange="searchDataChange" :total="total"></searchBox>
+                <el-table :data="userList" border style="width: 100%;">
+                    <el-table-column prop="collegeName" label="高校名称" align="center" :show-overflow-tooltip="true"></el-table-column>
+                    <el-table-column prop="userAccount" label="主账号" align="center">
+                    </el-table-column>
+                    <el-table-column prop="subAccount" label="子账号" align="center" width="80px"></el-table-column>
+                    <el-table-column prop="area" label="所在省市" align="center"></el-table-column>
+                    <el-table-column prop="userPhone" label="联系方式" align="center"></el-table-column>
+                    <el-table-column prop="userLevel" label="会员级别" align="center"></el-table-column>
+                    <el-table-column prop="createDate" label="开通日期" align="center" :formatter="formatDate" width="108"></el-table-column>
+                    <el-table-column prop="endDate" label="结束日期" align="center" :formatter="formatEndDate" width="108"></el-table-column>
+                    <el-table-column prop="reviewer" label="审核人" align="center"></el-table-column>
+                    <el-table-column prop="operate" label="操作" width="140px" align="center">
+                        <template scope="scope">
+                            <el-button size="small">编辑</el-button>
+                            <el-button size="small">权限</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -61,6 +84,8 @@
         data(){
             return{
                 searchNames: ['createDate'],
+                searchNames1: ['packageType', 'orderStatus'],
+                searchNames2: '',
                 checkList: [],
                 param: {
                     pageSize: 10,
@@ -72,20 +97,41 @@
                         }
                     ]
                 },
+                orderParam: {
+                    pageSize: 10,
+                    pageNumber: 0,
+                    orders: [
+                        {property: 'createDate', direction: 'DESC'}
+                    ]
+                },
                 total: 0,
+                ordersTotal: 0,
                 activeName: 'memberCheck',
-                orderList: []
+                orderList: [],
+                userList: []
             }
         },
         components: {searchBox},
         methods: {
 
             searchDataChange(data){
-                this.param = data;
-                this.getList();
+              
+                console.log(data)
+                console.log(this.activeName)
+                if(this.activeName == 'memberCheck'){
+                    this.param = data;
+                    this.getMemberCheckList();
+                }else if(this.activeName == 'orderCheck'){
+                    this.orderParam = data;
+                    this.getOrderList();
+                }else {
+                    
+                }
+
+                
             },
 
-            getList(){
+            getMemberCheckList(){
                 console.log(this.param)
                 this.$http.post("/apis/userMgrt/getUserReviewList.json", this.param).then(
                     function (response) {
@@ -129,7 +175,7 @@
                                     message: '开通成功',
                                     type: 'success'
                                 });
-                                this.getList();
+                                this.getMemberCheckList();
                             } else {
                                 console.error(response.data.message);
                                 return false;
@@ -145,10 +191,46 @@
                         message: '已取消'
                     });
                 });
+            },
+
+            formatEndDate(row, col){
+                if(row.expireDate != null){
+                    return new Date(row.expireDate).format('yyyy-MM-dd');
+                }
+                return '';
+            },
+
+            getExpireUserList(){
+                let param = {
+
+                }
+            },
+
+            getOrderList(){
+
+                this.$http.post('/apis/userMgrt/getOrders.json', this.orderParam).then(function (response) {
+                    if(response.data.success){
+                        this.orderList = response.data.data.content;
+                    }
+                })
+            },
+
+            handleTabsClick(event){
+                if(event.index === "0"){
+
+                }else if(event.index === "1"){
+                    this.getOrderList();
+                }else {
+
+                }
+            },
+
+            changeOrderStatus(row){
+                console.log(row)
             }
         },
         mounted(){
-            this.getList();
+            this.getMemberCheckList();
         },
     }
 </script>
