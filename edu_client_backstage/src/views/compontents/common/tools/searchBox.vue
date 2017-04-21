@@ -44,7 +44,7 @@
                 </div>
             </el-col>
             <el-col :span="4">
-                <el-input placeholder="输入高校关键字/手机号" icon="search" @blur="keywordSearch" v-model="keyword"></el-input>
+                <el-input placeholder="输入高校关键字/手机号" icon="search" @blur="keywordSearch" v-model="keyword" v-show="showKeyword"></el-input>
             </el-col>
         </el-row>
     </div>
@@ -455,6 +455,6 @@
         mounted() {
             this.showFoldIcon();
         },
-        props: ["searchNames", "total"],
+        props: ["searchNames", "total", "showKeyword"],
     }
 </script>

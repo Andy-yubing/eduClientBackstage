@@ -1,6 +1,6 @@
 <template>
     <div class="memberList" v-loading="loading" element-loading-text="加载中……">
-        <searchBox :searchNames="searchNames" @searchDataChange="searchDataChange" :total="total"></searchBox>
+        <searchBox :searchNames="searchNames" @searchDataChange="searchDataChange" :total="total" :showKeyword="false"></searchBox>
 
         <div class="table-box">
             <el-table :data="userList" border style="width: 100%;">
