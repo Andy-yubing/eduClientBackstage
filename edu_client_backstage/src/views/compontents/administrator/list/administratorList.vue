@@ -161,6 +161,12 @@
                     }, {
                         value: 11,
                         label: '套餐管理'
+                    }, {
+                        value: 6,
+                        label: '管理员权限'
+                    }, {
+                        value: 7,
+                        label: '添加管理'
                     }
                 ],
             }

@@ -10,7 +10,7 @@
 					<!--<el-menu-item index="memberAdd">添加会员</el-menu-item>-->
 				</el-menu-item-group> 
 			</el-submenu>
-			<el-menu-item index="administrator" v-if="numlist.indexOf(7) != -1"><i class="nav-icon nav-icon3" ></i>管理员</el-menu-item>
+			<el-menu-item index="administrator" v-if="numlist.indexOf(6) != -1"><i class="nav-icon nav-icon3" ></i>管理员</el-menu-item>
 			<el-menu-item index="systemMessage"><i class="nav-icon nav-icon4"></i>系统通知</el-menu-item>
 			<el-menu-item index="packageManage" v-if="numlist.indexOf(11) != -1"><i class="nav-icon nav-icon5" ></i>套餐管理</el-menu-item>
 			<el-menu-item index="systemSet" v-if="numlist.indexOf(8) != -1"><i class="nav-icon nav-icon6" ></i>系统设置</el-menu-item>
@@ -29,8 +29,6 @@
 		 methods: {
 		 	onloadLimits(params){
 		 		this.numlist = params;
-
-                this.numlist = [23,7,11,8,25];
 		 	},
 		 },
 		 watch: {

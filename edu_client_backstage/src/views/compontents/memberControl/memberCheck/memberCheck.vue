@@ -1,5 +1,5 @@
 <template>
-    <div class="check" id="check">
+    <div class="check" id="check" v-loading="loading" element-loading-text="加载中……">
         <el-tabs v-model="activeName" @tab-click="handleTabsClick" id="check-tabs">
             <el-tab-pane label="会员审核" name="memberCheck">
                 <div class="memberCheck">
@@ -14,10 +14,9 @@
                                 <el-table-column prop="userPhone" label="联系方式" align="center"></el-table-column>
                                 <el-table-column prop="userPosition" label="详细地址" align="center" width="250px" :show-overflow-tooltip="true"></el-table-column>
                                 <el-table-column prop="createDate" label="申请日期" align="center" width="110px" :formatter="formatDate"></el-table-column>
-                                <el-table-column prop="operate" label="操作" width="190px" align="center">
+                                <el-table-column prop="operate" label="操作" width="140px" align="center">
                                     <template scope="scope">
-                                        <el-button v-if="scope.row.accountType == '未开通'" size="small" @click="openTrialEvent(scope.row)">开通试用</el-button>
-                                        <el-button size="small" @click="openFormalEvent(scope.row)">转为正式</el-button>
+                                        <el-button size="small" @click="openTrialEvent(scope.row)">开通试用</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -48,12 +47,12 @@
                 </div>
             </el-tab-pane>
             <el-tab-pane label="预到期会员" name="memberExpire">
-                <searchBox :searchNames="searchNames2" @searchDataChange="searchDataChange" :total="total" :showKeyword="true"></searchBox>
+                <searchBox :searchNames="searchNames2" @searchDataChange="searchDataChange" :total="expireTotal" :showKeyword="true"></searchBox>
                 <el-table :data="userList" border style="width: 100%;">
                     <el-table-column prop="collegeName" label="高校名称" align="center" :show-overflow-tooltip="true"></el-table-column>
                     <el-table-column prop="userAccount" label="主账号" align="center">
                     </el-table-column>
-                    <el-table-column prop="subAccount" label="子账号" align="center" width="80px"></el-table-column>
+                    <el-table-column prop="subAccount" label="子账号" align="center" width="80px" :formatter="formatSubAccount"></el-table-column>
                     <el-table-column prop="area" label="所在省市" align="center"></el-table-column>
                     <el-table-column prop="userPhone" label="联系方式" align="center"></el-table-column>
                     <el-table-column prop="userLevel" label="会员级别" align="center"></el-table-column>
@@ -120,7 +119,8 @@
                 expireTotal: 0,
                 activeName: 'memberCheck',
                 orderList: [],
-                userList: []
+                userList: [],
+                loading: true
             }
         },
         components: {searchBox},
@@ -135,16 +135,15 @@
                     this.orderParam = data;
                     this.getOrderList();
                 }else {
-                    
+                    this.expireParam = data;
+                    this.getExpireUserList();
                 }
-
-                
             },
 
             getMemberCheckList(){
-                console.log(this.param)
                 this.$http.post("/apis/userMgrt/getUserReviewList.json", this.param).then(
                     function (response) {
+                        this.loading = false;
                         if(response.data.success){
                             this.checkList = response.data.data.content;
                             this.total = response.data.data.totalElements;
@@ -166,41 +165,9 @@
                             message: '开通成功',
                             type:　'success'
                         });
-
-                        data.accountType = '试用';
+                        this.getMemberCheckList();
                     }
                 })
-            },
-
-            openFormalEvent(data){
-                this.$confirm('确定转为正式', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.$http.get('/apis/userMgrt/openFormal.do/' + data.id).then(
-                        (response) => {
-                            if (response.data.success) {
-                                this.$message({
-                                    message: '开通成功',
-                                    type: 'success'
-                                });
-                                this.getMemberCheckList();
-                            } else {
-                                console.error(response.data.message);
-                                return false;
-                            }
-                        }, (response) => {
-                            console.error(response);
-                            return false;
-                        }
-                    );
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消'
-                    });
-                });
             },
 
             formatEndDate(row, col){
@@ -214,6 +181,7 @@
                 this.expireParam.status = '即将到期';
                 this.$http.post('/apis/userMgrt/getUserMgrtList.json', this.expireParam).then(
                     (response) => {
+                        this.loading = false;
                         if(response.data.success){
                             this.userList = response.data.data.content;
                             this.expireTotal = response.data.data.totalElements;
@@ -226,6 +194,7 @@
 
             getOrderList(){
                 this.$http.post('/apis/userMgrt/getOrders.json', this.orderParam).then(function (response) {
+                    this.loading = false;
                     if(response.data.success){
                         this.orderList = response.data.data.content;
                         this.ordersTotal =  response.data.data.totalElements;
@@ -263,7 +232,15 @@
                     return new Date(row.submitDate).format('yyyy-MM-dd');
                 }
                 return '';
-            }
+            },
+
+            formatSubAccount(row, col){
+                if(row.subAccountNum == '' || row.subAccountNum == null || row.subAccountNum == undefined){
+                    return '0个';
+                }else {
+                    return row.subAccountNum + '个';
+                }
+            },
         },
         mounted(){
             this.getMemberCheckList();

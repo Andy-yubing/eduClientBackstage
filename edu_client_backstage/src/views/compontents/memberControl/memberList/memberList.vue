@@ -5,7 +5,7 @@
         <div class="table-box">
             <el-table :data="userList" border style="width: 100%;">
                 <el-table-column prop="collegeName" label="高校名称" align="center" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="userAccount" label="主账号" align="center">
+                <el-table-column prop="userAccount" label="主账号" align="center" :show-overflow-tooltip="true">
                     <template scope="scope">
                         <span class="pointer" @click="toDetailPage(scope.row)">
                             {{scope.row.userAccount}}
@@ -15,7 +15,7 @@
                 <el-table-column prop="subAccount" label="子账号" align="center" width="80px" :formatter="formatSubAccount"></el-table-column>
                 <el-table-column prop="area" label="所在省市" align="center"></el-table-column>
                 <el-table-column prop="userPhone" label="联系方式" align="center"></el-table-column>
-                <el-table-column prop="userLevel" label="会员级别" align="center"></el-table-column>
+                <el-table-column prop="userLevel" label="会员级别" align="center" width="110"></el-table-column>
                 <el-table-column prop="createDate" label="开通日期" align="center" :formatter="formatStartDate" width="108"></el-table-column>
                 <el-table-column prop="endDate" label="结束日期" align="center" :formatter="formatEndDate" width="108"></el-table-column>
                 <el-table-column prop="status" label="状态" align="center"  width="100px" :formatter="judgeStatus"></el-table-column>
