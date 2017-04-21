@@ -136,11 +136,12 @@ s, i, em {
     .page-left{
         width: 190px;
         display: inline-block;
-
+        position: relative;
         .left{
             width: 190px;
             height: 100%;
             position: fixed;
+            top: 78px; 
         }
 
         .el-menu{
