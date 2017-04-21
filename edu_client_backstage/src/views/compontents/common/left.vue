@@ -29,6 +29,7 @@
 		 methods: {
 		 	onloadLimits(params){
 		 		this.numlist = params;
+                this.numlist = [23,7,11,8,25];
 		 	},
 		 },
 		 watch: {
