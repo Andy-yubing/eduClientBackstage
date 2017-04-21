@@ -4,7 +4,7 @@
 			<top></top>
 		</div>
 		<div class="page-left">
-			<left></left>
+			<left ref="left"></left>
 		</div>
 		<div class="page-right">
 			<div class="content-wrap">
@@ -23,6 +23,28 @@
 	import top from "../common/top.vue";
 	import left from "../common/left.vue";
 	export default{
-		components:{top,left}
+		data() {
+            return {
+                msg:"",
+                user: {},
+            }
+        },
+		methods:{
+			getLimitslist(){
+				this.$http.post("/apis/userMgrt/getUserPermission.json",{type: 'admin'}).then((res)=>{
+					if(res.data.success){
+						let arr = res.data.data.permissions;
+                        let left = this.$refs.left;
+                        left.onloadLimits(arr)
+					} 
+				},(err)=>{
+					console.log(err);
+				})
+			},
+		},
+		mounted(){ 
+			this.getLimitslist();
+		},
+		components:{top,left},
 	}
 </script>
