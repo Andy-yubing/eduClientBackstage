@@ -6,7 +6,7 @@
 					<img src="../../../assets/images/global-icon-temp.png" alt="">
 				</div>
 				<div class="text">
-					<div class="text-top">20</div>
+					<div class="text-top">{{waitingAudit}}</div>
 					<div class="text-bottom">今日待审核会员</div>
 				</div>
 			</div>
@@ -15,7 +15,7 @@
 					<img src="../../../assets/images/global-icon-temp.png" alt="">
 				</div>
 				<div class="text">
-					<div class="text-top">20</div>
+					<div class="text-top">{{waitingSigning}}</div>
 					<div class="text-bottom">今日待签约会员</div>
 				</div>
 			</div>
@@ -24,7 +24,7 @@
 					<img src="../../../assets/images/global-icon-temp.png" alt="">
 				</div>
 				<div class="text">
-					<div class="text-top">20</div>
+					<div class="text-top">{{memberSum}}</div>
 					<div class="text-bottom">会员总量</div>
 				</div>
 			</div>
@@ -33,7 +33,7 @@
 					<img src="../../../assets/images/global-icon-temp.png" alt="">
 				</div>
 				<div class="text">
-					<div class="text-top">20</div>
+					<div class="text-top">{{willExpire}}</div>
 					<div class="text-bottom">即将到期会员</div>
 				</div>
 			</div>
@@ -148,22 +148,131 @@
 		.bottom{
 			margin: 10px 10px 50px;
 		}
+		.el-card__body>div{
+			height: 100%;
+		} 
 	}
 </style>
 <script>
 
-	import echarts from "echarts"
-
+	import echarts from "echarts";
 	export default{
 		data(){
 		    return{
-                activeName:　'month'
+                activeName:　'month',
+                waitingAudit:0,
+                waitingSigning:0,
+                memberSum:0,
+                willExpire:0,
 			}
 		},
 		methods: {
             tabsClick(event){
                 console.log(event)
+			},
+			getTopList(url,showData){
+				this.$http.get(url).then((res)=>{
+					if(res.data.success){
+						showData = res.data.data;
+					}
+				},(err)=>{
+ 					console.log(err);
+				}); 
+			},
+			//全国会员分布
+			getNationalMember(){ 
+				let myChart = echarts.init(document.getElementById('globalMemberGraph'));
+				 myChart.showLoading();
+				 let vm = this;
+				 $.get('../../../../node_modules/echarts/map/json/china.json', function (geoJson) {
+					   echarts.registerMap('china', geoJson);
+					    vm.$http.get("/apis/userMgrt/getMemberDistribution.json").then((res)=>{
+						if(res.data.success){
+							myChart.setOption(res.data.data)
+							myChart.hideLoading();
+						}else{
+	                        console.error(res.data.message);
+	                    }
+					},(err)=>{
+						console.log(err);
+					})
+				 });
+				
+			},
+			//会员雷达热图
+			getMembersRadar(){
+				let myChart = echarts.init(document.getElementById('memberRadarGraph'));
+				myChart.showLoading();
+				this.$http.get("/apis/userMgrt/getMemberRadar.json").then((res)=>{
+					if(res.data.success){
+
+						console.log(JSON.stringify(res.data.data));
+						myChart.setOption(res.data.data)
+						this.$nextTick(function(){
+                            myChart.hideLoading();
+                        });
+					}else{
+                        console.error(res.data.message);
+                    }
+				},(err)=>{
+					console.log(err);
+				})
+			},
+			//会员类型占比
+			getMemberTypePercent(){
+				let myChart = echarts.init(document.getElementById('memberTypeGraph'));
+				myChart.showLoading();
+				this.$http.get("/apis/userMgrt/getMemberRadar.json").then((res)=>{
+					if(res.data.success){
+						myChart.setOption(res.data.data)
+						this.$nextTick(function(){
+                            myChart.hideLoading();
+                        });
+					}else{
+                        console.error(res.data.message);
+                    }
+				},(err)=>{
+					console.log(err);
+				})
+			},
+			//会员量统计 (月)
+			getMemberMonthNum(){
+				let myChart = echarts.init(document.getElementById('monthGraph'));
+				myChart.showLoading();
+				this.$http.get("/apis/userMgrt/getMemberMonthNum.json").then((res)=>{
+					if(res.data.success){
+						/*console.log(res);
+						res.data.data.title = {text: ''};
+						myChart.setOption(res.data.data)
+						this.$nextTick(function(){
+                            myChart.hideLoading();
+                        });*/ 
+					}else{
+                        console.error(res.data.message);
+                    }
+				},(err)=>{
+					console.log(err);
+				})
 			}
-		}
+		},
+		mounted(){
+			//等待审核会员 waitingAudit
+			this.getTopList("/apis/userMgrt/countToCheckUser.json",this.waitingAudit);
+			//等待签约会员  waitingSigning
+			this.getTopList("/apis/userMgrt/countCheckUser.json",this.waitingSigning);
+			//会员总量  memberSum
+			this.getTopList("/apis/userMgrt/countFormalUser.json/",this.memberSum);
+			//即将到期会员 willExpire
+			this.getTopList("/apis/userMgrt/countSoonExpireUser.json",this.willExpire);
+			//全国会员分布
+			this.getNationalMember();
+			//会员雷达热图
+			this.getMembersRadar();
+			//会员类型占比
+			this.getMemberTypePercent()
+			//会员量统计
+			this.getMemberMonthNum()
+			
+		},
 	}
 </script>
