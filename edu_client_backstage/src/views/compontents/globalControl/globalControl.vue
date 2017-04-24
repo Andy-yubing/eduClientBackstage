@@ -188,9 +188,6 @@
 					   echarts.registerMap('china', geoJson);
 					    vm.$http.get("/apis/userMgrt/getMemberDistribution.json").then((res)=>{
 						if(res.data.success){
-							console.log(JSON.stringify(res.data.data));
-							console.log(res.data.data.title);
-							res.data.data.title = {text: ''}
 							myChart.setOption(res.data.data)
 							myChart.hideLoading();
 						}else{
