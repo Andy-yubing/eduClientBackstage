@@ -6,7 +6,7 @@
 			<el-col :span="6" class="text-center"><h3>教育行业大数据应用服务平台</h3></el-col>
 		</el-row>
 		<div class="login_body">
-			<h2 class="text-center">慧数教育后台总管</h2>
+			<h2 class="text-center">慧数教育后台</h2>
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm"  class="ruleForm" action="/apis/login.do" method="post">
 				<el-form-item  prop="user">
 					<el-input v-model="ruleForm.user" placeholder="请输入名称" name="username"></el-input>

@@ -213,12 +213,11 @@
             },
 
             changeOrderStatus(row){
-
                 this.$http.get('/apis/userMgrt/orderEffective.json/' + row.id).then(
                     function (response) {
                         if(response.data.success){
                             this.$message({
-                                message: '已生效',
+                                message: '生效成功',
                                 type: 'success'
                             });
                             this.getOrderList();
