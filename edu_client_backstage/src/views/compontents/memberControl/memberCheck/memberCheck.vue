@@ -36,7 +36,7 @@
                             <el-table-column prop="phone" label="联系方式" align="center"></el-table-column>
                             <el-table-column prop="email" label="Email" align="center"></el-table-column>
                             <el-table-column prop="isPay" label="是否支付" align="center"></el-table-column>
-                            <el-table-column prop="submitDate" label="订单时间" aligin="center" :formatter="formatSubmitDate"></el-table-column>
+                            <el-table-column prop="submitDate" label="订单时间" :formatter="formatSubmitDate" align="center" ></el-table-column>
                             <el-table-column label="操作" align="center" width="100">
                                 <template scope="scope">
                                     <el-button size="small" v-if="scope.row.isPay == '否'" @click="changeOrderStatus(scope.row)">生效</el-button>
@@ -222,6 +222,12 @@
                                 type: 'success'
                             });
                             this.getOrderList();
+                        }else{
+                            this.$message({
+                                showClose: true,
+                                message: '订单生效失败，请联系管理员',
+                                type: 'error'
+                            })
                         }
                     }
                 )

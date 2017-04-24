@@ -2,7 +2,7 @@
     <div class="administrator" v-loading="loading" element-loading-text="加载中……">
         <div class="page-wrap clearfix">
             <div class="left">
-                <el-button type="primary" @click="addAdministrator">添加管理员</el-button>
+                <el-button type="primary" @click="addAdministrator" v-show="showAddBtn">添加管理员</el-button>
             </div>
             <div class="right">
                 <el-pagination class="manage-pagination"
@@ -77,17 +77,17 @@
     .administrator{
         margin: 20px;
 
-    .page-wrap{
-        margin-bottom: 10px;
+        .page-wrap{
+            margin-bottom: 10px;
 
-    .left{
-        float: left;
-    }
+            .left{
+                float: left;
+            }
 
-    .right{
-        float:  right;
-    }
-    }
+            .right{
+                float:  right;
+            }
+        }
     }
 </style>
 <script>
@@ -169,6 +169,7 @@
                         label: '添加管理'
                     }
                 ],
+                showAddBtn: false
             }
         },
         methods: {
@@ -237,7 +238,6 @@
                         this.loading = false;
                         if(response.data.success){
                             this.adminList = response.data.data.content;
-                            console.log(this.adminList)
                             this.total = response.data.data.totalElements;
                         }else{
                             console.error(response.data.message)
@@ -297,10 +297,20 @@
                         }
                     }
                 )
-            }
+            },
         },
         created(){
             this.getAdminList();
+        },
+        mounted(){
+            let arr = this.$parent.$parent.$children;
+            for(var i = 0; i <　arr.length; i++){
+                if(arr[i].numList && typeof arr[i].numList == Array){
+                    if(arr[i].numList.indexOf('7') >= 0){
+                        this.showAddBtn = true;
+                    }
+                }
+            }
         }
     }
 </script>

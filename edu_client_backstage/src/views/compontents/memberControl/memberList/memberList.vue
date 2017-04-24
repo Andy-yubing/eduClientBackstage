@@ -13,12 +13,13 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="subAccount" label="子账号" align="center" width="80px" :formatter="formatSubAccount"></el-table-column>
-                <el-table-column prop="area" label="所在省市" align="center"></el-table-column>
+                <el-table-column prop="areaCode" label="所在地" align="center" :formatter="formatAddress" :show-overflow-tooltip="true">
+                </el-table-column>
                 <el-table-column prop="userPhone" label="联系方式" align="center"></el-table-column>
                 <el-table-column prop="userLevel" label="会员级别" align="center" width="110"></el-table-column>
                 <el-table-column prop="createDate" label="开通日期" align="center" :formatter="formatStartDate" width="108"></el-table-column>
                 <el-table-column prop="endDate" label="结束日期" align="center" :formatter="formatEndDate" width="108"></el-table-column>
-                <el-table-column prop="status" label="状态" align="center"  width="100px" :formatter="judgeStatus"></el-table-column>
+                <el-table-column prop="status" label="状态" align="center"  width="90px" :formatter="judgeStatus"></el-table-column>
                 <el-table-column prop="reviewer" label="审核人" align="center"></el-table-column>
                 <el-table-column prop="operate" label="操作" width="140px" align="center">
                     <template scope="scope">
@@ -38,6 +39,7 @@
 <script>
 
     import searchBox from  '../../../compontents/common/tools/searchBox.vue';
+    import {regionData,CodeToText} from "element-china-area-data"
 
     export default{
         data(){
@@ -55,7 +57,10 @@
                     ]
                 },
                 total: 0,
-                loading: false
+                loading: false,
+                options: regionData,
+                areaCode: [],
+                codeToText:　CodeToText
             }
         },
         components: {searchBox},
@@ -66,7 +71,6 @@
             },
 
             getMemberList(){
-                console.log(this.param)
                 this.$http.post('/apis/userMgrt/getUserMgrtList.json', this.param).then(
                     (response) => {
 //                        console.log(response.data.data)
@@ -116,6 +120,28 @@
 
             toDetailPage(data){
                 this.$router.push({path: '/body/memberDetail', query: data});
+            },
+
+            formatAddress(row, col){
+                if(row.areaCode != null){
+                    let area = '';
+                    let areaArr = this.areaCode = row.areaCode.split(',');
+                    for(var i = 0; i < areaArr.length; i++){
+                        for (var  j in this.codeToText){
+                            if(areaArr[i] == j){
+                                area = area +　this.codeToText[j];
+                                break;
+                            }
+                        }
+                    }
+                    return area.substring(0);
+                }
+//                console.log(row.areaCode)
+                return '';
+            },
+
+            handleChange(val){
+                console.log(val)
             }
         },
         created(){
