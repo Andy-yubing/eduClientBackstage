@@ -150,13 +150,12 @@
 		}
 		.el-card__body>div{
 			height: 100%;
-		}
+		} 
 	}
 </style>
 <script>
 
-	import echarts from "echarts"
-
+	import echarts from "echarts";
 	export default{
 		data(){
 		    return{
@@ -175,29 +174,33 @@
 				this.$http.get(url).then((res)=>{
 					if(res.data.success){
 						showData = res.data.data;
-						console.log(showData);
 					}
 				},(err)=>{
  					console.log(err);
 				}); 
 			},
 			//全国会员分布
-			getNationalMember(){
+			getNationalMember(){ 
 				let myChart = echarts.init(document.getElementById('globalMemberGraph'));
 				 myChart.showLoading();
-				this.$http.get("/apis/userMgrt/getMemberDistribution.json").then((res)=>{
-					//console.log(JSON.stringify(res.data.data));
-					if(res.data.success){
-						myChart.setOption(res.data.data)
-						this.$nextTick(function(){
-                            myChart.hideLoading();
-                        });
-					}else{
-                        console.error(res.data.message);
-                    }
-				},(err)=>{
-					console.log(err);
-				})
+				 let vm = this;
+				 $.get('../../../../node_modules/echarts/map/json/china.json', function (geoJson) {
+					   echarts.registerMap('china', geoJson);
+					    vm.$http.get("/apis/userMgrt/getMemberDistribution.json").then((res)=>{
+						if(res.data.success){
+							console.log(JSON.stringify(res.data.data));
+							console.log(res.data.data.title);
+							res.data.data.title = {text: ''}
+							myChart.setOption(res.data.data)
+							myChart.hideLoading();
+						}else{
+	                        console.error(res.data.message);
+	                    }
+					},(err)=>{
+						console.log(err);
+					})
+				 });
+				
 			},
 			//会员雷达热图
 			getMembersRadar(){
@@ -205,6 +208,8 @@
 				myChart.showLoading();
 				this.$http.get("/apis/userMgrt/getMemberRadar.json").then((res)=>{
 					if(res.data.success){
+
+						console.log(JSON.stringify(res.data.data));
 						myChart.setOption(res.data.data)
 						this.$nextTick(function(){
                             myChart.hideLoading();
@@ -239,10 +244,12 @@
 				myChart.showLoading();
 				this.$http.get("/apis/userMgrt/getMemberMonthNum.json").then((res)=>{
 					if(res.data.success){
+						/*console.log(res);
+						res.data.data.title = {text: ''};
 						myChart.setOption(res.data.data)
 						this.$nextTick(function(){
                             myChart.hideLoading();
-                        });
+                        });*/ 
 					}else{
                         console.error(res.data.message);
                     }
