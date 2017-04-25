@@ -7,8 +7,7 @@
             <div class="right">
                 <el-pagination class="manage-pagination"
                                @current-change="handleCurrentChange"
-                               :current-page="pageNumber"
-                               :page-size="5"
+                               :page-size="pageSize"
                                layout="prev, next, jumper, total"
                                :total="total">
                 </el-pagination>
@@ -17,9 +16,9 @@
         <div class="table-wrap">
             <el-table :data="tableData" border style="width: 100%">
                 <el-table-column type="index" label="序号" width="80" align="center"></el-table-column>
-                <el-table-column prop="detail" label="详情" align="center" :show-overflow-tooltip="true">
+                <el-table-column prop="noticeTitle" label="标题" align="center" :show-overflow-tooltip="true">
                 </el-table-column>
-                <el-table-column prop="beginDate" label="开通日期" align="center" width="160"></el-table-column>
+                <el-table-column prop="createDate" label="发布日期" align="center" width="160" :formatter="formatDate"></el-table-column>
                 <el-table-column prop="operate" label="操作" width="130" align="center">
                     <template scope="scope">
                         <el-button size="small" @click="deleteMessage(scope.row)">删除</el-button>
@@ -28,14 +27,20 @@
             </el-table>
         </div>
 
-        <el-dialog title="" v-model="dialogFormVisible" class="addDialog" @close="closeDialog">
+        <el-dialog title="" v-model="dialogFormVisible" class="addDialog" @close="closeDialog('ruleForm')">
            <div class="content-wrap">
-               <el-input type="textarea" :rows="8" placeholder="请输入内容" v-model="publishContent">
-               </el-input>
+               <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px" class="system-form">
+                   <el-form-item label="标题" prop="noticeTitle">
+                       <el-input v-model="ruleForm.noticeTitle"></el-input>
+                   </el-form-item>
+                   <el-form-item label="内容" prop="noticeContent">
+                       <el-input type="textarea" v-model="ruleForm.noticeContent" :rows="8"></el-input>
+                   </el-form-item>
+               </el-form>
            </div>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogSubmit('publishForm')">发 布</el-button>
+                <el-button type="primary" @click="dialogSubmit('ruleForm')">发 布</el-button>
             </div>
         </el-dialog>
     </div>
@@ -55,28 +60,40 @@
                 float:  right;
             }
         }
+
+        .system-form{
+            padding-left: 20px;
+            padding-right: 20px;
+        }
     }
 </style>
 <script>
     export default{
         data(){
             return{
-                pageNumber: 15,
-                total: 22,
-                tableData: [
-                    {id: 0, detail: '尊敬的平台会员，系统将于2017年3月16日晚8：00进行全面升级，届时给您带来的不变，敬请谅解！', beginDate: '2017-11-11'},
-                    {id: 1, detail: '尊敬的平台会员，系统将于2017年3月16日晚8：00进行全面升级，届时给您带来的不变，敬请谅解！', beginDate: '2017-11-11'},
-                    {id: 2, detail: '尊敬的平台会员，系统将于2017年3月16日晚8：00进行全面升级，届时给您带来的不变，敬请谅解！', beginDate: '2017-11-11'},
-                    {id: 3, detail: '尊敬的平台会员，系统将于2017年3月16日晚8：00进行全面升级，届时给您带来的不变，敬请谅解！', beginDate: '2017-11-11'},
-                    {id: 4, detail: '尊敬的平台会员，系统将于2017年3月16日晚8：00进行全面升级，届时给您带来的不变，敬请谅解！', beginDate: '2017-11-11'},
-                ],
+                pageNumber: 0,
+                pageSize: 10,
+                total: 0,
+                tableData: [],
                 dialogFormVisible: false,
-                publishContent: '',
+                ruleForm: {
+                    noticeTitle: '',
+                    noticeContent: ''
+                },
+                rules: {
+                    noticeTitle: [
+                        { required: true, message: '请输入通知标题', trigger: 'blur'}
+                    ],
+                    noticeContent: [
+                        { required: true, message: '请输入通知内容', trigger: 'blur'}
+                    ]
+                }
             }
         },
         methods:{
-            handleCurrentChange(){
-
+            handleCurrentChange(pageNumber){
+                this.pageNumber = pageNumber - 1;
+                this.getSysNoticeList();
             },
             publishMessage(){
                 this.dialogFormVisible = true;
@@ -86,9 +103,52 @@
             },
 
             //关闭会话框时清空会话框的内容
-            closeDialog(){
-                this.publishContent = '';
+            closeDialog(formName){
+                this.$refs[formName].resetFields();
+            },
+
+            getSysNoticeList(){
+                this.$http.post('/apis/userMgrt/getSysNoticeList.json', {pageNumber: this.pageNumber, pageSize: this.pageSize}).then(
+                    function (response) {
+                        if(response.data.success){
+                            this.total = response.data.data.totalElements;
+                            this.tableData = response.data.data.content;
+                        }
+                    }
+                )
+            },
+
+            formatDate(row, col){
+                return new Date(row.createDate).format('yyyy-MM-dd');
+            },
+
+            dialogSubmit(formName){
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.$http.post('/apis/userMgrt/saveOrUpdateSysNotice.do', this.ruleForm).then(
+                            function (response) {
+                                if(response.data.success){
+                                    this.$message({
+                                        showClose: true,
+                                        message: '发布成功',
+                                        type: 'success'
+                                    });
+                                    this.dialogFormVisible = false;
+                                    this.getSysNoticeList();
+                                }else {
+                                    console.error(response.data)
+                                }
+                            }
+                        )
+                    } else {
+                        this.$message.error('发布失败，请稍后再试');
+                        return false;
+                    }
+                });
             }
+        },
+        mounted(){
+            this.getSysNoticeList();
         }
     }
 </script>
