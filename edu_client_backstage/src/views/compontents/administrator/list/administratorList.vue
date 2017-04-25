@@ -167,6 +167,9 @@
                     }, {
                         value: 7,
                         label: '添加管理'
+                    }, {
+                        value: 8,
+                        label: '系统设置'
                     }
                 ],
                 showAddBtn: false
@@ -287,6 +290,7 @@
             },
 
             saveAdmin(){
+
                 this.$http.post('/apis/userMgrt/saveOrUpdateAdmin.do', this.addFormData).then(
                     function (response) {
                         this.btnText = '确 定';
@@ -305,8 +309,8 @@
         mounted(){
             let arr = this.$parent.$parent.$children;
             for(var i = 0; i <　arr.length; i++){
-                if(arr[i].numList && typeof arr[i].numList == Array){
-                    if(arr[i].numList.indexOf('7') >= 0){
+                if(arr[i].numlist && typeof arr[i].numlist == 'object'){
+                    if(arr[i].numlist.indexOf(7) >= 0){
                         this.showAddBtn = true;
                     }
                 }
