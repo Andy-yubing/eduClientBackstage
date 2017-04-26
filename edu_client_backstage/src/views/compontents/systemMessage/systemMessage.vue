@@ -99,7 +99,19 @@
                 this.dialogFormVisible = true;
             },
             deleteMessage(data){
-                console.log(data);
+                this.$http.delete('/apis/userMgrt/deleteSysNoticeById.do/' + data.id).then(
+                    function (response) {
+                        if(response.data.success){
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.getSysNoticeList();
+                        }else {
+                            console.error(response.data)
+                        }
+                    }
+                )
             },
 
             //关闭会话框时清空会话框的内容
