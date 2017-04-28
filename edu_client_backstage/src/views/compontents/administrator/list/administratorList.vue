@@ -105,7 +105,8 @@
                 total: 0,
                 dialogFormVisible: false,
                 addFormData: {
-                    name: '', account: '', dep: '', job: '', phoneNumber: '', password: '', permissions: ''
+                    name: '', account: '', dep: '', job: '', phoneNumber: '', password: '',
+                    permissions: '', createDate: '', email: '', id: '', salt: '', type: ''
                 },
                 adminList: [],
                 rules: {
@@ -172,7 +173,8 @@
                         label: '系统设置'
                     }
                 ],
-                showAddBtn: false
+                showAddBtn: false,
+                loginName: ''
             }
         },
         methods: {
@@ -189,6 +191,10 @@
 
             resetFormData(formName){
                 this.$refs[formName].resetFields();
+                this.addFormData.id = '';
+                this.addFormData.salt = '';
+                this.addFormData.type = '';
+                this.addFormData.createDate = '';
                 this.pwdFlag = false;
             },
 
@@ -231,7 +237,6 @@
             },
 
             toDetailPage(data){
-                console.log(data);
                 this.$router.push({path: '/body/administratorInfo', query: data});
             },
 

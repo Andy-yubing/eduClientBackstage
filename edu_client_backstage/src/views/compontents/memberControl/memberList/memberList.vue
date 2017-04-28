@@ -17,10 +17,10 @@
                 </el-table-column>
                 <el-table-column prop="userPhone" label="联系方式" align="center"></el-table-column>
                 <el-table-column prop="userLevel" label="会员级别" align="center" width="110"></el-table-column>
-                <el-table-column prop="createDate" label="开通日期" align="center" :formatter="formatStartDate" width="108"></el-table-column>
-                <el-table-column prop="endDate" label="结束日期" align="center" :formatter="formatEndDate" width="108"></el-table-column>
-                <el-table-column prop="status" label="状态" align="center"  width="90px" :formatter="judgeStatus"></el-table-column>
-                <el-table-column prop="reviewer" label="审核人" align="center"></el-table-column>
+                <el-table-column prop="createDate" label="开通日期" align="center" :formatter="formatStartDate" width="110"></el-table-column>
+                <el-table-column prop="endDate" label="结束日期" align="center" :formatter="formatEndDate" width="110"></el-table-column>
+                <el-table-column prop="status" label="状态" align="center"  width="90" :formatter="judgeStatus"></el-table-column>
+                <el-table-column prop="reviewer" label="审核人" align="center" width="120"></el-table-column>
                 <el-table-column prop="operate" label="操作" width="140px" align="center">
                     <template scope="scope">
                         <el-button size="small">编辑</el-button>
