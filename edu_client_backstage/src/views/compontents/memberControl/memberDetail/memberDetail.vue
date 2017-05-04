@@ -39,7 +39,7 @@
                             <el-input v-model="memberData.userAccount"></el-input></el-col>
                         <el-col :span="2" class="text-right" :offset="2">所在省市</el-col>
                         <el-col :span="6">
-                            <el-input v-model="memberData.userPosition"></el-input></el-col>
+                            <el-input v-model="position"></el-input></el-col>
                     </el-row>
                     <div class="line"></div>
                     <el-row :gutter="20">
@@ -47,17 +47,22 @@
                         <el-col :span="6">
                             <el-input v-model="newPwd" type="password" placeholder="输入新密码"></el-input>
                         </el-col>
-                        <el-col :span="6">
+                        <el-col :span="6" :offset="1">
                             <el-input v-model="newPwdRepeat" type="password" placeholder="再次输入新密码"></el-input>
                         </el-col>
-                        <el-col :span="6">
-                            <el-button type="primary">确认</el-button>
-                            <el-button type="primary">设为初始密码</el-button>
+                        <el-col :span="6" :offset="1">
+                            <el-button type="primary" @click="modifyPwd">确认</el-button>
                         </el-col>
                     </el-row>
                 </div>
                 <div class="box-wrap">
-                    <el-table></el-table>
+                    <el-table :data="accountData" border style="width: 100%">
+                        <el-table-column prop="accountType" label="账号类型" align="center"></el-table-column>
+                        <el-table-column prop="userAccount" label="账号" align="center"></el-table-column>
+                        <el-table-column prop="realName" label="联系人" align="center"></el-table-column>
+                        <el-table-column prop="userEmail" label="邮箱" align="center"></el-table-column>
+                        <el-table-column prop="userDepartment" label="职位" align="center"></el-table-column>
+                    </el-table>
                 </div>
             </el-tab-pane>
             <el-tab-pane label="权限设置" name="limit">
@@ -256,6 +261,8 @@
     }
 </style>
 <script>
+
+    import {regionData,CodeToText} from "element-china-area-data"
     export default{
         data(){
             return{
@@ -275,31 +282,57 @@
                 createDate: '',
                 expireDate: '',
                 newPwd: '',
-                newPwdRepeat: ''
+                newPwdRepeat: '',
+                codeToText:　CodeToText,
+                position: '',
+                accountData: []
             }
         },
         methods: {
-            //todo  请求的结果和父组件传的参数内容一样
-//            getUserInfo(){
-//                this.$http.get('/apis/userMgrt/getUserById.do/' + this.memberData.id).then(
-//                    function (response) {
-//                        console.log(response.data)
-//                    }
-//                )
-//            }
+
+            modifyPwd(){
+
+            },
+
+            /**
+             * 获取账号及子账号详情  如果子账号个数为0  则不用后台获取了
+             */
+            getSubAccountInfo(){
+                let subNum = this.memberData.subAccountNum;
+                if(subNum == null){
+                    this.accountData.push(this.memberData);
+                    return ;
+                }
+
+
+            },
         },
         created(){
             this.memberData = this.$route.query;
             console.log( this.memberData)
             if(this.memberData.createDate != null && this.memberData.createDate != ''){
-                this.createDate = new Date(this.memberData.createDate).format('yyyy-MM-dd');
+                this.createDate = new Date(parseInt(this.memberData.createDate)).format('yyyy-MM-dd');
             }
+
             if(this.memberData.expireDate != null && this.memberData.expireDate != ''){
-                this.expireDate = new Date(this.memberData.expireDate).format('yyyy-MM-dd');
+                this.expireDate = new Date(parseInt(this.memberData.expireDate)).format('yyyy-MM-dd');
+            }
+            if(this.memberData.areaCode != null){
+                let area = '';
+                let areaArr = this.areaCode = this.memberData.areaCode.split(',');
+                for(var i = 0; i < areaArr.length; i++){
+                    for (var  j in this.codeToText){
+                        if(areaArr[i] == j){
+                            area = area +　this.codeToText[j];
+                            break;
+                        }
+                    }
+                }
+                this.position = area.substring(0);
             }
         },
         mounted(){
-//            this.getUserInfo();
+            this.getSubAccountInfo();
         }
     }
 </script>

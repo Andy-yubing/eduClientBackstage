@@ -139,10 +139,6 @@
 //                console.log(row.areaCode)
                 return '';
             },
-
-            handleChange(val){
-                console.log(val)
-            }
         },
         created(){
 //            this.getMemberList();

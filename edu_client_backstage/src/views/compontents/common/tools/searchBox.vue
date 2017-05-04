@@ -36,8 +36,8 @@
                 <div class="page-bar">
                     <el-pagination class="manage-pagination"
                                    @current-change="handleCurrentChange"
-                                   :current-page="pageNumber"
-                                   :page-size="5"
+                                   :current-page="pageNumber + 1"
+                                   :page-size="10"
                                    layout="prev, next, jumper, total"
                                    :total="total">
                     </el-pagination>
