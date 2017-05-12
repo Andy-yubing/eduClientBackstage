@@ -7,48 +7,51 @@
                     <el-row :gutter="20">
                         <el-col :span="2" class="text-right" :offset="2">所属高校</el-col>
                         <el-col :span="6">
-                            <el-input v-model="memberData.collegeName"></el-input>
+                            <el-input v-model="memberData.collegeName" class="edu-input"></el-input>
                         </el-col>
                         <el-col :span="2" class="text-right" :offset="2">会员级别</el-col>
                         <el-col :span="6">
-                            <el-input v-model="memberData.userLevel"></el-input>
+                            <el-input v-model="memberData.userLevel" class="edu-input"></el-input>
                         </el-col>
                     </el-row>
                     <el-row :gutter="20">
                         <el-col :span="2" class="text-right" :offset="2">注册日期</el-col>
                         <el-col :span="6">
-                            <el-input v-model="createDate"></el-input>
+                            <el-input v-model="createDate" class="edu-input"></el-input>
                         </el-col>
                         <el-col :span="2" class="text-right" :offset="2">联系人</el-col>
                         <el-col :span="6">
-                             <el-input v-model="memberData.realName"></el-input>
+                             <el-input v-model="memberData.realName" class="edu-input"></el-input>
                         </el-col>
                     </el-row>
                     <el-row :gutter="20">
                         <el-col :span="2" class="text-right" :offset="2">结束日期</el-col>
                         <el-col :span="6">
-                            <el-input v-model="expireDate"></el-input>
+                            <el-input v-model="expireDate" class="edu-input"></el-input>
                         </el-col>
                         <el-col :span="2" class="text-right" :offset="2">邮箱</el-col>
                         <el-col :span="6">
-                            <el-input v-model="memberData.userEmail"></el-input></el-col>
+                            <el-input v-model="memberData.userEmail" class="edu-input"></el-input>
+                        </el-col>
                     </el-row>
                     <el-row :gutter="20">
                         <el-col :span="2" class="text-right" :offset="2">主账号</el-col>
                         <el-col :span="6">
-                            <el-input v-model="memberData.userAccount"></el-input></el-col>
+                            <el-input v-model="memberData.userAccount" class="edu-input"></el-input>
+                        </el-col>
                         <el-col :span="2" class="text-right" :offset="2">所在省市</el-col>
                         <el-col :span="6">
-                            <el-input v-model="position"></el-input></el-col>
+                            <el-input v-model="position" class="edu-input"></el-input>
+                        </el-col>
                     </el-row>
                     <div class="line"></div>
                     <el-row :gutter="20">
                         <el-col :span="4" class="text-right">修改主账号密码</el-col>
                         <el-col :span="6">
-                            <el-input v-model="newPwd" type="password" placeholder="输入新密码"></el-input>
+                            <el-input v-model="newPwd" type="password" placeholder="输入新密码" class="edu-input"></el-input>
                         </el-col>
                         <el-col :span="6" :offset="1">
-                            <el-input v-model="newPwdRepeat" type="password" placeholder="再次输入新密码"></el-input>
+                            <el-input v-model="newPwdRepeat" type="password" placeholder="再次输入新密码" class="edu-input"></el-input>
                         </el-col>
                         <el-col :span="6" :offset="1">
                             <el-button type="primary" @click="modifyPwd">确认</el-button>
@@ -230,6 +233,10 @@
                     border: 1px solid #dfe6ec;
                     padding: 20px;
                     margin-bottom: 15px;
+                    
+                    .edu-input{
+                        display: inline;
+                    }
                 }
             }
         }
