@@ -5,26 +5,19 @@
         <div class="table-box">
             <el-table :data="userList" border style="width: 100%;">
                 <el-table-column prop="collegeName" label="高校名称" align="center" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="userAccount" label="主账号" align="center" :show-overflow-tooltip="true">
-                    <template scope="scope">
-                        <span class="pointer" @click="toDetailPage(scope.row)">
-                            {{scope.row.userAccount}}
-                        </span>
-                    </template>
-                </el-table-column>
+                <el-table-column prop="userAccount" label="主账号" align="center" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="subAccount" label="子账号" align="center" width="80px" :formatter="formatSubAccount"></el-table-column>
                 <el-table-column prop="areaCode" label="所在地" align="center" :formatter="formatAddress" :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column prop="userPhone" label="联系方式" align="center"></el-table-column>
-                <el-table-column prop="userLevel" label="会员级别" align="center" width="110"></el-table-column>
+                <el-table-column prop="userLevel" label="会员级别" align="center" width="100"></el-table-column>
                 <el-table-column prop="createDate" label="开通日期" align="center" :formatter="formatStartDate" width="110"></el-table-column>
                 <el-table-column prop="endDate" label="结束日期" align="center" :formatter="formatEndDate" width="110"></el-table-column>
                 <el-table-column prop="status" label="状态" align="center"  width="90" :formatter="judgeStatus"></el-table-column>
-                <el-table-column prop="reviewer" label="审核人" align="center" width="120"></el-table-column>
-                <el-table-column prop="operate" label="操作" width="140px" align="center">
+                <el-table-column prop="reviewer" label="审核人" align="center" width="110" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="operate" label="操作" width="80px" align="center">
                     <template scope="scope">
-                        <el-button size="small">编辑</el-button>
-                        <el-button size="small">权限</el-button>
+                        <el-button size="small" @click="toDetailPage(scope.row)">编辑</el-button>
                     </template>
                 </el-table-column>
             </el-table>

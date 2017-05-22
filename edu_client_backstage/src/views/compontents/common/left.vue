@@ -7,7 +7,7 @@
 				<el-menu-item-group>
 					<el-menu-item index="memberManage">会员列表</el-menu-item>
 					<el-menu-item index="memberCheck" v-if="numlist.indexOf(25)!=-1">审核</el-menu-item>
-					<!--<el-menu-item index="memberAdd">添加会员</el-menu-item>-->
+					<el-menu-item index="memberAdd">添加会员</el-menu-item>
 				</el-menu-item-group> 
 			</el-submenu>
 			<el-menu-item index="administrator" v-if="numlist.indexOf(6) != -1"><i class="nav-icon nav-icon3" ></i>管理员</el-menu-item>

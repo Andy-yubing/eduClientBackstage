@@ -9,7 +9,7 @@
                 {{data.title}}
             </el-col>
             <el-col :span="22" class="transition">
-                <ul :class="{'more-info-ul': data.hasMore}">
+                <ul>
                     <li v-for="(item, index1) in data.searchList" class="search-list" :key="item.id"
                         @click="searchLiClick(item, index1, data)" :class="{'search-selected': item.selected}" v-if="item.text != ''">
                         {{item.text}}
@@ -21,9 +21,6 @@
                     <li class="search-list date-span" v-for="item in data.searchList" v-else-if="item.dateBox == 'exact'">
                         <el-date-picker type="date" placeholder="选择日期" v-model="exactDate" @change="exactDateChange">
                         </el-date-picker>
-                    </li>
-                    <li class="search-list icon-list" v-if="data.hasMore == true" v-show="showFold">
-                        <i class="el-icon-arrow-down pointer" v-on:click="foldMoreInfoClick"></i>
                     </li>
                 </ul>
             </el-col>
@@ -59,7 +56,7 @@
 
         .el-row {
             .el-col {
-                height: 50px;
+                min-height: 50px;
                 border-bottom: 1px solid #d6d6d6;
                 line-height: 50px;
                 overflow: hidden;
@@ -79,15 +76,6 @@
                          background: #e6e6e6;
                          padding-left: 20px;
                      }
-                }
-                .more-info-ul {
-                    position: relative;
-
-                    .icon-list{
-                        position: absolute;
-                        right: -5px;
-                        top: 0px;
-                    }
                 }
             }
 
@@ -161,8 +149,7 @@
                             {id: 33, text: '澳门', selected: false},
                             {id: 34, text: '香港', selected: false},
                             {id: 35, text: '钓鱼岛', selected: false},
-                        ],
-                        'hasMore': true
+                        ]
                     },
                     {
                         'id': 1,
@@ -246,30 +233,6 @@
         },
         components: {},
         methods: {
-            showFoldIcon() {
-                let vm = this;
-                this.$nextTick(function () {
-                    if($('.more-info-ul').height() > 50){
-                        this.showFold = true;
-                    }
-                });
-            },
-
-            foldMoreInfoClick(){
-                if ($('.more-info-ul .el-icon-arrow-down').hasClass('el-icon-arrow-up')) {
-                    $('.el-icon-arrow-down').removeClass('el-icon-arrow-up');
-                    $('.more-info-ul').closest('div.el-row').children().each(function (index) {
-                        $(this).height(50);
-                    });
-                } else {
-                    $('.more-info-ul .el-icon-arrow-down').addClass('el-icon-arrow-up');
-                    var height = $('.more-info-ul').height();
-                    $('.more-info-ul').closest('div.el-row').children().each(function (index) {
-                        $(this).height(height);
-                    });
-                }
-            },
-
             searchLiClick (item, index1, data) {
                 for (var i  in data.searchList) {
                     data.searchList[i].selected = false;
@@ -298,21 +261,6 @@
 
                 // searchDataChange回调
                 this.$emit('searchDataChange', this.buildParam());
-            },
-
-            foldRegionClick() {
-                if ($('.search-list .el-icon-arrow-down').hasClass('el-icon-arrow-up')) {
-                    $('.el-icon-arrow-down').removeClass('el-icon-arrow-up');
-                    $('.search-list').closest('div.el-row').children().each(function (index) {
-                        $(this).height(50);
-                    });
-                } else {
-                    $('.search-list .el-icon-arrow-down').addClass('el-icon-arrow-up');
-                    var height = $('.search-list').height();
-                    $('.search-list').closest('div.el-row').children().each(function (index) {
-                        $(this).height(height);
-                    });
-                }
             },
 
             /**构建参数对象*/
@@ -451,9 +399,20 @@
             dateRangeChange(){
                 this.$emit('searchDataChange', this.buildParam());
             },
+
+            judgeHeight(){
+                this.$nextTick(function () {
+                    $('.search-box .el-row').each(function (index) {
+                        if($(this).height() > 50){
+                            let height = $(this).height();
+                            $(this).find('.el-col').height(height);
+                        }
+                    })
+                });
+            }
         },
         mounted() {
-            this.showFoldIcon();
+            this.judgeHeight();
         },
         props: ["searchNames", "total", "showKeyword"],
     }
