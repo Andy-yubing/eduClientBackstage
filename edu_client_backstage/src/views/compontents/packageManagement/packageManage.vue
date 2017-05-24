@@ -446,7 +446,6 @@
 
                 .el-input{
                     width: 40%;
-                    margin-top: 12px;
                 }
 
                 .subCountNum{

@@ -46,7 +46,7 @@
                     <div class="line"></div>
                     <el-row>
                         <el-col :span="2" :offset="11">
-                            <el-button type="primary" size="large">确认修改</el-button>
+                            <el-button type="primary" size="large" @click="updateMemberInfo">确认修改</el-button>
                         </el-col>
                     </el-row>
                 </div>
@@ -54,13 +54,13 @@
                     <el-row :gutter="20">
                         <el-col :span="3" class="text-right" :offset="1">修改主账号密码</el-col>
                         <el-col :span="7">
-                            <el-input type="password"></el-input>
+                            <el-input type="password" placeholder="输入新密码" v-model="newPwd"></el-input>
                         </el-col>
                         <el-col :span="7">
-                            <el-input type="password"></el-input>
+                            <el-input type="password" placeholder="再次输入新密码" v-model="newPwd1"></el-input>
                         </el-col>
                         <el-col :span="6">
-                            <el-button type="primary">确认修改</el-button>
+                            <el-button type="primary" @click="verifyPwd()">确认</el-button>
                         </el-col>
                     </el-row>
                 </div>
@@ -369,7 +369,7 @@
                 createDate: '',
                 expireDate: '',
                 newPwd: '',
-                newPwdRepeat: '',
+                newPwd1: '',
                 codeToText:　CodeToText,
                 position: '',
                 accountData: [
@@ -417,13 +417,62 @@
 
             },
 
+            updateMemberInfo(){
+
+            },
+
             collegeNumChange(type){
 
+            },
+
+            verifyPwd(){
+                if(this.newPwd == ''){
+                    this.$message.error('请输入新密码');
+                    return ;
+                }else if(this.newPwd.length < 6 || this.newPwd.length > 16){
+                    this.$message.error('密码长度在6-16个字符');
+                    return ;
+                }
+                if(this.newPwd1 == ''){
+                    this.$message.error('请再次输入密码');
+                    return ;
+                }
+                if(this.newPwd != this.newPwd1){
+                    this.$message.error('两次输入密码不一致');
+                    return ;
+                }
+
+                this.$http.post('/apis/security/generateKey.do').then(
+                    (response) => {
+                        if (response.data.success) {
+                            let exponent = response.data.data.publicKeyExponent;
+                            let modulus = response.data.data.publicKeyModulus;
+                            RSAUtils.setMaxDigits(200);
+                            let key = new RSAUtils.getKeyPair(exponent, "", modulus);
+                            //新密码
+                            let password =  this.newPwd;
+                            let encrypedNewPwd = RSAUtils.encryptedString(key,password);
+                            let param = {
+                                password: encrypedNewPwd,
+                                userId: this.memberData.id
+                            }
+
+                            this.updatePwd(param);
+                        } else {
+                            console.error(response.data.msg);
+                            return false;
+                        }
+                    }
+                )
+            },
+
+            updatePwd(param){
+                console.log(param)
             }
         },
         created(){
             this.memberData = this.$route.query;
-            console.log( this.memberData)
+
             if(this.memberData.createDate != null && this.memberData.createDate != ''){
                 this.createDate = new Date(parseInt(this.memberData.createDate)).format('yyyy-MM-dd');
             }
