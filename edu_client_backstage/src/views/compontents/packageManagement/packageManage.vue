@@ -422,7 +422,7 @@
         margin: 20px;
 
         .el-row{
-            line-height: 50px;
+            line-height: 60px;
 
             &.el-row:not(:first-child){
                 .el-col{
@@ -438,9 +438,7 @@
              }
 
             .el-col{
-                height: 50px;
-                padding-top: 7px;
-                padding-bottom: 7px;
+                height: 60px;
 
                 &.el-col:not(:first-child){
                      border-bottom: 1px solid #d1dbe5;
@@ -448,6 +446,7 @@
 
                 .el-input{
                     width: 40%;
+                    margin-top: 12px;
                 }
 
                 .subCountNum{
