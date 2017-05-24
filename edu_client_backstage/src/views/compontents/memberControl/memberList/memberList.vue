@@ -15,9 +15,10 @@
                 <el-table-column prop="endDate" label="结束日期" align="center" :formatter="formatEndDate" width="110"></el-table-column>
                 <el-table-column prop="status" label="状态" align="center"  width="90" :formatter="judgeStatus"></el-table-column>
                 <el-table-column prop="reviewer" label="审核人" align="center" width="110" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="operate" label="操作" width="80px" align="center">
+                <el-table-column prop="operate" label="操作" width="140" align="center">
                     <template scope="scope">
                         <el-button size="small" @click="toDetailPage(scope.row)">编辑</el-button>
+                        <el-button size="small">套餐</el-button>
                     </template>
                 </el-table-column>
             </el-table>

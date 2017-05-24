@@ -3,62 +3,71 @@
         <el-tabs v-model="activeName">
             <el-tab-pane label="会员资料" name="detail">
                 <div class="info-wrap">
-                    <div class="title">{{memberData.collegeName}}</div>
-                    <el-row :gutter="20">
+                    <el-row :gutter="20" align="middle">
                         <el-col :span="2" class="text-right" :offset="2">所属高校</el-col>
                         <el-col :span="6">
                             <el-input v-model="memberData.collegeName" class="edu-input"></el-input>
                         </el-col>
-                        <el-col :span="2" class="text-right" :offset="2">会员级别</el-col>
+                        <el-col :span="2" class="text-right" :offset="2">所选套餐</el-col>
                         <el-col :span="6">
-                            <el-input v-model="memberData.userLevel" class="edu-input"></el-input>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="20">
-                        <el-col :span="2" class="text-right" :offset="2">注册日期</el-col>
-                        <el-col :span="6">
-                            <el-input v-model="createDate" class="edu-input"></el-input>
-                        </el-col>
-                        <el-col :span="2" class="text-right" :offset="2">联系人</el-col>
-                        <el-col :span="6">
-                             <el-input v-model="memberData.realName" class="edu-input"></el-input>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="20">
-                        <el-col :span="2" class="text-right" :offset="2">结束日期</el-col>
-                        <el-col :span="6">
-                            <el-input v-model="expireDate" class="edu-input"></el-input>
-                        </el-col>
-                        <el-col :span="2" class="text-right" :offset="2">邮箱</el-col>
-                        <el-col :span="6">
-                            <el-input v-model="memberData.userEmail" class="edu-input"></el-input>
+                            <el-input v-model="memberData.userLevel" class="edu-input" :disabled="true"></el-input>
                         </el-col>
                     </el-row>
                     <el-row :gutter="20">
                         <el-col :span="2" class="text-right" :offset="2">主账号</el-col>
                         <el-col :span="6">
-                            <el-input v-model="memberData.userAccount" class="edu-input"></el-input>
+                            <el-input v-model="memberData.userAccount" class="edu-input" :disabled="true"></el-input>
                         </el-col>
-                        <el-col :span="2" class="text-right" :offset="2">所在省市</el-col>
+                        <el-col :span="2" class="text-right" :offset="2">联系人</el-col>
                         <el-col :span="6">
-                            <el-input v-model="position" class="edu-input"></el-input>
+                            <el-input v-model="memberData.realName" class="edu-input"></el-input>
+                        </el-col>
+                    </el-row>
+                    <el-row :gutter="20">
+                        <el-col :span="2" class="text-right" :offset="2">注册日期</el-col>
+                        <el-col :span="6">
+                            <el-input v-model="createDate" class="edu-input" :disabled="true"></el-input>
+                        </el-col>
+                        <el-col :span="2" class="text-right" :offset="2">手机号</el-col>
+                        <el-col :span="6">
+                             <el-input v-model="memberData.userPhone" class="edu-input"></el-input>
+                        </el-col>
+                    </el-row>
+                    <el-row :gutter="20">
+                        <el-col :span="2" class="text-right" :offset="2">
+                            套餐周期
+                        </el-col>
+                        <el-col :span="6"><el-input :disabled="true"></el-input></el-col>
+                        <el-col :span="2" class="text-right" :offset="2">邮箱</el-col>
+                        <el-col :span="6">
+                            <el-input v-model="memberData.userEmail"></el-input>
                         </el-col>
                     </el-row>
                     <div class="line"></div>
+                    <el-row>
+                        <el-col :span="2" :offset="11">
+                            <el-button type="primary" size="large">确认修改</el-button>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="pwd-wrap">
                     <el-row :gutter="20">
-                        <el-col :span="4" class="text-right">修改主账号密码</el-col>
+                        <el-col :span="3" class="text-right" :offset="1">修改主账号密码</el-col>
+                        <el-col :span="7">
+                            <el-input type="password"></el-input>
+                        </el-col>
+                        <el-col :span="7">
+                            <el-input type="password"></el-input>
+                        </el-col>
                         <el-col :span="6">
-                            <el-input v-model="newPwd" type="password" placeholder="输入新密码" class="edu-input"></el-input>
-                        </el-col>
-                        <el-col :span="6" :offset="1">
-                            <el-input v-model="newPwdRepeat" type="password" placeholder="再次输入新密码" class="edu-input"></el-input>
-                        </el-col>
-                        <el-col :span="6" :offset="1">
-                            <el-button type="primary" @click="modifyPwd">确认</el-button>
+                            <el-button type="primary">确认修改</el-button>
                         </el-col>
                     </el-row>
                 </div>
                 <div class="box-wrap">
+                    <div class="title">
+                        <strong>子账号</strong>
+                    </div>
                     <el-table :data="accountData" border style="width: 100%">
                         <el-table-column prop="accountType" label="账号类型" align="center"></el-table-column>
                         <el-table-column prop="userAccount" label="账号" align="center"></el-table-column>
@@ -67,49 +76,56 @@
                         <el-table-column prop="userDepartment" label="职位" align="center"></el-table-column>
                     </el-table>
                 </div>
-            </el-tab-pane>
-            <el-tab-pane label="权限设置" name="limit">
-                <el-card class="control-card no-padding">
-                    <div class="title" slot="header">
-                        清华大学
+                <div class="box-wrap">
+                    <div class="title">
+                        <strong>套餐记录</strong>
                     </div>
+                    <el-table :data="packageDate" border style="width: 100%">
+                        <el-table-column prop="packageType" label="购买套餐" align="center"></el-table-column>
+                        <el-table-column prop="createDate" label="购买时间" align="center"></el-table-column>
+                        <el-table-column prop="expireDate" label="到期时间" align="center"></el-table-column>
+                        <el-table-column prop="money" label="套餐金额" align="center"></el-table-column>
+                        <el-table-column prop="packageStatus" label="套餐状态" align="center"></el-table-column>
+                        <el-table-column prop="name" label="套餐负责人" align="center"></el-table-column>
+                    </el-table>
+                </div>
+                <div class="log-wrap">
+                    <div class="title"><strong>操作日志</strong></div>
+                </div>
+            </el-tab-pane>
+            <el-tab-pane label="套餐设置" name="limit">
+                <div class="package-wrap">
                     <el-row class="text-center">
-                        <el-col :span="4" class="border-bottom">主账号</el-col>
-                        <el-col :span="10" class="border-bottom">QH101101</el-col>
-                        <el-col :span="10" class="border-bottom">
-                            <el-switch v-model="mainCountSwitch">
-                            </el-switch>
-                        </el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4" class="border-bottom">子账户数量</el-col>
-                        <el-col :span="10" class="border-bottom">
-                            <!--<el-input-number v-model="subCountNum" :min="1" :max="20"></el-input-number>-->
-                            <el-button type="primary" icon="minus" @click="subCountNumChange('minus')"></el-button>
-                            <el-input v-model="subCountNum" class="subCountNum"></el-input>
-                            <el-button type="primary" icon="plus" @click="subCountNumChange('plus')"></el-button>
-                        </el-col>
-                        <el-col :span="10" class="border-bottom">
-                            <el-switch v-model="subCountSwitch"></el-switch>
-                        </el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4" class="border-bottom">会员级别</el-col>
+                        <el-col :span="4" class="border-bottom">会员套餐</el-col>
                         <el-col :span="10" class="border-bottom">
                             <el-select v-model="memberLevel" placeholder="请选择">
                                 <el-option v-for="item in levelOpt" :label="item.label" :value="item.value">
                                 </el-option>
                             </el-select>
                         </el-col>
-                        <el-col :span="10" class="border-bottom">&nbsp;</el-col>
+                        <el-col :span="10" class="border-bottom">
+                            &nbsp;
+                        </el-col>
                     </el-row>
                     <el-row class="text-center">
-                        <el-col :span="4" class="border-bottom">期限</el-col>
+                        <el-col :span="4" class="border-bottom">套餐周期</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-date-picker v-model="timeLimit" type="daterange" placeholder="选择日期范围" range-separator=" 至 ">
+                            <el-date-picker
+                                    v-model="packageStartDate"
+                                    type="date"
+                                    placeholder="选择开始日期"
+                                    :picker-options="pickerOptions0">
                             </el-date-picker>
                         </el-col>
-                        <el-col :span="10" class="border-bottom">&nbsp;</el-col>
+                        <el-col :span="4" class="border-bottom">
+                            <el-date-picker
+                                    v-model="packageEndDate"
+                                    type="date"
+                                    placeholder="选择结束日期"
+                                    :picker-options="pickerOptions1">
+                            </el-date-picker>
+                        </el-col>
+                        <el-col :span="6" class="border-bottom">&nbsp;</el-col>
                     </el-row>
                     <el-row class="text-center">
                         <el-col :span="4">&nbsp;</el-col>
@@ -150,7 +166,7 @@
                         <el-col :span="10" class="border-bottom">&nbsp;</el-col>
                     </el-row>
                     <el-row class="text-center">
-                        <el-col :span="4">权限</el-col>
+                        <el-col :span="4">套餐详情</el-col>
                         <el-col :span="10">行业动态</el-col>
                         <el-col :span="10">
                             <el-switch></el-switch>
@@ -190,13 +206,56 @@
                         <el-col :span="10" class="border-bottom">&nbsp;</el-col>
                     </el-row>
                     <el-row class="text-center">
-                        <el-col :span="4">&nbsp;</el-col>
-                        <el-col :span="10">两微监管</el-col>
-                        <el-col :span="10">
+                        <el-col :span="4" class="border-bottom">&nbsp;</el-col>
+                        <el-col :span="10" class="border-bottom">两微监管</el-col>
+                        <el-col :span="10" class="border-bottom">
                             <el-switch></el-switch>
                         </el-col>
                     </el-row>
-                </el-card>
+                    <el-row class="text-center">
+                        <el-col :span="4" class="border-bottom">可关注高校</el-col>
+                        <el-col :span="10" class="border-bottom">
+                            <el-button type="primary" icon="minus" @click="collegeNumChange('minus')"></el-button>
+                            <el-input v-model="collegeNum" class="numInput"></el-input>
+                            <el-button type="primary" icon="plus" @click="collegeNumChange('plus')"></el-button>
+                        </el-col>
+                        <el-col :span="10" class="border-bottom">
+                            &nbsp;
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4" class="border-bottom">可关注人物</el-col>
+                        <el-col :span="10" class="border-bottom">
+                            <el-button type="primary" icon="minus" @click="collegeNumChange('minus')"></el-button>
+                            <el-input v-model="collegeNum" class="numInput"></el-input>
+                            <el-button type="primary" icon="plus" @click="collegeNumChange('plus')"></el-button>
+                        </el-col>
+                        <el-col :span="10" class="border-bottom">
+                            &nbsp;
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4" class="border-bottom">子账号数量</el-col>
+                        <el-col :span="10" class="border-bottom">
+                            <el-button type="primary" icon="minus" @click="collegeNumChange('minus')"></el-button>
+                            <el-input v-model="collegeNum" class="numInput"></el-input>
+                            <el-button type="primary" icon="plus" @click="collegeNumChange('plus')"></el-button>
+                        </el-col>
+                        <el-col :span="10" class="border-bottom">
+                            &nbsp;
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4" class="border-bottom">套餐价格</el-col>
+                        <el-col :span="20" class="border-bottom">
+                           10000元
+                        </el-col>
+                    </el-row>
+
+                    <div class="btn-wrap">
+                        <el-button type="primary">确定</el-button>
+                    </div>
+                </div>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -204,23 +263,11 @@
 <style lang="scss" scoped>
     .memberDetail{
 
-        .el-row{
-            height: 50px;
-            line-height: 50px;
-        }
-
         .line{
             width: 100%;
             height: 1px;
             border-top: 1px solid #dfe6ec;
             margin: 20px auto;
-        }
-
-        .pwd-box{
-            height: 80px;
-            line-height: 80px;
-            margin-top: 20px;
-            border-top: 1px solid #dfe6ec;
         }
 
         .el-tabs{
@@ -233,18 +280,42 @@
                     border: 1px solid #dfe6ec;
                     padding: 20px;
                     margin-bottom: 15px;
-                    
-                    .edu-input{
-                        display: inline;
+
+                    .el-row{
+                        line-height: 36px;
+                        padding: 10px;
+                    }
+                }
+
+                .pwd-wrap{
+                    border: 1px solid #dfe6ec;
+                    height: 80px;
+
+                    .el-row{
+                        line-height: 36px;
+                        padding: 10px;
+                    }
+
+                    .el-col{
+                        margin: 15px auto;
+                    }
+                }
+
+                .box-wrap{
+                    margin: 15px auto;
+
+                    .title{
+                        margin-bottom: 10px;
                     }
                 }
             }
         }
 
-        .el-card.control-card{
+        .package-wrap{
+            border: 1px solid #dfe6ec;
 
             .el-row{
-                line-height: 60px;
+                line-height: 50px;
 
                 .el-col-4{
                     border-right: 1px solid #d1dbe5;
@@ -259,12 +330,22 @@
                 }
 
                 .el-col{
-                    .subCountNum{
+                    padding-top: 7px;
+                    padding-bottom: 7px;
+
+                    .numInput{
                         width: 100px;
                     }
                 }
             }
+
+            .btn-wrap{
+                padding: 10px;
+                text-align: center;
+            }
         }
+
+
     }
 </style>
 <script>
@@ -278,7 +359,6 @@
                 subCountNum: 1,
                 subCountSwitch: true,
                 levelOpt: [
-                    {value:　'试用', label: '试用'},
                     {value:　'A级', label: 'A级'},
                     {value:　'B级', label: 'B级'},
                     {value:　'C级', label: 'C级'},
@@ -292,7 +372,30 @@
                 newPwdRepeat: '',
                 codeToText:　CodeToText,
                 position: '',
-                accountData: []
+                accountData: [
+                    {accountType: '主账号', userAccount: 'b2017050505', realName: 'lifei', userEmail: 'lifei@123.com', userDepartment: '叫兽'},
+                    {accountType: '子账号', userAccount: 'b2017050505', realName: 'lifei', userEmail: 'lifei@123.com', userDepartment: '叫兽'},
+                    {accountType: '子账号', userAccount: 'b2017050505', realName: 'lifei', userEmail: 'lifei@123.com', userDepartment: '叫兽'},
+                    {accountType: '子账号', userAccount: 'b2017050505', realName: 'lifei', userEmail: 'lifei@123.com', userDepartment: '叫兽'},
+                ],
+                packageDate: [
+                    {packageType: 'C', createDate: '2017-05-05', expireDate: '2018-05-05', money: 777, packageStatus: '过期', name: '李四'},
+                    {packageType: 'B', createDate: '2017-05-05', expireDate: '2018-05-05', money: 777, packageStatus: '过期', name: '张三'},
+                    {packageType: 'C', createDate: '2017-05-05', expireDate: '2018-05-05', money: 777, packageStatus: '使用', name: '王五'},
+                ],
+                packageEndDate: '',
+                packageStartDate: '',
+                pickerOptions0: {
+                    disabledDate(time) {
+                        return time.getTime() < Date.now() - 8.64e7;
+                    }
+                },
+                pickerOptions1: {
+                    disabledDate(time) {
+                        return time.getTime() < Date.now() - 8.64e7;
+                    }
+                },
+                collegeNum: 0
             }
         },
         methods: {
@@ -313,6 +416,10 @@
 
 
             },
+
+            collegeNumChange(type){
+
+            }
         },
         created(){
             this.memberData = this.$route.query;

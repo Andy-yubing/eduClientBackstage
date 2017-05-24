@@ -422,8 +422,7 @@
         margin: 20px;
 
         .el-row{
-            height: 60px;
-            line-height: 60px;
+            line-height: 50px;
 
             &.el-row:not(:first-child){
                 .el-col{
@@ -439,6 +438,9 @@
              }
 
             .el-col{
+                height: 50px;
+                padding-top: 7px;
+                padding-bottom: 7px;
 
                 &.el-col:not(:first-child){
                      border-bottom: 1px solid #d1dbe5;
