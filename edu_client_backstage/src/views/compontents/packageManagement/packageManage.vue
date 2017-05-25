@@ -3,26 +3,7 @@
         <el-card class="control-card no-padding">
             <div class="title" slot="header">套餐管理</div>
             <div class="content">
-                <el-row class="text-center">
-                    <el-col :span="3">子账户数量</el-col>
-                    <el-col :span="4">
-                        <el-select v-model="memberLevel" placeholder="请选择">
-                            <el-option v-for="item in levelOpt" :label="item.label" :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-col>
-                    <el-col :span="5">
-                        <el-button type="primary" icon="minus" @click="subCountNumChange('minus')"></el-button>
-                        <el-input v-model="subCountNum" class="subCountNum"></el-input>
-                        <el-button type="primary" icon="plus" @click="subCountNumChange('plus')"></el-button>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-switch v-model="subCountSwitch">
-                        </el-switch>
-                    </el-col>
-                    <el-col :span="9">&nbsp;</el-col>
-                </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">&nbsp;</el-col>
                     <el-col :span="4">试用会员</el-col>
@@ -33,7 +14,7 @@
                         单品价格
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3"> &nbsp;</el-col>
                     <el-col :span="2" class="blue">舆情管理</el-col>
                     <el-col :span="4">
@@ -52,7 +33,7 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">全景舆情</el-col>
                     <el-col :span="4">
@@ -71,7 +52,7 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">舆情监测</el-col>
                     <el-col :span="4">
@@ -90,7 +71,7 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">舆情预警</el-col>
                     <el-col :span="4">
@@ -109,7 +90,7 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">事件监测</el-col>
                     <el-col :span="4">
@@ -128,7 +109,7 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">舆情报告</el-col>
                     <el-col :span="4">
@@ -147,7 +128,7 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3"> 权限</el-col>
                     <el-col :span="2" class="blue">情报内参</el-col>
                     <el-col :span="4">
@@ -166,7 +147,7 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">行业动态</el-col>
                     <el-col :span="4">
@@ -185,7 +166,7 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">人物动态</el-col>
                     <el-col :span="4">
@@ -204,7 +185,7 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">两微洞察</el-col>
                     <el-col :span="4">
@@ -223,7 +204,7 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">媒体声量</el-col>
                     <el-col :span="4">
@@ -242,7 +223,7 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">内参报告</el-col>
                     <el-col :span="4">
@@ -261,7 +242,7 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2" class="blue">业务平台</el-col>
                     <el-col :span="4">
@@ -280,7 +261,7 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">两微监管</el-col>
                     <el-col :span="4">
@@ -299,45 +280,21 @@
                         <el-input></el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">微信监测</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center">
+
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">可关注高校</el-col>
                     <el-col :span="4">
                         不限
                     </el-col>
                     <el-col :span="4">
-                        <el-button icon="plus" type="primary" size="small"></el-button>
-                        <el-input class="number"></el-input>
-                        <el-button icon="minus" type="primary" size="small"></el-button>
+                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="4">
-                        <el-button icon="plus" type="primary" size="small"></el-button>
-                        <el-input class="number"></el-input>
-                        <el-button icon="minus" type="primary" size="small"></el-button>
+                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="4">
-                        <el-button icon="plus" type="primary" size="small"></el-button>
-                        <el-input class="number"></el-input>
-                        <el-button icon="minus" type="primary" size="small"></el-button>
+                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="3">
                         <el-input>
@@ -345,26 +302,20 @@
                         </el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">可关注人物</el-col>
                     <el-col :span="4">
                         不限
                     </el-col>
                     <el-col :span="4">
-                        <el-button icon="plus" type="primary" size="small"></el-button>
-                        <el-input class="number"></el-input>
-                        <el-button icon="minus" type="primary" size="small"></el-button>
+                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="4">
-                        <el-button icon="plus" type="primary" size="small"></el-button>
-                        <el-input class="number"></el-input>
-                        <el-button icon="minus" type="primary" size="small"></el-button>
+                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="4">
-                        <el-button icon="plus" type="primary" size="small"></el-button>
-                        <el-input class="number"></el-input>
-                        <el-button icon="minus" type="primary" size="small"></el-button>
+                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="3">
                         <el-input>
@@ -372,7 +323,7 @@
                         </el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">期限</el-col>
                     <el-col :span="4"><el-input></el-input></el-col>
@@ -381,7 +332,7 @@
                     <el-col :span="4">&nbsp;</el-col>
                     <el-col :span="3">&nbsp;</el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">价格</el-col>
                     <el-col :span="4">6个月</el-col>
@@ -389,7 +340,7 @@
                     <el-col :span="4"><el-input></el-input></el-col>
                     <el-col :span="7">全单</el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">&nbsp;</el-col>
                     <el-col :span="4">一年</el-col>
@@ -397,7 +348,7 @@
                     <el-col :span="4"><el-input></el-input></el-col>
                     <el-col :span="7">9.8折</el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">&nbsp;</el-col>
                     <el-col :span="4">两年</el-col>
@@ -405,7 +356,7 @@
                     <el-col :span="4"><el-input></el-input></el-col>
                     <el-col :span="7">9折</el-col>
                 </el-row>
-                <el-row class="text-center">
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">&nbsp;</el-col>
                     <el-col :span="4">三年</el-col>
@@ -445,11 +396,15 @@
                  }
 
                 .el-input{
-                    width: 40%;
+                    width: 60%;
                 }
 
                 .subCountNum{
                     width: 100px;
+                }
+
+                .mt7{
+                    margin-top: 12px;
                 }
             }
     
@@ -471,11 +426,12 @@
                 ],
                 memberLevel: 'C套餐',
                 subCountNum: 6,
-                subCountSwitch: false
+                subCountSwitch: false,
+                collegeNum: 0
             }
         },
         methods: {
-            subCountNumChange(type){
+            collegeNumChange(type){
 
             }
         }

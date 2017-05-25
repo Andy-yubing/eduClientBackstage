@@ -17,8 +17,8 @@
                 <el-table-column prop="reviewer" label="审核人" align="center" width="110" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="operate" label="操作" width="140" align="center">
                     <template scope="scope">
-                        <el-button size="small" @click="toDetailPage(scope.row)">编辑</el-button>
-                        <el-button size="small">套餐</el-button>
+                        <el-button size="small" @click="toDetailPage(scope.row, 'edit')">编辑</el-button>
+                        <el-button size="small" @click="toDetailPage(scope.row, 'package')">套餐</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -112,8 +112,8 @@
                 }
             },
 
-            toDetailPage(data){
-                this.$router.push({path: '/body/memberDetail', query: data});
+            toDetailPage(data, source){
+                this.$router.push({path: '/body/memberDetail', query: {data: data, source: source}});
             },
 
             formatAddress(row, col){
