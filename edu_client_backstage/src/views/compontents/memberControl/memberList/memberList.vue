@@ -6,15 +6,11 @@
             <el-table :data="userList" border style="width: 100%;">
                 <el-table-column prop="collegeName" label="高校名称" align="center" :show-overflow-tooltip="true"></el-table-column>
                 <el-table-column prop="userAccount" label="主账号" align="center" :show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="subAccount" label="子账号" align="center" width="80px" :formatter="formatSubAccount"></el-table-column>
-                <el-table-column prop="areaCode" label="所在地" align="center" :formatter="formatAddress" :show-overflow-tooltip="true">
-                </el-table-column>
-                <el-table-column prop="userPhone" label="联系方式" align="center"></el-table-column>
-                <el-table-column prop="userLevel" label="会员级别" align="center" width="100"></el-table-column>
-                <el-table-column prop="createDate" label="开通日期" align="center" :formatter="formatStartDate" width="110"></el-table-column>
-                <el-table-column prop="endDate" label="结束日期" align="center" :formatter="formatEndDate" width="110"></el-table-column>
-                <el-table-column prop="status" label="状态" align="center"  width="90" :formatter="judgeStatus"></el-table-column>
-                <el-table-column prop="reviewer" label="审核人" align="center" width="110" :show-overflow-tooltip="true"></el-table-column>
+                <el-table-column prop="subAccount" label="子账号" align="center" width="80" :formatter="formatSubAccount"></el-table-column>
+                <el-table-column prop="userLevel" label="套餐类型" align="center" width="110" :formatter="formatPackageType"></el-table-column>
+                <el-table-column prop="createDate" label="套餐开通日期" align="center" :formatter="formatEffectDate"></el-table-column>
+                <el-table-column prop="endDate" label="套餐结束日期" align="center" :formatter="formatEndDate"></el-table-column>
+                <el-table-column prop="status" label="套餐状态" align="center"  width="110" :formatter="judgeStatus"></el-table-column>
                 <el-table-column prop="operate" label="操作" width="140" align="center">
                     <template scope="scope">
                         <el-button size="small" @click="toDetailPage(scope.row, 'edit')">编辑</el-button>
@@ -67,7 +63,6 @@
             getMemberList(){
                 this.$http.post('/apis/userMgrt/getUserMgrtList.json', this.param).then(
                     (response) => {
-//                        console.log(response.data.data)
                         if(response.data.success){
                             this.loading = false;
                             this.userList = response.data.data.content;
@@ -79,8 +74,11 @@
                 );
             },
 
-            formatStartDate(row, col){
-                return new Date(row.createDate).format('yyyy-MM-dd');
+            formatEffectDate(row, col){
+                if(row.effectDate){
+                    return new Date(row.effectDate).format('yyyy-MM-dd');
+                }
+                return '';
             },
 
             formatEndDate(row, col){
@@ -91,21 +89,27 @@
             },
 
             judgeStatus(row, col){
-//                console.log(row.)
                 let endDate = row.expireDate;
                 let today = new Date().format('yyyy-MM-dd 00:00:00');
                 let todaySecond = new Date(today).getTime();
                 if(endDate < todaySecond){
                     return '已过期';
-                }else if((endDate - todaySecond) <= 24 * 3600 * 1000 * 5){
+                }else if((endDate - todaySecond) <= 24 * 3600 * 1000 * 7){
                     return '即将到期';
                 }else {
                     return '未过期';
                 }
             },
 
+            formatPackageType(row, col){
+                if(row.userLevel && row.userLevel.length > 1){
+                    return row.userLevel.substring(0, 1) + "套餐";
+                }
+                return '';
+            },
+
             formatSubAccount(row, col){
-                if(row.subAccountNum == '' || row.subAccountNum == null || row.subAccountNum == undefined){
+                if(!row.subAccountNum){
                     return '0个';
                 }else {
                     return row.subAccountNum + '个';
@@ -113,6 +117,8 @@
             },
 
             toDetailPage(data, source){
+                //用户头像 用不上 还占url长度  所以置空
+                data.userImg = '';
                 this.$router.push({path: '/body/memberDetail', query: {data: data, source: source}});
             },
 
@@ -130,7 +136,6 @@
                     }
                     return area.substring(0);
                 }
-//                console.log(row.areaCode)
                 return '';
             },
         },

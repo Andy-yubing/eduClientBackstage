@@ -319,6 +319,11 @@ s, i, em {
                 }
             }
         }
+
+        .el-switch.is-disabled .el-switch__input:checked+.el-switch__core{
+            border-color: #20a0ff !important;
+            background-color: #20a0ff !important;
+        }
     }
 
 }

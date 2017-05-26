@@ -157,7 +157,6 @@
                         'title': '会员级别:',
                         'searchList': [
                             {id: 0, text: '全部', selected: true, showCharacter: false},
-                            {id: 1, text: '试用会员', selected: false, showCharacter: false},
                             {id: 2, text: 'A级会员', selected: false, showCharacter: false},
                             {id: 3, text: 'B级会员', selected: false, showCharacter: false},
                             {id: 4, text: 'C级会员', selected: false, showCharacter: false}

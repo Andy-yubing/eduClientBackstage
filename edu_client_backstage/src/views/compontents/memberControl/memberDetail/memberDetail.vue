@@ -37,7 +37,9 @@
                         <el-col :span="2" class="text-right" :offset="2">
                             套餐周期
                         </el-col>
-                        <el-col :span="6"><el-input :disabled="true"></el-input></el-col>
+                        <el-col :span="6">
+                            <el-input :disabled="true" v-model="packageRange"></el-input>
+                        </el-col>
                         <el-col :span="2" class="text-right" :offset="2">邮箱</el-col>
                         <el-col :span="6">
                             <el-input v-model="memberData.userEmail"></el-input>
@@ -84,12 +86,27 @@
                         <el-table-column prop="createDate" label="购买时间" align="center" :formatter="formatCreateDate"></el-table-column>
                         <el-table-column prop="expireDate" label="到期时间" align="center" :formatter="formatExpireDate"></el-table-column>
                         <el-table-column prop="totalPrice" label="套餐金额" align="center"></el-table-column>
-                        <el-table-column prop="packageStatus" label="套餐状态" align="center"></el-table-column>
-                        <el-table-column prop="name" label="套餐负责人" align="center"></el-table-column>
+                        <el-table-column label="套餐状态" align="center">
+                            <template scope="scope">
+                                <span v-if="scope.row.packageStatus == true">
+                                    使用
+                                    &nbsp;
+                                </span>
+                                <span v-else>过期 &nbsp;</span>
+                                <el-switch v-model="scope.row.packageStatus" disabled on-color="#13ce66" off-color="#ff4949"></el-switch>
+                            </template>
+                        </el-table-column>
                     </el-table>
                 </div>
-                <div class="log-wrap">
-                    <div class="title"><strong>操作日志</strong></div>
+                <div class="box-wrap">
+                    <div class="title">
+                        <strong>操作日志</strong>
+                    </div>
+                    <el-table :data="operationData" border style="width: 100%" :resizable="false" >
+                        <el-table-column label="序号" prop="rank" align="center" width="100"></el-table-column>
+                        <el-table-column label="时间" prop="createDate" align="center"></el-table-column>
+                        <el-table-column label="IP" prop="ip" align="center"></el-table-column>
+                    </el-table>
                 </div>
             </el-tab-pane>
             <el-tab-pane label="套餐设置" name="package">
@@ -363,20 +380,15 @@
                     {value:　'C级', label: 'C级'},
                 ],
                 memberLevel: '',
-                timeLimit: '',
                 memberData:　'',
                 createDate: '',
-                expireDate: '',
                 newPwd: '',
                 newPwd1: '',
                 codeToText:　CodeToText,
                 position: '',
                 accountData: [],
-                packageData: [
-                    {packageType: 'C', createDate: '2017-05-05', expireDate: '2018-05-05', money: 777, packageStatus: '过期', name: '李四'},
-                    {packageType: 'B', createDate: '2017-05-05', expireDate: '2018-05-05', money: 777, packageStatus: '过期', name: '张三'},
-                    {packageType: 'C', createDate: '2017-05-05', expireDate: '2018-05-05', money: 777, packageStatus: '使用', name: '王五'},
-                ],
+                packageData: [],
+                operationData: [],
                 packageEndDate: '',
                 packageStartDate: '',
                 pickerOptions0: {
@@ -389,17 +401,42 @@
                         return time.getTime() < Date.now() - 8.64e7;
                     }
                 },
-                collegeNum: 0
+                collegeNum: 0,
+                packageRange: ''
             }
         },
         methods: {
 
-            verifyMemberInfo(){
-
-            },
-
             updateMemberInfo(){
+                if(!this.memberData.collegeName){
+                    this.$message.error('请填写高校名称');
+                    return ;
+                }
+                if(!this.memberData.realName){
+                    this.$message.error('请填写联系人');
+                    return ;
+                }
+                if(!this.memberData.userPhone){
+                    this.$message.error('请填写手机号');
+                    return ;
+                }
+                if(!this.memberData.userEmail){
+                    this.$message.error('请填写邮箱');
+                    return ;
+                }
 
+                this.$http.post('/apis/userMgrt/updateMemberInfo.json', this.memberData).then(
+                    function (response) {
+                        if(response.data.success){
+                            this.$message({
+                                type: 'success',
+                                message: '更新成功'
+                            });
+                        }else {
+                            this.$message.error('更新失败');
+                        }
+                    }
+                )
             },
 
             collegeNumChange(type){
@@ -495,8 +532,18 @@
                 this.$http.post('/apis/userMgrt/getPackageOrderList.json', param).then(
                     function (response) {
                         if(response.data.success){
+                            let data = response.data.data.content;
+                            if(data){
+                                for(let i = 0; i < data.length; i++){
+                                    let expireDate = data[i].expireDate;
+                                    if(new Date(expireDate).getTime() > new Date().getTime()){
+                                        data[i].packageStatus = true;
+                                    }else {
+                                        data[i].packageStatus = false;
+                                    }
+                                }
+                            }
                             this.packageData = response.data.data.content;
-                            console.log(this.packageData)
                         }else{
                             console.error('加载用户订单列表失败');
                             this.packageData = [];
@@ -515,17 +562,35 @@
             formatExpireDate(row, col){
                 return new Date(row.expireDate).format('yyyy-MM-dd');
             },
+
+            getUserOperation(){
+                let param = {
+                    userAccount: this.memberData.userAccount
+                }
+                this.$http.post('/apis/userMgrt/getUserOperation.json', param).then(
+                    function (response) {
+                        if(response.data.success){
+                            console.log(response.data.data.content)
+                        }else{
+                            console.error('加载用户日志失败');
+                        }
+                    }
+                );
+            }
         },
         created(){
             this.memberData = this.$route.query.data;
-            console.log( this.memberData)
-            if(this.memberData.createDate != null && this.memberData.createDate != ''){
+
+            if(this.memberData.createDate){
                 this.createDate = new Date(parseInt(this.memberData.createDate)).format('yyyy-MM-dd');
             }
 
-            if(this.memberData.expireDate != null && this.memberData.expireDate != ''){
-                this.expireDate = new Date(parseInt(this.memberData.expireDate)).format('yyyy-MM-dd');
+            if(this.memberData.expireDate && this.memberData.effectDate){
+                let effectDate = new Date(this.memberData.effectDate).format('yyyy-MM-dd');
+                let expireDate = new Date(this.memberData.expireDate).format('yyyy-MM-dd');
+                this.packageRange = effectDate + " 至 " + expireDate;
             }
+
             if(this.memberData.areaCode != null){
                 let area = '';
                 let areaArr = this.areaCode = this.memberData.areaCode.split(',');
@@ -543,11 +608,13 @@
         mounted(){
             this.getSubAccountList();
             this.getPackageList();
+            this.getUserOperation();
+
             this.$nextTick(function () {
-               let source = this.$route.query.source;
-               if(source == 'package'){
-                   this.activeName = 'package';
-               }
+                let source = this.$route.query.source;
+                if(source == 'package'){
+                    this.activeName = 'package';
+                };
             });
         }
     }
