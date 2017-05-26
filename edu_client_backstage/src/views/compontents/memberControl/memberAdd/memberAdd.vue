@@ -1,52 +1,177 @@
 <template>
     <div class="memberAdd">
-        <el-form :model="ruleForm" ref="ruleForm" label-width="100px" class="addMemberForm manage-form" :rules="rules" :inline="true">
-            <el-form-item label="主账号用户名" prop="userAccount">
-                <el-input v-model="ruleForm.userAccount" placeholder="高校首字母缩写+注册日期"></el-input>
-            </el-form-item>
-            <el-form-item label="联系人" prop="realName">
-                <el-input v-model="ruleForm.realName"></el-input>
-            </el-form-item>
-            <el-form-item label="手机号" prop="userPhone">
-                <el-input v-model="ruleForm.userPhone"></el-input>
-            </el-form-item>
-            <el-form-item label="所属高校" prop="collegeName">
-                <el-input v-model="ruleForm.collegeName" placeholder="请输入全称"></el-input>
-            </el-form-item>
-            <el-form-item label="职称" prop="userDepartment">
-                <el-input v-model="ruleForm.userDepartment"></el-input>
-            </el-form-item>
-            <el-form-item label="email" prop="userEmail">
-                <el-input v-model="ruleForm.userEmail"></el-input>
-            </el-form-item>
-            <el-form-item label="高校所在地" prop="position">
-                <el-cascader size="large" :options="options" v-model="ruleForm.position" @change="handleChange" class="edu-cascader">
-                </el-cascader>
-            </el-form-item>
-            <el-form-item label="密码" prop="password">
-                <el-input v-model="ruleForm.password" type="password" placeholder="系统默认初始密码为联系人手机号"></el-input>
-            </el-form-item>
+        <el-tabs v-model="activeName">
+            <el-tab-pane label="添加会员" name="add">
+                <el-form :model="ruleForm" ref="ruleForm" label-width="90px" class="addMemberForm" :rules="rules">
+                    <el-form-item label="主账号" prop="userAccount">
+                        <el-input v-model="ruleForm.userAccount" placeholder="请输入账号, 3-20位英文数字组合"></el-input>
+                    </el-form-item>
+                    <el-form-item label="联系人" prop="realName">
+                        <el-input v-model="ruleForm.realName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="手机号" prop="userPhone">
+                        <el-input v-model="ruleForm.userPhone"></el-input>
+                    </el-form-item>
+                    <el-form-item label="所属高校" prop="collegeName">
+                        <el-select filterable v-model="ruleForm.collegeName" placeholder="请选择大学名称">
+                            <el-option-group
+                                    v-for="group in options"
+                                    :key="group.label"
+                                    :label="group.label">
+                                <el-option
+                                        v-for="item in group.options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-option-group>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="职位" prop="userDepartment">
+                        <el-input v-model="ruleForm.userDepartment"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Email" prop="userEmail">
+                        <el-input v-model="ruleForm.userEmail"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div class="btn-wrap">
+                    <el-button type="primary" @click="submitForm('ruleForm')">立即开通并设置套餐</el-button>
+                </div>
+            </el-tab-pane>
+            <el-tab-pane label="套餐设置" name="package">
+                <el-card class="control-card no-padding">
+                    <div class="title" slot="header">
 
-            <div class="line"></div>
-
-            <el-form-item label="审核人" prop="verifyName">
-                <el-input v-model="ruleForm.verifyName"></el-input>
-            </el-form-item>
-            <el-form-item label="所属部门" prop="verifyDepartment">
-                <el-input v-model="ruleForm.verifyDepartment"></el-input>
-            </el-form-item>
-            <el-form-item label="电话" prop="verifyPhone">
-                <el-input v-model="ruleForm.verifyPhone"></el-input>
-            </el-form-item>
-            <el-form-item label="Email" prop="verifyEmail">
-                <el-input v-model="ruleForm.verifyEmail"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">立即开通</el-button>
-            </el-form-item>
-        </el-form>
+                    </div>
+                    <el-row class="text-center">
+                        <el-col :span="4" class="border-bottom">主账号</el-col>
+                        <el-col :span="10" class="border-bottom">QH101101</el-col>
+                        <el-col :span="10" class="border-bottom">
+                            <el-switch v-model="mainCountSwitch">
+                            </el-switch>
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4" class="border-bottom">子账户数量</el-col>
+                        <el-col :span="10" class="border-bottom">
+                            <!--<el-input-number v-model="subCountNum" :min="1" :max="20"></el-input-number>-->
+                            <el-button type="primary" icon="minus" @click="subCountNumChange('minus')"></el-button>
+                            <el-input v-model="subCountNum" class="subCountNum"></el-input>
+                            <el-button type="primary" icon="plus" @click="subCountNumChange('plus')"></el-button>
+                        </el-col>
+                        <el-col :span="10" class="border-bottom">
+                            <el-switch v-model="subCountSwitch"></el-switch>
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4" class="border-bottom">会员级别</el-col>
+                        <el-col :span="10" class="border-bottom">
+                            <el-select v-model="memberLevel" placeholder="请选择">
+                                <el-option v-for="item in levelOpt" :label="item.label" :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-col>
+                        <el-col :span="10" class="border-bottom">&nbsp;</el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4" class="border-bottom">期限</el-col>
+                        <el-col :span="10" class="border-bottom">
+                            <el-date-picker v-model="timeLimit" type="daterange" placeholder="选择日期范围" range-separator=" 至 ">
+                            </el-date-picker>
+                        </el-col>
+                        <el-col :span="10" class="border-bottom">&nbsp;</el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4">&nbsp;</el-col>
+                        <el-col :span="10" class="blue border-bottom">舆情管理</el-col>
+                        <el-col :span="10" class="border-bottom">&nbsp;</el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4">&nbsp;</el-col>
+                        <el-col :span="10">全景舆情</el-col>
+                        <el-col :span="10">
+                            <el-switch></el-switch>
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4">&nbsp;</el-col>
+                        <el-col :span="10">舆情监测</el-col>
+                        <el-col :span="10">
+                            <el-switch></el-switch>
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4">&nbsp;</el-col>
+                        <el-col :span="10">事件监测</el-col>
+                        <el-col :span="10">
+                            <el-switch></el-switch>
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4">&nbsp;</el-col>
+                        <el-col :span="10" class="border-bottom">舆情报告</el-col>
+                        <el-col :span="10" class="border-bottom">
+                            <el-switch></el-switch>
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4">&nbsp;</el-col>
+                        <el-col :span="10" class="blue border-bottom">情报内参</el-col>
+                        <el-col :span="10" class="border-bottom">&nbsp;</el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4">权限</el-col>
+                        <el-col :span="10">行业动态</el-col>
+                        <el-col :span="10">
+                            <el-switch></el-switch>
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4">&nbsp;</el-col>
+                        <el-col :span="10">人物动态</el-col>
+                        <el-col :span="10">
+                            <el-switch></el-switch>
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4">&nbsp;</el-col>
+                        <el-col :span="10">两微洞察</el-col>
+                        <el-col :span="10">
+                            <el-switch></el-switch>
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4">&nbsp;</el-col>
+                        <el-col :span="10">媒体声誉</el-col>
+                        <el-col :span="10">
+                            <el-switch></el-switch>
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4">&nbsp;</el-col>
+                        <el-col :span="10" class="border-bottom">内参报告</el-col>
+                        <el-col :span="10" class="border-bottom">
+                            <el-switch></el-switch>
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4">&nbsp;</el-col>
+                        <el-col :span="10" class="blue border-bottom">业务工具</el-col>
+                        <el-col :span="10" class="border-bottom">&nbsp;</el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4">&nbsp;</el-col>
+                        <el-col :span="10">两微监管</el-col>
+                        <el-col :span="10">
+                            <el-switch></el-switch>
+                        </el-col>
+                    </el-row>
+                </el-card>
+            </el-tab-pane>
+        </el-tabs>
     </div>
 </template>
+
 <style lang="scss" scoped>
     .memberAdd{
         margin: 20px;
@@ -54,28 +179,50 @@
         .addMemberForm{
             border: 1px solid #f0f0f0;
             font-size: 0;
-
-            .el-form-item{
-                width: calc(50% - 10px);
-            }
+            padding: 30px;
+            width: 60%;
+            margin: auto;
 
             .el-form-item:last-child{
                 width: 100%;
                 text-align: center;
-                margin-top: 20px;
+                margin-top: 22px;
             }
+        }
 
-            .line{
-                width: 100%;
-                height: 1px;
-                margin: 30px auto;
-                background: #f0f0f0;
+        .btn-wrap{
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .el-card.control-card{
+
+            .el-row{
+                line-height: 60px;
+
+                .el-col-4{
+                    border-right: 1px solid #d1dbe5;
+                }
+
+                .blue{
+                    color: #60a3ff;
+                }
+
+                .border-bottom{
+                    border-bottom: 1px solid #d1dbe5;
+                }
+
+                .el-col{
+                    .subCountNum{
+                        width: 100px;
+                    }
+                }
             }
         }
     }
 </style>
 <script>
-    import {regionData,CodeToText} from "element-china-area-data"
+    import schools from "../../../../school.json";
     export default{
         data(){
             let userPhone = (rule, value, callback) => {
@@ -89,39 +236,45 @@
                     callback();
                 }
             };
+            let userAccount = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入主账号'));
+                } else {
+                    let reg = /^[a-zA-Z\d]{3,20}$/;
+                    if (!reg.test(value)) {
+                        callback(new Error('请输入3-20位英文数字组合'));
+                    }
+                    callback();
+                }
+            };
             return{
+                activeName: 'add',
                 ruleForm: {
                     userAccount: '',
-                    userDepartment: '',
                     realName: '',
+                    userDepartment: '',
                     userEmail: '',
                     userPhone: '',
-                    position: [],
-                    college_name: '',
-                    password: '',
-                    verifyName: '',
-                    verifyDepartment: '',
-                    verifyPhone: '',
-                    verifyEmail: '',
-                    areaCode: '',
-                    area: ''
+                    collegeName: '',
                 },
                 rules: {
+                    userAccount: [
+                        {required:true, message:"请输入主账号", trigger: 'blur' },
+                        {validator: userAccount,trigger: 'blur' },
+                    ],
                     realName:[
-                        {required:true, message:"请输入联系人", trigger: 'blur' },
-                        {min:2,max:10,message: "长度在 2 到 10 个字符",trigger: 'blur' },
-                    ],
-                    collegeName:[
-                        {required:true, message:"请输入高校全称", trigger: 'blur' },
-                        {min:4,max:20,message: "长度在 4 到 20 个字符",trigger: 'blur' },
-                    ],
-                    userDepartment:[
-                        {required:true, message:"请输入职称", trigger: 'blur' },
-                        {min:2,max:10,message: "长度在 2 到 10 个字符",trigger: 'blur' },
+                        {required:true, message:"请输入联系人", trigger: 'blur' }
                     ],
                     userPhone:[
                         {required:true, message:"请输入手机号", trigger: 'blur' },
                         {validator: userPhone,trigger: 'blur' },
+                    ],
+                    collegeName:[
+                        {required:true, message:"请输入高校全称", trigger: 'change' },
+                    ],
+                    userDepartment:[
+                        {required:true, message:"请输入职称", trigger: 'blur' },
+                        {min:2,max:10,message: "长度在 2 到 10 个字符",trigger: 'blur' },
                     ],
                     userEmail:[
                         {required:true,message:"请输入邮箱",trigger: 'blur' },
@@ -139,11 +292,12 @@
                 ],
                 memberLevel: '',
                 timeLimit: '',
-                options: regionData,
+                options: schools,
             }
         },
         methods: {
-            submitForm(){
+
+            submitForm(formName){
 
             },
 
@@ -157,19 +311,6 @@
                     this.subCountNum = num +　1;
                 }
             },
-
-            handleChange(val){
-                let str = "";
-                for (var i = 0; i < val.length; i++) {
-                    if(i == val.length-1){
-                        str += val[i];
-                    }else{
-                        str += val[i] + ","
-                    }
-                }
-                this.ruleForm.areaCode = str;
-                this.ruleForm.area = CodeToText[this.ruleForm.position[0]].replace("省", "").replace("市", "");
-            }
         }
     }
 </script>

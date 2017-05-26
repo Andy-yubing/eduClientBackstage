@@ -1,7 +1,7 @@
 <template>
     <div class="check" id="check" v-loading="loading" element-loading-text="加载中……">
         <el-tabs v-model="activeName" @tab-click="handleTabsClick" id="check-tabs">
-            <el-tab-pane label="会员审核" name="memberCheck">
+            <el-tab-pane label="试用会员" name="memberCheck">
                 <div class="memberCheck">
                     <searchBox :searchNames="searchNames" @searchDataChange="searchDataChange" :total="total" :showKeyword="true"></searchBox>
                     <div class="content">
@@ -29,14 +29,13 @@
                     <searchBox :searchNames="searchNames1" @searchDataChange="searchDataChange" :total="ordersTotal" :showKeyword="false"></searchBox>
                     <div class="content">
                         <el-table :data="orderList" border style="width: 100%">
-                            <el-table-column prop="userAccount" label="账号" align="center"></el-table-column>
-                            <el-table-column prop="packageType" label="套餐类型" align="center"></el-table-column>
-                            <el-table-column prop="totalPrice" label="总金额" align="center"></el-table-column>
-                            <el-table-column prop="timeLimit" label="时间期限" align="center"></el-table-column>
-                            <el-table-column prop="phone" label="联系方式" align="center"></el-table-column>
-                            <el-table-column prop="email" label="Email" align="center"></el-table-column>
-                            <el-table-column prop="isPay" label="是否支付" align="center"></el-table-column>
-                            <el-table-column prop="submitDate" label="订单时间" :formatter="formatSubmitDate" align="center" ></el-table-column>
+                            <el-table-column prop="collegeName" label="所在高校" align="center" :show-overflow-tooltip="true"></el-table-column>
+                            <el-table-column prop="userAccount" label="账号" align="center" :show-overflow-tooltip="true"></el-table-column>
+                            <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+                            <el-table-column prop="email" label="Email" align="center" :show-overflow-tooltip="true"></el-table-column>
+                            <el-table-column prop="submitDate" label="申请日期" :formatter="formatSubmitDate" align="center" width="120"></el-table-column>
+                            <el-table-column prop="packageType" label="套餐类型" align="center" width="120"></el-table-column>
+                            <el-table-column prop="totalPrice" label="套餐金额" align="center" width="120"></el-table-column>
                             <el-table-column label="操作" align="center" width="100">
                                 <template scope="scope">
                                     <el-button size="small" v-if="scope.row.isPay == '否'" @click="changeOrderStatus(scope.row)">生效</el-button>
