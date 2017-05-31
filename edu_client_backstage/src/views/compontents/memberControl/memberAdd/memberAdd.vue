@@ -35,34 +35,11 @@
                     </el-form-item>
                 </el-form>
                 <div class="btn-wrap">
-                    <el-button type="primary" @click="submitForm('ruleForm')">立即开通并设置套餐</el-button>
+                    <el-button type="primary" @click="toPackagePage('ruleForm')">立即开通并设置套餐</el-button>
                 </div>
             </el-tab-pane>
             <el-tab-pane label="套餐设置" name="package">
                 <el-card class="control-card no-padding">
-                    <div class="title" slot="header">
-
-                    </div>
-                    <el-row class="text-center">
-                        <el-col :span="4" class="border-bottom">主账号</el-col>
-                        <el-col :span="10" class="border-bottom">QH101101</el-col>
-                        <el-col :span="10" class="border-bottom">
-                            <el-switch v-model="mainCountSwitch">
-                            </el-switch>
-                        </el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4" class="border-bottom">子账户数量</el-col>
-                        <el-col :span="10" class="border-bottom">
-                            <!--<el-input-number v-model="subCountNum" :min="1" :max="20"></el-input-number>-->
-                            <el-button type="primary" icon="minus" @click="subCountNumChange('minus')"></el-button>
-                            <el-input v-model="subCountNum" class="subCountNum"></el-input>
-                            <el-button type="primary" icon="plus" @click="subCountNumChange('plus')"></el-button>
-                        </el-col>
-                        <el-col :span="10" class="border-bottom">
-                            <el-switch v-model="subCountSwitch"></el-switch>
-                        </el-col>
-                    </el-row>
                     <el-row class="text-center">
                         <el-col :span="4" class="border-bottom">会员级别</el-col>
                         <el-col :span="10" class="border-bottom">
@@ -297,8 +274,16 @@
         },
         methods: {
 
-            submitForm(formName){
-
+            toPackagePage(formName){
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        console.log(this.ruleForm)
+                        this.activeName = 'package';
+                    } else {
+                        console.error('form error valid');
+                        return false;
+                    }
+                });
             },
 
             subCountNumChange(type){

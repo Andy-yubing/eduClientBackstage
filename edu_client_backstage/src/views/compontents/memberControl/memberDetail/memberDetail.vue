@@ -67,10 +67,21 @@
                     </el-row>
                 </div>
                 <div class="box-wrap">
-                    <div class="title">
-                        <strong>子账号</strong>
+                    <div class="top clearfix">
+                        <div class="title fl">
+                            <strong>子账号</strong>
+                        </div>
+                        <div class="page-bar fr">
+                            <el-pagination class="manage-pagination"
+                                           @current-change="handleSubAccountChange"
+                                           :current-page="subAccountParam.pageNumber + 1"
+                                           :page-size="subAccountParam.pageSize"
+                                           layout="prev, next, jumper, total"
+                                           :total="subAccountTotal">
+                            </el-pagination>
+                        </div>
                     </div>
-                    <el-table :data="accountData" border style="width: 100%">
+                    <el-table :data="subAccountData" border style="width: 100%">
                         <el-table-column prop="userAccount" label="子账号" align="center"></el-table-column>
                         <el-table-column prop="realName" label="联系人" align="center"></el-table-column>
                         <el-table-column prop="userDepartment" label="职位" align="center"></el-table-column>
@@ -78,9 +89,21 @@
                     </el-table>
                 </div>
                 <div class="box-wrap">
-                    <div class="title">
-                        <strong>套餐记录</strong>
-                    </div>
+                   <div class="top clearfix">
+                       <div class="title fl">
+                           <strong>套餐记录</strong>
+                       </div>
+
+                       <div class="page-bar fr">
+                           <el-pagination class="manage-pagination"
+                                          @current-change="handlePackageChange"
+                                          :current-page="packageParam.pageNumber + 1"
+                                          :page-size="packageParam.pageSize"
+                                          layout="prev, next, jumper, total"
+                                          :total="packageTotal">
+                           </el-pagination>
+                       </div>
+                   </div>
                     <el-table :data="packageData" border style="width: 100%">
                         <el-table-column prop="packageType" label="购买套餐" align="center"></el-table-column>
                         <el-table-column prop="createDate" label="购买时间" align="center" :formatter="formatCreateDate"></el-table-column>
@@ -99,12 +122,24 @@
                     </el-table>
                 </div>
                 <div class="box-wrap">
-                    <div class="title">
-                        <strong>操作日志</strong>
+                    <div class="top clearfix">
+                        <div class="title fl">
+                            <strong>操作日志</strong>
+                        </div>
+                        <div class="page-bar fr">
+                            <el-pagination class="manage-pagination"
+                                           @current-change="handleOperateChange"
+                                           :current-page="operateParam.pageNumber + 1"
+                                           :page-size="operateParam.pageSize"
+                                           layout="prev, next, jumper, total"
+                                           :total="operateTotal">
+                            </el-pagination>
+                        </div>
                     </div>
+
                     <el-table :data="operationData" border style="width: 100%" :resizable="false" >
                         <el-table-column label="序号" prop="rank" align="center" width="100"></el-table-column>
-                        <el-table-column label="时间" prop="createDate" align="center"></el-table-column>
+                        <el-table-column label="时间" prop="createDate" align="center" :formatter="formatOperateDate"></el-table-column>
                         <el-table-column label="IP" prop="ip" align="center"></el-table-column>
                     </el-table>
                 </div>
@@ -315,8 +350,9 @@
                 .box-wrap{
                     margin: 15px auto;
 
-                    .title{
-                        margin-bottom: 10px;
+                    .top{
+                        padding-top: 10px;
+                        padding-bottom: 10px;
                     }
                 }
             }
@@ -386,8 +422,23 @@
                 newPwd1: '',
                 codeToText:　CodeToText,
                 position: '',
-                accountData: [],
+                subAccountData: [],
+                subAccountParam: {
+                    pageSize: 10,
+                    pageNumber: 0
+                },
+                subAccountTotal: 0,
                 packageData: [],
+                packageParam:{
+                    pageSize: 10,
+                    pageNumber: 0
+                },
+                packageTotal: 0,
+                operateParam: {
+                    pageSize: 10,
+                    pageNumber: 0
+                },
+                operateTotal: 0,
                 operationData: [],
                 packageEndDate: '',
                 packageStartDate: '',
@@ -505,31 +556,36 @@
             },
 
             getSubAccountList(){
-                let param = {
-                    userId: this.memberData.id
-                }
+                this.subAccountParam.userId = this.memberData.id;
 
-                this.$http.post('/apis/userMgrt/findAllSubAccount.json', param).then(
+                this.$http.post('/apis/userMgrt/findAllSubAccount.json', this.subAccountParam).then(
                     function (response) {
                         if(response.data.success){
                             if(response.data.data.content){
-                                this.accountData = response.data.data.content;
+                                this.subAccountData = response.data.data.content;
+                                this.subAccountTotal = response.data.data.totalElements;
                             }else {
-                                this.accountData = [];
+                                this.subAccountData = [];
+                                this.subAccountTotal = 0;
                             }
                         }else{
                             console.error('加载子账号列表失败');
-                            this.accountData = [];
+                            this.subAccountData = [];
+                            this.subAccountTotal = 0;
                         }
                     }
                 )
             },
 
+            handleSubAccountChange(pageNumber){
+                this.subAccountParam.pageNumber = pageNumber - 1;
+                this.getSubAccountList();
+            },
+
             getPackageList(){
-                let param = {
-                    userAccount: this.memberData.userAccount
-                }
-                this.$http.post('/apis/userMgrt/getPackageOrderList.json', param).then(
+                this.packageParam.userAccount =  this.memberData.userAccount;
+
+                this.$http.post('/apis/userMgrt/getPackageOrderList.json', this.packageParam).then(
                     function (response) {
                         if(response.data.success){
                             let data = response.data.data.content;
@@ -544,12 +600,19 @@
                                 }
                             }
                             this.packageData = response.data.data.content;
+                            this.packageTotal = response.data.data.totalElements;
                         }else{
                             console.error('加载用户订单列表失败');
                             this.packageData = [];
+                            this.packageTotal = 0;
                         }
                     }
                 )
+            },
+
+            handlePackageChange(pageNumber){
+                this.packageParam.pageNumber = pageNumber - 1;
+                this.getPackageList();
             },
 
             formatCreateDate(row, col){
@@ -564,18 +627,32 @@
             },
 
             getUserOperation(){
-                let param = {
-                    userAccount: this.memberData.userAccount
-                }
-                this.$http.post('/apis/userMgrt/getUserOperation.json', param).then(
+                this.operateParam.userAccount = this.memberData.userAccount;
+                this.$http.post('/apis/userMgrt/getUserOperation.json', this.operateParam).then(
                     function (response) {
                         if(response.data.success){
-                            console.log(response.data.data.content)
+                            let data = response.data.data.content;
+                            if(data){
+                                for(let i = 0; i < data.length; i++){
+                                    data[i].rank = (this.operateParam.pageNumber) * this.operateParam.pageSize +  i + 1;
+                                }
+                            }
+                            this.operationData = data;
+                            this.operateTotal = response.data.data.totalElements;
                         }else{
                             console.error('加载用户日志失败');
                         }
                     }
                 );
+            },
+
+            formatOperateDate(row, col){
+                return new Date(row.createDate).format('yyyy-MM-dd hh:mm');
+            },
+
+            handleOperateChange(pageNumber){
+                this.operateParam.pageNumber = pageNumber - 1;
+                this.getUserOperation();
             }
         },
         created(){
