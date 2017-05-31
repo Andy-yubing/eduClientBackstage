@@ -41,9 +41,9 @@
             <el-tab-pane label="套餐设置" name="package">
                 <el-card class="control-card no-padding">
                     <el-row class="text-center">
-                        <el-col :span="4" class="border-bottom">会员级别</el-col>
+                        <el-col :span="4" class="border-bottom">会员套餐</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-select v-model="memberLevel" placeholder="请选择">
+                            <el-select v-model="packageData.packageType" placeholder="请选择">
                                 <el-option v-for="item in levelOpt" :label="item.label" :value="item.value">
                                 </el-option>
                             </el-select>
@@ -51,12 +51,20 @@
                         <el-col :span="10" class="border-bottom">&nbsp;</el-col>
                     </el-row>
                     <el-row class="text-center">
-                        <el-col :span="4" class="border-bottom">期限</el-col>
+                        <el-col :span="4" class="border-bottom">套餐周期</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-date-picker v-model="timeLimit" type="daterange" placeholder="选择日期范围" range-separator=" 至 ">
+                            <el-date-picker class="mt7" v-model="packageData.packageStartDate" type="date"
+                                            placeholder="选择开始日期"
+                                            :picker-options="pickerOptions0">
                             </el-date-picker>
                         </el-col>
-                        <el-col :span="10" class="border-bottom">&nbsp;</el-col>
+                        <el-col :span="5" class="border-bottom">
+                            <el-date-picker class="mt7" v-model="packageData.packageEndDate" type="date"
+                                            placeholder="选择结束日期"
+                                            :picker-options="pickerOptions1">
+                            </el-date-picker>
+                        </el-col>
+                        <el-col :span="5" class="border-bottom">&nbsp;</el-col>
                     </el-row>
                     <el-row class="text-center">
                         <el-col :span="4">&nbsp;</el-col>
@@ -97,7 +105,7 @@
                         <el-col :span="10" class="border-bottom">&nbsp;</el-col>
                     </el-row>
                     <el-row class="text-center">
-                        <el-col :span="4">权限</el-col>
+                        <el-col :span="4">套餐详情</el-col>
                         <el-col :span="10">行业动态</el-col>
                         <el-col :span="10">
                             <el-switch></el-switch>
@@ -141,6 +149,11 @@
                         <el-col :span="10">两微监管</el-col>
                         <el-col :span="10">
                             <el-switch></el-switch>
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="24">
+                            <el-button type="primary" @click="submitData()">确定</el-button>
                         </el-col>
                     </el-row>
                 </el-card>
@@ -258,26 +271,35 @@
                         {type: 'email', message: "请输入正确的邮箱",trigger: 'blur' }
                     ]
                 },
-                mainCountSwitch: true,
                 subCountNum: 1,
-                subCountSwitch: true,
                 levelOpt: [
                     {value:　'试用', label: '试用'},
                     {value:　'A级', label: 'A级'},
                     {value:　'B级', label: 'B级'},
                     {value:　'C级', label: 'C级'},
                 ],
-                memberLevel: '',
-                timeLimit: '',
                 options: schools,
+                packageData: {
+                    packageType: '',
+                    packageStartDate: '',
+                    packageEndDate: ''
+                },
+                pickerOptions0: {
+                    disabledDate(time) {
+                        return time.getTime() < Date.now() - 8.64e7;
+                    }
+                },
+                pickerOptions1: {
+                    disabledDate(time) {
+                        return time.getTime() < Date.now() - 8.64e7;
+                    }
+                }
             }
         },
         methods: {
-
             toPackagePage(formName){
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        console.log(this.ruleForm)
                         this.activeName = 'package';
                     } else {
                         console.error('form error valid');
@@ -296,6 +318,13 @@
                     this.subCountNum = num +　1;
                 }
             },
+
+            /**
+             * 向后台提交数据 先验证套餐数据 再验证会员信息
+             */
+            submitData(){
+
+            }
         }
     }
 </script>
