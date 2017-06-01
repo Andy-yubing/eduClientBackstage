@@ -53,13 +53,13 @@
                     <el-row class="text-center">
                         <el-col :span="4" class="border-bottom">套餐周期</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-date-picker class="mt7" v-model="packageData.packageStartDate" type="date"
+                            <el-date-picker class="mt12" v-model="packageData.packageStartDate" type="date"
                                             placeholder="选择开始日期"
                                             :picker-options="pickerOptions0">
                             </el-date-picker>
                         </el-col>
                         <el-col :span="5" class="border-bottom">
-                            <el-date-picker class="mt7" v-model="packageData.packageEndDate" type="date"
+                            <el-date-picker class="mt12" v-model="packageData.packageEndDate" type="date"
                                             placeholder="选择结束日期"
                                             :picker-options="pickerOptions1">
                             </el-date-picker>
@@ -145,10 +145,37 @@
                         <el-col :span="10" class="border-bottom">&nbsp;</el-col>
                     </el-row>
                     <el-row class="text-center">
-                        <el-col :span="4">&nbsp;</el-col>
-                        <el-col :span="10">两微监管</el-col>
-                        <el-col :span="10">
+                        <el-col :span="4" class="border-bottom">&nbsp;</el-col>
+                        <el-col :span="10" class="border-bottom">两微监管</el-col>
+                        <el-col :span="10" class="border-bottom">
                             <el-switch></el-switch>
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4" class="border-bottom">可关注高校</el-col>
+                        <el-col :span="10" class="border-bottom">
+                            <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="0" class="mt12"></el-input-number>
+                        </el-col>
+                        <el-col :span="10" class="border-bottom">
+                            &nbsp;
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4" class="border-bottom">可关注人物</el-col>
+                        <el-col :span="10" class="border-bottom">
+                            <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt12"></el-input-number>
+                        </el-col>
+                        <el-col :span="10" class="border-bottom">
+                            &nbsp;
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4" class="border-bottom">子账号数量</el-col>
+                        <el-col :span="10" class="border-bottom">
+                            <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt12"></el-input-number>
+                        </el-col>
+                        <el-col :span="10" class="border-bottom">
+                            &nbsp;
                         </el-col>
                     </el-row>
                     <el-row class="text-center">
@@ -203,8 +230,14 @@
                 }
 
                 .el-col{
+                    height: 60px;
+
                     .subCountNum{
                         width: 100px;
+                    }
+                    
+                    .mt12{
+                        margin-top: 12px;
                     }
                 }
             }
@@ -293,7 +326,8 @@
                     disabledDate(time) {
                         return time.getTime() < Date.now() - 8.64e7;
                     }
-                }
+                },
+                collegeNum: 0
             }
         },
         methods: {
@@ -317,6 +351,10 @@
                 } else {
                     this.subCountNum = num +　1;
                 }
+            },
+
+            collegeNumChange(val){
+                console.log(val)
             },
 
             /**

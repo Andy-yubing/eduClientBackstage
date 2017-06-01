@@ -16,7 +16,7 @@
                                 <el-table-column prop="createDate" label="申请日期" align="center" width="110px" :formatter="formatDate"></el-table-column>
                                 <el-table-column prop="operate" label="操作" width="140px" align="center">
                                     <template scope="scope">
-                                        <el-button size="small" @click="openTrialEvent(scope.row)">开通试用</el-button>
+                                        <el-button size="small" @click="openTrialEvent(scope.row)" v-if="scope.row.accountType != '试用'">开通试用</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -144,6 +144,7 @@
                     function (response) {
                         this.loading = false;
                         if(response.data.success){
+                            console.log(response.data.data.content)
                             this.checkList = response.data.data.content;
                             this.total = response.data.data.totalElements;
                         }else{
