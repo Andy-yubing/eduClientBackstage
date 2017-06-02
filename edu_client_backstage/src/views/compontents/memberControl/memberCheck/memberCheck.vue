@@ -9,14 +9,14 @@
                             <el-table :data="checkList" border style="width: 100%;">
                                 <el-table-column prop="collegeName" label="所在高校" align="center" :show-overflow-tooltip="true"></el-table-column>
                                 <el-table-column prop="userAccount" label="主账号" align="center" :show-overflow-tooltip="true"></el-table-column>
-                                <el-table-column prop="realName" label="称呼" align="center"></el-table-column>
-                                <el-table-column prop="userDepartment" label="职务" align="center" :show-overflow-tooltip="true"></el-table-column>
-                                <el-table-column prop="userPhone" label="联系方式" align="center"></el-table-column>
-                                <el-table-column prop="userPosition" label="详细地址" align="center" width="250px" :show-overflow-tooltip="true"></el-table-column>
+                                <el-table-column prop="userPhone" label="手机号" align="center"></el-table-column>
+                                <el-table-column prop="userEmail" label="邮箱" align="center" width="250px" :show-overflow-tooltip="true"></el-table-column>
                                 <el-table-column prop="createDate" label="申请日期" align="center" width="110px" :formatter="formatDate"></el-table-column>
+                                <el-table-column label="状态" align="center" :formatter="formatStatus"></el-table-column>
                                 <el-table-column prop="operate" label="操作" width="140px" align="center">
                                     <template scope="scope">
                                         <el-button size="small" @click="openTrialEvent(scope.row)" v-if="scope.row.accountType != '试用'">开通试用</el-button>
+                                        <el-button size="small" @click="toAddMemberPage(scope.row)" v-else>开通正式</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -144,7 +144,6 @@
                     function (response) {
                         this.loading = false;
                         if(response.data.success){
-                            console.log(response.data.data.content)
                             this.checkList = response.data.data.content;
                             this.total = response.data.data.totalElements;
                         }else{
@@ -246,6 +245,22 @@
                     return row.subAccountNum + '个';
                 }
             },
+
+            formatStatus(row, col){
+                let expireDate = row.expireDate;
+                let now = new Date().getTime();
+                if(expireDate < now){
+                    return '已到期';
+                }
+                if(row.accountType == '试用'){
+                    return '已开通'
+                };
+                return '未开通';
+            },
+
+            toAddMemberPage(data){
+                this.$router.push({path:"/body/memberAdd", query: {data: data}});
+            }
         },
         mounted(){
             this.getMemberCheckList();

@@ -296,8 +296,7 @@
                         {required:true, message:"请输入高校全称", trigger: 'change' },
                     ],
                     userDepartment:[
-                        {required:true, message:"请输入职称", trigger: 'blur' },
-                        {min:2,max:10,message: "长度在 2 到 10 个字符",trigger: 'blur' },
+                        {required:true, message:"请输入职位", trigger: 'blur' }
                     ],
                     userEmail:[
                         {required:true,message:"请输入邮箱",trigger: 'blur' },
@@ -362,6 +361,24 @@
              */
             submitData(){
 
+            }
+        },
+        created(){
+            let data = this.$route.query.data;
+            if(data){
+                this.ruleForm.userAccount = data.userAccount;
+                this.ruleForm.realName = data.realName;
+                this.ruleForm.userDepartment = data.userDepartment;
+                this.ruleForm.userPhone = data.userPhone;
+                this.ruleForm.userEmail = data.userEmail;
+                this.ruleForm.collegeName = data.collegeName;
+                this.ruleForm.status = 'edit';
+
+                this.levelOpt = [
+                    {value:　'A级', label: 'A级'},
+                    {value:　'B级', label: 'B级'},
+                    {value:　'C级', label: 'C级'},
+                ]
             }
         }
     }

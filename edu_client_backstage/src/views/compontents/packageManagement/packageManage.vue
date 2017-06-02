@@ -26,7 +26,7 @@
                     <el-col :span="4">
                         <el-switch></el-switch>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="4" class="no-border-right">
                         <el-switch></el-switch>
                     </el-col>
                     <el-col :span="3">
@@ -329,40 +329,31 @@
                     <el-col :span="4"><el-input></el-input></el-col>
                     <el-col :span="4">&nbsp;</el-col>
                     <el-col :span="4">&nbsp;</el-col>
-                    <el-col :span="4">&nbsp;</el-col>
+                    <el-col :span="7">&nbsp;</el-col>
+                </el-row>
+                <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
+                    <el-col :span="2">可添加子账号</el-col>
+                    <el-col :span="4">
+                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                    </el-col>
+                    <el-col :span="7">
+                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                    </el-col>
                 </el-row>
                 <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">价格</el-col>
-                    <el-col :span="4">6个月</el-col>
-                    <el-col :span="4"><el-input></el-input></el-col>
-                    <el-col :span="4"><el-input></el-input></el-col>
-                    <el-col :span="7">全单</el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">&nbsp;</el-col>
-                    <el-col :span="4">一年</el-col>
-                    <el-col :span="4"><el-input></el-input></el-col>
-                    <el-col :span="4"><el-input></el-input></el-col>
-                    <el-col :span="7">9.8折</el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">&nbsp;</el-col>
-                    <el-col :span="4">两年</el-col>
-                    <el-col :span="4"><el-input></el-input></el-col>
-                    <el-col :span="4"><el-input></el-input></el-col>
-                    <el-col :span="7">9折</el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">&nbsp;</el-col>
-                    <el-col :span="4">三年</el-col>
-                    <el-col :span="4"><el-input></el-input></el-col>
-                    <el-col :span="4"><el-input></el-input></el-col>
-                    <el-col :span="7">8.5折</el-col>
+                    <el-col :span="4">无</el-col>
+                    <el-col :span="4">6000 元/半年  &nbsp;&nbsp; 8000 元/年</el-col>
+                    <el-col :span="4">6000 元/半年  &nbsp;&nbsp; 8000 元/年</el-col>
+                    <el-col :span="7"></el-col>
                 </el-row>
             </div>
         </el-card>
