@@ -357,6 +357,9 @@
                 </el-row>
             </div>
         </el-card>
+        <div class="btn-wrap">
+            <el-button type="primary" size="large" @click="submitPackage">确定</el-button>
+        </div>
     </div>
 </template>
 <style lang="scss" scoped>
@@ -403,6 +406,11 @@
                 color: #60a3ff;
             }
         }
+
+        .btn-wrap{
+            text-align: center;
+            margin: 20px;
+        }
     }
 </style>
 <script>
@@ -423,6 +431,14 @@
         },
         methods: {
             collegeNumChange(type){
+
+            },
+
+            initPackageItem(){
+
+            },
+
+            submitPackage(){
 
             }
         }

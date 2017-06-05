@@ -43,7 +43,7 @@
                     <el-row class="text-center">
                         <el-col :span="4" class="border-bottom">会员套餐</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-select v-model="packageData.packageType" placeholder="请选择">
+                            <el-select v-model="packageData.packageType" placeholder="请选择" @change="changePackageType">
                                 <el-option v-for="item in levelOpt" :label="item.label" :value="item.value">
                                 </el-option>
                             </el-select>
@@ -66,95 +66,19 @@
                         </el-col>
                         <el-col :span="5" class="border-bottom">&nbsp;</el-col>
                     </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4">&nbsp;</el-col>
-                        <el-col :span="10" class="blue border-bottom">舆情管理</el-col>
-                        <el-col :span="10" class="border-bottom">&nbsp;</el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4">&nbsp;</el-col>
-                        <el-col :span="10">全景舆情</el-col>
-                        <el-col :span="10">
-                            <el-switch></el-switch>
+                    <el-row v-for="(item, index) in allItemList" class="text-center">
+                        <el-col :span="4" v-if="item.leftTitle">{{item.leftTitle}}</el-col>
+                        <el-col :span="4" v-else :class="{'border-bottom': index == allItemList.length - 1}">&nbsp;</el-col>
+                        <el-col :span="10" :class="[{'blue': item.textColor == 'blue'}, {'border-bottom': item.borderBottom || index == allItemList.length - 1}]">{{item.label}}</el-col>
+                        <el-col :span="10" v-if="item.showSwitch == true" :class="{'border-bottom': item.borderBottom || index == allItemList.length - 1}">
+                            <el-switch disabled v-model="item.value"></el-switch>
                         </el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4">&nbsp;</el-col>
-                        <el-col :span="10">舆情监测</el-col>
-                        <el-col :span="10">
-                            <el-switch></el-switch>
-                        </el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4">&nbsp;</el-col>
-                        <el-col :span="10">事件监测</el-col>
-                        <el-col :span="10">
-                            <el-switch></el-switch>
-                        </el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4">&nbsp;</el-col>
-                        <el-col :span="10" class="border-bottom">舆情报告</el-col>
-                        <el-col :span="10" class="border-bottom">
-                            <el-switch></el-switch>
-                        </el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4">&nbsp;</el-col>
-                        <el-col :span="10" class="blue border-bottom">情报内参</el-col>
-                        <el-col :span="10" class="border-bottom">&nbsp;</el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4">套餐详情</el-col>
-                        <el-col :span="10">行业动态</el-col>
-                        <el-col :span="10">
-                            <el-switch></el-switch>
-                        </el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4">&nbsp;</el-col>
-                        <el-col :span="10">人物动态</el-col>
-                        <el-col :span="10">
-                            <el-switch></el-switch>
-                        </el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4">&nbsp;</el-col>
-                        <el-col :span="10">两微洞察</el-col>
-                        <el-col :span="10">
-                            <el-switch></el-switch>
-                        </el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4">&nbsp;</el-col>
-                        <el-col :span="10">媒体声誉</el-col>
-                        <el-col :span="10">
-                            <el-switch></el-switch>
-                        </el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4">&nbsp;</el-col>
-                        <el-col :span="10" class="border-bottom">内参报告</el-col>
-                        <el-col :span="10" class="border-bottom">
-                            <el-switch></el-switch>
-                        </el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4">&nbsp;</el-col>
-                        <el-col :span="10" class="blue border-bottom">业务工具</el-col>
-                        <el-col :span="10" class="border-bottom">&nbsp;</el-col>
-                    </el-row>
-                    <el-row class="text-center">
-                        <el-col :span="4" class="border-bottom">&nbsp;</el-col>
-                        <el-col :span="10" class="border-bottom">两微监管</el-col>
-                        <el-col :span="10" class="border-bottom">
-                            <el-switch></el-switch>
-                        </el-col>
+                        <el-col :span="10" v-else :class="{'border-bottom': item.borderBottom}">&nbsp;</el-col>
                     </el-row>
                     <el-row class="text-center">
                         <el-col :span="4" class="border-bottom">可关注高校</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="0" class="mt12"></el-input-number>
+                            <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt12"></el-input-number>
                         </el-col>
                         <el-col :span="10" class="border-bottom">
                             &nbsp;
@@ -163,7 +87,7 @@
                     <el-row class="text-center">
                         <el-col :span="4" class="border-bottom">可关注人物</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt12"></el-input-number>
+                            <el-input-number v-model="characterNum" @change="characterNumChange" :min="1" class="mt12"></el-input-number>
                         </el-col>
                         <el-col :span="10" class="border-bottom">
                             &nbsp;
@@ -172,10 +96,16 @@
                     <el-row class="text-center">
                         <el-col :span="4" class="border-bottom">子账号数量</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt12"></el-input-number>
+                            <el-input-number v-model="subAccountNum" @change="subAccountNumChange" :min="1" class="mt12"></el-input-number>
                         </el-col>
                         <el-col :span="10" class="border-bottom">
                             &nbsp;
+                        </el-col>
+                    </el-row>
+                    <el-row class="text-center">
+                        <el-col :span="4" class="border-bottom">套餐价格</el-col>
+                        <el-col :span="20" class="border-bottom">
+                            <span v-model="totalAmount"></span>
                         </el-col>
                     </el-row>
                     <el-row class="text-center">
@@ -306,9 +236,9 @@
                 subCountNum: 1,
                 levelOpt: [
                     {value:　'试用', label: '试用'},
-                    {value:　'A级', label: 'A级'},
-                    {value:　'B级', label: 'B级'},
-                    {value:　'C级', label: 'C级'},
+                    {value:　'A套餐', label: 'A级'},
+                    {value:　'B套餐', label: 'B级'},
+                    {value:　'C套餐', label: 'C级'},
                 ],
                 options: schools,
                 packageData: {
@@ -326,7 +256,26 @@
                         return time.getTime() < Date.now() - 8.64e7;
                     }
                 },
-                collegeNum: 0
+                collegeNum: 1,
+                characterNum: 1,
+                subAccountNum: 1,
+                totalAmount: 0,
+                allItemList: [
+                    {label: '舆情管理', textColor: 'blue', showSwitch:　false, borderBottom: true},
+                    {label: '全景舆情', textColor: 'black', showSwitch:true, value: false},
+                    {label: '舆情监测', textColor: 'black', showSwitch:true, value: false},
+                    {label: '事件监测', textColor: 'black', showSwitch:true, value: false},
+                    {label: '舆情报告', textColor: 'black', showSwitch:true, value: false, borderBottom: true},
+                    {label: '情报内参', textColor: 'blue', showSwitch:　false, borderBottom: true},
+                    {label: '行业动态', textColor: 'black', showSwitch:true, value: false, leftTitle: '套餐详情'},
+                    {label: '人物动态', textColor: 'black', showSwitch:true, value: false},
+                    {label: '两微洞察', textColor: 'black', showSwitch:true, value: false},
+                    {label: '媒体声誉', textColor: 'black', showSwitch:true, value: false},
+                    {label: '内参报告', textColor: 'black', showSwitch:true, value: false, borderBottom: true},
+                    {label: '舆情管理', textColor: 'blue', showSwitch:　false, borderBottom: true},
+                    {label: '两微监管', textColor: 'black', showSwitch:true, value: false},
+                ],
+                packageList: ''
             }
         },
         methods: {
@@ -341,19 +290,45 @@
                 });
             },
 
-            subCountNumChange(type){
-                let num = this.subCountNum;
-                if('minus' == type && num > 0){
-                    this.subCountNum = num - 1;
-                }else if('minus' == type && num == 0){
-                    return ;
-                } else {
-                    this.subCountNum = num +　1;
-                }
+            getPackageList(){
+                this.$http.post('/apis/userMgrt/getPackageManageList.json').then(
+                    function (response) {
+                        this.packageList = response.data.data;
+                    }
+                )
             },
 
             collegeNumChange(val){
-                console.log(val)
+                this.collegeNum = val;
+            },
+
+            characterNumChange(val){
+                this.characterNum = val;
+            },
+
+            subAccountNumChange(val){
+                this.subAccountNum = val;
+            },
+
+            changePackageType(val){
+                if(this.packageList){
+                    for(let i = 0; i < this.packageList.length; i++){
+                        if(this.packageList[i].name == val){
+                            let itemPriceList = this.packageList[i].itemPriceList;
+                            if(itemPriceList){
+                                for(let j = 0; j <　itemPriceList.length; j++){
+                                    for(let n = 0; n < this.allItemList.length; n++){
+                                        if(itemPriceList[j] == this.allItemList[n].label){
+                                            this.allItemList[n].value = true;
+                                            continue ;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
             },
 
             /**
@@ -362,6 +337,9 @@
             submitData(){
 
             }
+        },
+        mounted(){
+            this.getPackageList();
         },
         created(){
             let data = this.$route.query.data;
@@ -375,9 +353,9 @@
                 this.ruleForm.status = 'edit';
 
                 this.levelOpt = [
-                    {value:　'A级', label: 'A级'},
-                    {value:　'B级', label: 'B级'},
-                    {value:　'C级', label: 'C级'},
+                    {value:　'A套餐', label: 'A级'},
+                    {value:　'B套餐', label: 'B级'},
+                    {value:　'C套餐', label: 'C级'},
                 ]
             }
         }
