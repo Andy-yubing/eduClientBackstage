@@ -78,7 +78,8 @@
                     <el-row class="text-center">
                         <el-col :span="4" class="border-bottom">可关注高校</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt12"></el-input-number>
+                            <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt12" v-if="showCounter == true"></el-input-number>
+                            <span v-else>{{collegeNum}}</span>
                         </el-col>
                         <el-col :span="10" class="border-bottom">
                             &nbsp;
@@ -87,7 +88,8 @@
                     <el-row class="text-center">
                         <el-col :span="4" class="border-bottom">可关注人物</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-input-number v-model="characterNum" @change="characterNumChange" :min="1" class="mt12"></el-input-number>
+                            <el-input-number v-model="characterNum" @change="characterNumChange" :min="1" class="mt12" v-if="showCounter == true"></el-input-number>
+                            <span v-else>{{characterNum}}</span>
                         </el-col>
                         <el-col :span="10" class="border-bottom">
                             &nbsp;
@@ -96,7 +98,8 @@
                     <el-row class="text-center">
                         <el-col :span="4" class="border-bottom">子账号数量</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-input-number v-model="subAccountNum" @change="subAccountNumChange" :min="1" class="mt12"></el-input-number>
+                            <el-input-number v-model="subAccountNum" @change="subAccountNumChange" :min="1" class="mt12" v-if="showCounter == true"></el-input-number>
+                            <span v-else>{{subAccountNum}}</span>
                         </el-col>
                         <el-col :span="10" class="border-bottom">
                             &nbsp;
@@ -275,7 +278,8 @@
                     {label: '舆情管理', textColor: 'blue', showSwitch:　false, borderBottom: true},
                     {label: '两微监管', textColor: 'black', showSwitch:true, value: false},
                 ],
-                packageList: ''
+                packageList: '',
+                showCounter: false,
             }
         },
         methods: {
@@ -294,6 +298,7 @@
                 this.$http.post('/apis/userMgrt/getPackageManageList.json').then(
                     function (response) {
                         this.packageList = response.data.data;
+                        console.log(this.packageList)
                     }
                 )
             },
@@ -311,6 +316,12 @@
             },
 
             changePackageType(val){
+                //选择套餐前重置开关
+                for(let i in this.allItemList){
+                    if(this.allItemList[i].showSwitch){
+                        this.allItemList[i].value = false;
+                    }
+                }
                 if(this.packageList){
                     for(let i = 0; i < this.packageList.length; i++){
                         if(this.packageList[i].name == val){
@@ -325,9 +336,18 @@
                                     }
                                 }
                             }
+                            this.collegeNum = this.packageList[i].concernCollegeNum;
+                            this.characterNum = this.packageList[i].concernPersonNum;
+                            this.subAccountNum = this.packageList[i].subAccountNum;
                             break;
                         }
                     }
+                }
+
+                if(val == 'A套餐' || val == 'B套餐'){
+                    this.showCounter = false;
+                }else{
+                    this.showCounter = true;
                 }
             },
 

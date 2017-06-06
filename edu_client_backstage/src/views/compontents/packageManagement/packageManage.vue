@@ -14,287 +14,32 @@
                         单品价格
                     </el-col>
                 </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3"> &nbsp;</el-col>
-                    <el-col :span="2" class="blue">舆情管理</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4" class="no-border-right">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">全景舆情</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">舆情监测</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">舆情预警</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">事件监测</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">舆情报告</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3"> 权限</el-col>
-                    <el-col :span="2" class="blue">情报内参</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">行业动态</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">人物动态</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">两微洞察</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">媒体声量</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">内参报告</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2" class="blue">业务平台</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">两微监管</el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-switch></el-switch>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-input></el-input>
-                    </el-col>
+
+                <el-row class="text-center" type="flex" align="middle" v-for="item in allItemList">
+                    <el-col :span="3" v-if="item.leftTitle">{{item.leftTitle}}</el-col>
+                    <el-col :span="3" v-else>&nbsp;</el-col>
+                    <el-col :span="2" :class="{blue: item.textColor == 'blue'}">{{item.label}}</el-col>
+                    <el-col :span="19" v-if="!item.packageType"></el-col>
+                    <el-col :span="4" v-if="item.packageType" v-for="type in item.packageType">
+                        <el-switch v-model="type.value"></el-switch>
+                    </el-col>
+                    <el-col :span="3" v-if="item.packageType"><el-input v-model="item.itemPrice"></el-input></el-col>
                 </el-row>
 
                 <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">可关注高校</el-col>
                     <el-col :span="4">
-                        不限
+                        <el-input-number v-model="collegeNumTrial" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="4">
-                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="collegeNumA" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="4">
-                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="collegeNumB" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="4">
-                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="collegeNumC" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="3">
                         <el-input>
@@ -306,16 +51,16 @@
                     <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">可关注人物</el-col>
                     <el-col :span="4">
-                        不限
+                        <el-input-number v-model="characterNumTrial" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="4">
-                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="characterNumA" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="4">
-                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="characterNumA" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="4">
-                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="characterNumA" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="3">
                         <el-input>
@@ -325,26 +70,18 @@
                 </el-row>
                 <el-row class="text-center" type="flex" align="middle">
                     <el-col :span="3">&nbsp;</el-col>
-                    <el-col :span="2">期限</el-col>
-                    <el-col :span="4"><el-input></el-input></el-col>
-                    <el-col :span="4">&nbsp;</el-col>
-                    <el-col :span="4">&nbsp;</el-col>
-                    <el-col :span="7">&nbsp;</el-col>
-                </el-row>
-                <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
                     <el-col :span="2">可添加子账号</el-col>
                     <el-col :span="4">
-                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="subAccountNumTrial" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="4">
-                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="subAccountNumA" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="4">
-                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="subAccountNumB" :min="1" class="mt7"></el-input-number>
                     </el-col>
                     <el-col :span="7">
-                        <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="subAccountNumC" :min="1" class="mt7"></el-input-number>
                     </el-col>
                 </el-row>
                 <el-row class="text-center" type="flex" align="middle">
@@ -353,7 +90,7 @@
                     <el-col :span="4">无</el-col>
                     <el-col :span="4">6000 元/半年  &nbsp;&nbsp; 8000 元/年</el-col>
                     <el-col :span="4">6000 元/半年  &nbsp;&nbsp; 8000 元/年</el-col>
-                    <el-col :span="7"></el-col>
+                    <el-col :span="7">根据功能单价定</el-col>
                 </el-row>
             </div>
         </el-card>
@@ -375,13 +112,6 @@
                  }
              }
 
-            &.el-row:first-child{
-                .el-col:first-child{
-                    border-right:1px solid #d1dbe5;
-                    border-bottom:1px solid #d1dbe5;
-                }
-             }
-
             .el-col{
                 height: 60px;
 
@@ -393,12 +123,12 @@
                     width: 60%;
                 }
 
-                .subCountNum{
-                    width: 100px;
-                }
-
                 .mt7{
                     margin-top: 12px;
+                }
+
+                .manage-select{
+                    width: 180px;
                 }
             }
     
@@ -417,20 +147,111 @@
     export default{
         data(){
             return {
-                levelOpt: [
-                    {value:　'试用', label: '试用'},
-                    {value:　'A级', label: 'A级'},
-                    {value:　'B级', label: 'B级'},
-                    {value:　'C级', label: 'C级'},
+                collegeNumTrial: 1,
+                characterNumTrial: 1,
+                subAccountNumTrial: 1,
+                collegeNumA: 1,
+                characterNumA: 1,
+                subAccountNumA: 1,
+                collegeNumB: 1,
+                characterNumB: 1,
+                subAccountNumB: 1,
+                collegeNumC: 1,
+                characterNumC: 1,
+                subAccountNumC: 1,
+                packageList: '',
+                allItemList: [
+                    {label: '舆情管理', textColor: 'blue'},
+                    {
+                        label: '全景舆情',
+                        textColor: 'black',
+                        packageType: [{type: 'trial', value: false}, {type: 'A', value: false}, {type: 'B', value: false}, {type: 'C', value: false}],
+                        itemPrice: 0,
+                        id: 11
+                    },
+                    {
+                        label: '舆情监测',
+                        textColor: 'black',
+                        packageType: [{type: 'trial', value: false}, {type: 'A', value: false}, {type: 'B', value: false}, {type: 'C', value: false}],
+                        itemPrice: 0,
+                        id: 7
+                    },
+                    {
+                        label: '舆情预警',
+                        textColor: 'black',
+                        packageType: [{type: 'trial', value: false}, {type: 'A', value: false}, {type: 'B', value: false}, {type: 'C', value: false}],
+                        itemPrice: 0,
+                        id: 10
+                    },
+                    {
+                        label: '事件监测',
+                        textColor: 'black',
+                        packageType: [{type: 'trial', value: false}, {type: 'A', value: false}, {type: 'B', value: false}, {type: 'C', value: false}],
+                        itemPrice: 0,
+                        id: 8
+                    },
+                    {
+                        label: '舆情报告',
+                        textColor: 'black',
+                        packageType: [{type: 'trial', value: false}, {type: 'A', value: false}, {type: 'B', value: false}, {type: 'C', value: false}],
+                        itemPrice: 0,
+                        id: 4
+                    },
+                    {label: '情报内参', textColor: 'blue'},
+                    {
+                        label: '行业动态',
+                        textColor: 'black',
+                        packageType: [{type: 'trial', value: false}, {type: 'A', value: false}, {type: 'B', value: false}, {type: 'C', value: false}],
+                        itemPrice: 0,
+                        id: 1,
+                        leftTitle: '套餐详情'
+                    },
+                    {
+                        label: '人物动态',
+                        textColor: 'black',
+                        packageType: [{type: 'trial', value: false}, {type: 'A', value: false}, {type: 'B', value: false}, {type: 'C', value: false}],
+                        itemPrice: 0,
+                        id: 9
+                    },
+                    {
+                        label: '两微洞察',
+                        textColor: 'black',
+                        packageType: [{type: 'trial', value: false}, {type: 'A', value: false}, {type: 'B', value: false}, {type: 'C', value: false}],
+                        itemPrice: 0,
+                        id: 2
+                    },
+                    {
+                        label: '媒体声誉',
+                        textColor: 'black',
+                        packageType: [{type: 'trial', value: false}, {type: 'A', value: false}, {type: 'B', value: false}, {type: 'C', value: false}],
+                        itemPrice: 0,
+                        id: 5
+                    },
+                    {
+                        label: '内参报告',
+                        textColor: 'black',
+                        packageType: [{type: 'trial', value: false}, {type: 'A', value: false}, {type: 'B', value: false}, {type: 'C', value: false}],
+                        itemPrice: 0,
+                        id: 3
+                    },
+                    {label: '业务平台', textColor: 'blue'},
+                    {
+                        label: '两微监管',
+                        textColor: 'black',
+                        packageType: [{type: 'trial', value: false}, {type: 'A', value: false}, {type: 'B', value: false}, {type: 'C', value: false}],
+                        itemPrice: 0,
+                        id: 6
+                    },
                 ],
-                memberLevel: 'C套餐',
-                subCountNum: 6,
-                subCountSwitch: false,
-                collegeNum: 0
             }
         },
         methods: {
-            collegeNumChange(type){
+            collegeNumAChange(val){
+                console.log(val)
+                console.log($(this))
+            },
+
+            characterNumAChange(val){
 
             },
 
@@ -439,8 +260,20 @@
             },
 
             submitPackage(){
+                //所有计数器的数目都都加一
+            },
 
-            }
+            getPackageList(){
+                this.$http.post('/apis/userMgrt/getPackageManageList.json').then(
+                    function (response) {
+                        this.packageList = response.data.data;
+                        console.log(this.packageList)
+                    }
+                )
+            },
+        },
+        mounted(){
+            this.getPackageList();
         }
     }
 </script>
