@@ -298,7 +298,6 @@
                 this.$http.post('/apis/userMgrt/getPackageManageList.json').then(
                     function (response) {
                         this.packageList = response.data.data;
-                        console.log(this.packageList)
                     }
                 )
             },
