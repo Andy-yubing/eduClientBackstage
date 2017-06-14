@@ -324,11 +324,11 @@
                 if(this.packageList){
                     for(let i = 0; i < this.packageList.length; i++){
                         if(this.packageList[i].name == val){
-                            let itemPriceList = this.packageList[i].itemPriceList;
-                            if(itemPriceList){
-                                for(let j = 0; j <　itemPriceList.length; j++){
+                            let itemList = this.packageList[i].itemList;
+                            if(itemList){
+                                for(let j = 0; j <　itemList.length; j++){
                                     for(let n = 0; n < this.allItemList.length; n++){
-                                        if(itemPriceList[j] == this.allItemList[n].label){
+                                        if(itemList[j].name == this.allItemList[n].label){
                                             this.allItemList[n].value = true;
                                             continue ;
                                         }

@@ -4,32 +4,32 @@
             <div class="title" slot="header">套餐管理</div>
             <div class="content">
                 <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
+                    <el-col :span="2">&nbsp;</el-col>
                     <el-col :span="2">&nbsp;</el-col>
                     <el-col :span="4">试用会员</el-col>
-                    <el-col :span="4">A套餐</el-col>
-                    <el-col :span="4">B套餐</el-col>
-                    <el-col :span="4" class="no-border-right">C套餐</el-col>
+                    <el-col :span="5">A套餐</el-col>
+                    <el-col :span="5">B套餐</el-col>
+                    <el-col :span="3" class="no-border-right">C套餐</el-col>
                     <el-col :span="3" class="no-border-right">
                         单品价格
                     </el-col>
                 </el-row>
 
                 <el-row class="text-center" type="flex" align="middle" v-for="item in allItemList">
-                    <el-col :span="3" v-if="item.leftTitle">{{item.leftTitle}}</el-col>
-                    <el-col :span="3" v-else>&nbsp;</el-col>
+                    <el-col :span="2" v-if="item.leftTitle">{{item.leftTitle}}</el-col>
+                    <el-col :span="2" v-else>&nbsp;</el-col>
                     <el-col :span="2" :class="{blue: item.textColor == 'blue'}">{{item.label}}</el-col>
-                    <el-col :span="19" v-if="item.textColor == 'blue'" class="no-border-right"></el-col>
+                    <el-col :span="20" v-if="item.textColor == 'blue'" class="no-border-right"></el-col>
                     <el-col :span="4" v-if="item.textColor == 'black'">
                         <el-switch v-model="item.packageTrial"></el-switch>
                     </el-col>
-                    <el-col :span="4" v-if="item.textColor == 'black'">
+                    <el-col :span="5" v-if="item.textColor == 'black'">
                         <el-switch v-model="item.packageA"></el-switch>
                     </el-col>
-                    <el-col :span="4" v-if="item.textColor == 'black'">
+                    <el-col :span="5" v-if="item.textColor == 'black'">
                         <el-switch v-model="item.packageB"></el-switch>
                     </el-col>
-                    <el-col :span="4" v-if="item.textColor == 'black'" class="no-border-right">
+                    <el-col :span="3" v-if="item.textColor == 'black'" class="no-border-right">
                         <el-switch v-model="item.packageC" @change="packageCItemChange(item)"></el-switch>
                     </el-col>
                     <el-col :span="3" v-if="item.textColor == 'black'" class="no-border-right">
@@ -38,19 +38,19 @@
                 </el-row>
 
                 <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
+                    <el-col :span="2">&nbsp;</el-col>
                     <el-col :span="2">可关注高校</el-col>
                     <el-col :span="4">
                         <el-input-number v-model="collegeNumTrial" :min="1" class="mt7"></el-input-number>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="5">
                         <el-input-number v-model="collegeNumA" :min="1" class="mt7"></el-input-number>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="5">
                         <el-input-number v-model="collegeNumB" :min="1" class="mt7"></el-input-number>
                     </el-col>
-                    <el-col :span="4" class="no-border-right">
-                        <el-input-number v-model="collegeNumC" :min="1" class="mt7"></el-input-number>
+                    <el-col :span="3" class="no-border-right">
+                        <el-input-number v-model="collegeNumC" :min="1" class="mt7" @change="packageCItemChange"></el-input-number>
                     </el-col>
                     <el-col :span="3" class="no-border-right">
                         <el-input v-model="collegePrice" @change="packageCItemChange">
@@ -59,19 +59,19 @@
                     </el-col>
                 </el-row>
                 <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
+                    <el-col :span="2">&nbsp;</el-col>
                     <el-col :span="2">可关注人物</el-col>
                     <el-col :span="4">
                         <el-input-number v-model="characterNumTrial" :min="1" class="mt7"></el-input-number>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="5">
                         <el-input-number v-model="characterNumA" :min="1" class="mt7"></el-input-number>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="5">
                         <el-input-number v-model="characterNumB" :min="1" class="mt7"></el-input-number>
                     </el-col>
-                    <el-col :span="4" class="no-border-right">
-                        <el-input-number v-model="characterNumC" :min="1" class="mt7"></el-input-number>
+                    <el-col :span="3" class="no-border-right">
+                        <el-input-number v-model="characterNumC" :min="1" class="mt7" @change="packageCItemChange"></el-input-number>
                     </el-col>
                     <el-col :span="3" class="no-border-right">
                         <el-input v-model="characterPrice" @change="packageCItemChange">
@@ -80,28 +80,54 @@
                     </el-col>
                 </el-row>
                 <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
+                    <el-col :span="2">&nbsp;</el-col>
                     <el-col :span="2">可添加子账号</el-col>
                     <el-col :span="4">
                         <el-input-number v-model="subAccountNumTrial" :min="1" class="mt7"></el-input-number>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="5">
                         <el-input-number v-model="subAccountNumA" :min="1" class="mt7"></el-input-number>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="5">
                         <el-input-number v-model="subAccountNumB" :min="1" class="mt7"></el-input-number>
                     </el-col>
-                    <el-col :span="7" class="no-border-right">
+                    <el-col :span="6" class="no-border-right">
                         <el-input-number v-model="subAccountNumC" :min="1" class="mt7"></el-input-number>
                     </el-col>
                 </el-row>
                 <el-row class="text-center" type="flex" align="middle">
-                    <el-col :span="3">&nbsp;</el-col>
+                    <el-col :span="2">&nbsp;</el-col>
                     <el-col :span="2">价格</el-col>
                     <el-col :span="4">无</el-col>
-                    <el-col :span="4">6000 元/半年  &nbsp;&nbsp; 8000 元/年</el-col>
-                    <el-col :span="4">6000 元/半年  &nbsp;&nbsp; 8000 元/年</el-col>
-                    <el-col :span="7" class="no-border-right">
+                    <el-col :span="5">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-input v-model="halfYearPriceA">
+                                    <template slot="append">元/半年</template>
+                                </el-input>
+                            </el-col>
+                            <el-col :span="12" class="no-border-right">
+                                <el-input v-model="oneYearPriceA">
+                                    <template slot="append">元/年</template>
+                                </el-input>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-input v-model="halfYearPriceB">
+                                    <template slot="append">元/半年</template>
+                                </el-input>
+                            </el-col>
+                            <el-col :span="12" class="no-border-right">
+                                <el-input v-model="oneYearPriceB">
+                                    <template slot="append">元/年</template>
+                                </el-input>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                    <el-col :span="6" class="no-border-right">
                         {{packageCTotal}} 元/半年 &nbsp;
                     </el-col>
                 </el-row>
@@ -136,16 +162,16 @@
                      border-bottom: 1px solid #d1dbe5;
                  }
 
-                .el-input{
-                    width: 60%;
+                .el-input, .el-input-number{
+                    width: 80%;
+
+                    .el-input-group__append, .el-input-group__prepend{
+                        padding: 0px 2px;
+                    }
                 }
 
                 .mt7{
                     margin-top: 12px;
-                }
-
-                .manage-select{
-                    width: 180px;
                 }
             }
 
@@ -176,9 +202,13 @@
                 collegeNumA: 1,
                 characterNumA: 1,
                 subAccountNumA: 1,
+                halfYearPriceA: 0,
+                oneYearPriceA: 0,
                 collegeNumB: 1,
                 characterNumB: 1,
                 subAccountNumB: 1,
+                halfYearPriceB: 0,
+                oneYearPriceB: 0,
                 collegeNumC: 1,
                 characterNumC: 1,
                 subAccountNumC: 1,
@@ -306,8 +336,7 @@
         },
         methods: {
             collegeNumAChange(val){
-                console.log(val)
-                console.log($(this))
+
             },
 
             characterNumAChange(val){
@@ -321,29 +350,34 @@
                 for(let i = 0; i < this.allItemList.length; i++){
                     if(this.allItemList[i].itemPriceId){
                         if(this.allItemList[i].packageC){
-                            total = total + this.allItemList[i].itemPrice;
+                            total = parseFloat(total) + parseFloat(this.allItemList[i].itemPrice);
                         }
                     }
                 }
 
-                this.packageCTotal = total + this.collegeNumC * this.collegePrice + this.characterNumC * this.characterPrice;
+                this.packageCTotal = parseFloat(total) + this.collegeNumC * this.collegePrice + this.characterNumC * this.characterPrice;
             },
 
             submitPackage(){
-                console.log(this.allItemList);
                 let packageA = {
                         name: 'A套餐',
                         concernCollegeNum: this.collegeNumA,
                         concernPersonNum:　this.characterNumA,
                         subAccountNum: this.subAccountNumA,
-                        packageItem: ''
+                        perCollegePrice: 0,
+                        perCharacterPrice: 0,
+                        packageItem: '',
+                        total: 6000
                     },
                     packageB = {
                         name: 'B套餐',
                         concernCollegeNum: this.collegeNumB,
                         concernPersonNum:　this.characterNumB,
                         subAccountNum: this.subAccountNumB,
-                        packageItem: ''
+                        perCollegePrice: 0,
+                        perCharacterPrice: 0,
+                        packageItem: '',
+                        total: 6000
                     },
                     packageC = {
                         name: 'C套餐',
@@ -352,14 +386,18 @@
                         subAccountNum: this.subAccountNumC,
                         perCollegePrice: this.collegePrice,
                         perCharacterPrice:　this.characterPrice,
-                        packageItem: ''
+                        packageItem: '',
+                        total: this.packageCTotal
                     },
                     packageTrial = {
                         name: '试用会员',
                         concernCollegeNum: this.collegeNumTrial,
                         concernPersonNum:　this.characterNumTrial,
                         subAccountNum: this.subAccountNumTrial,
-                        packageItem: ''
+                        perCollegePrice: 0,
+                        perCharacterPrice: 0,
+                        packageItem: '',
+                        total: 0
                     };
 
                 for(let i = 0; i <　this.allItemList.length; i++){
@@ -399,10 +437,33 @@
                     }
                 }
 
-                console.log(packageA)
-                console.log(packageB)
-                console.log(packageC)
-                console.log(packageTrial)
+                let packageItemList = [];
+                for(let i = 0; i < this.allItemList.length; i++){
+                    if(this.allItemList[i].itemPriceId){
+                        let param = {
+                            id: this.allItemList[i].itemPriceId,
+                            itemPrice: this.allItemList[i].itemPrice
+                        }
+                        packageItemList.push(param);
+                    }
+                }
+
+                let packageDetail = [packageTrial,packageA, packageB, packageC];
+                let data = {
+                    packageDetails: packageDetail,
+                    packageItemPrices: packageItemList
+                }
+
+                this.$http.post('/apis/userMgrt/updatePackageManage.json', data).then(
+                    function (response) {
+                        if(response.data.success){
+                            this.$message({
+                                type: 'success',
+                                message: '更新成功'
+                            })
+                        }
+                    }
+                )
             },
 
             getPackageList(){
@@ -412,6 +473,9 @@
                         let total = 0;
                         for(let i = 0; i < this.packageList.length; i++){
                             let itemList = this.packageList[i].itemList;
+                            if(!itemList){
+                                continue ;
+                            }
                             for(let p = 0; p < itemList.length; p++){
                                 for(let a = 0; a < this.allItemList.length; a++){
                                     if(itemList[p].name == this.allItemList[a].label){
@@ -421,6 +485,7 @@
                                             this.allItemList[a].packageB = true;
                                         }else if(this.packageList[i].name == 'C套餐'){
                                             this.allItemList[a].packageC = true;
+                                            total = total + itemList[p].itemPrice;
                                         }else{
                                             this.allItemList[a].packageTrial = true;
                                         }
@@ -435,22 +500,37 @@
                                 this.collegeNumA = this.packageList[i].concernCollegeNum;
                                 this.characterNumA = this.packageList[i].concernPersonNum;
                                 this.subAccountNumA = this.packageList[i].subAccountNum;
+                                if(this.packageList[i].halfYearPrice){
+                                    this.halfYearPriceA = this.packageList[i].halfYearPrice;
+                                }
+                                if(this.packageList[i].yearPrice){
+                                    this.oneYearPriceA = this.packageList[i].yearPrice;
+                                }
                             }else if(this.packageList[i].name == 'B套餐'){
                                 this.collegeNumB = this.packageList[i].concernCollegeNum;
                                 this.characterNumB = this.packageList[i].concernPersonNum;
                                 this.subAccountNumB = this.packageList[i].subAccountNum;
+                                if(this.packageList[i].halfYearPrice){
+                                    this.halfYearPriceB = this.packageList[i].halfYearPrice;
+                                }
+                                if(this.packageList[i].yearPrice){
+                                    this.oneYearPriceB = this.packageList[i].yearPrice;
+                                }
                             }else if(this.packageList[i].name == 'C套餐'){
                                 this.collegeNumC = this.packageList[i].concernCollegeNum;
                                 this.characterNumC = this.packageList[i].concernPersonNum;
                                 this.subAccountNumC = this.packageList[i].subAccountNum;
                                 this.collegePrice = this.packageList[i].perCollegePrice;
                                 this.characterPrice = this.packageList[i].perCharacterPrice;
+                                total =  total + this.packageList[i].concernCollegeNum * this.packageList[i].perCollegePrice
+                                        + this.packageList[i].concernPersonNum * this.packageList[i].perCharacterPrice;
                             }else{
                                 this.collegeNumTrial = this.packageList[i].concernCollegeNum;
                                 this.characterNumTrial = this.packageList[i].concernPersonNum;
                                 this.subAccountNumTrial = this.packageList[i].subAccountNum;
                             }
                         }
+                        this.packageCTotal = parseFloat(total);
                     }
                 )
             },
