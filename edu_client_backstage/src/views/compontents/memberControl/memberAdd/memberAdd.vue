@@ -78,8 +78,8 @@
                     <el-row class="text-center">
                         <el-col :span="4" class="border-bottom">可关注高校</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt12" v-if="showCounter == true"></el-input-number>
-                            <span v-else>{{collegeNum}}</span>
+                            <el-input-number v-model="collegeNum" @change="collegeNumChange" :min="1" class="mt12"></el-input-number>
+                            <!--<span v-else>{{collegeNum}}</span>-->
                         </el-col>
                         <el-col :span="10" class="border-bottom">
                             &nbsp;
@@ -88,8 +88,8 @@
                     <el-row class="text-center">
                         <el-col :span="4" class="border-bottom">可关注人物</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-input-number v-model="characterNum" @change="characterNumChange" :min="1" class="mt12" v-if="showCounter == true"></el-input-number>
-                            <span v-else>{{characterNum}}</span>
+                            <el-input-number v-model="characterNum" @change="characterNumChange" :min="1" class="mt12"></el-input-number>
+                            <!--<span v-else>{{characterNum}}</span>-->
                         </el-col>
                         <el-col :span="10" class="border-bottom">
                             &nbsp;
@@ -98,8 +98,8 @@
                     <el-row class="text-center">
                         <el-col :span="4" class="border-bottom">子账号数量</el-col>
                         <el-col :span="10" class="border-bottom">
-                            <el-input-number v-model="subAccountNum" @change="subAccountNumChange" :min="1" class="mt12" v-if="showCounter == true"></el-input-number>
-                            <span v-else>{{subAccountNum}}</span>
+                            <el-input-number v-model="subAccountNum" @change="subAccountNumChange" :min="1" class="mt12"></el-input-number>
+                            <!--<span v-else>{{subAccountNum}}</span>-->
                         </el-col>
                         <el-col :span="10" class="border-bottom">
                             &nbsp;
@@ -108,12 +108,12 @@
                     <el-row class="text-center">
                         <el-col :span="4" class="border-bottom">套餐价格</el-col>
                         <el-col :span="20" class="border-bottom">
-                            <span v-model="totalAmount"></span>
+                            {{totalAmount}}
                         </el-col>
                     </el-row>
                     <el-row class="text-center">
                         <el-col :span="24">
-                            <el-button type="primary" @click="submitData()">确定</el-button>
+                            <el-button type="primary" @click="submitData('ruleForm')">确定</el-button>
                         </el-col>
                     </el-row>
                 </el-card>
@@ -164,10 +164,6 @@
 
                 .el-col{
                     height: 60px;
-
-                    .subCountNum{
-                        width: 100px;
-                    }
                     
                     .mt12{
                         margin-top: 12px;
@@ -236,9 +232,8 @@
                         {type: 'email', message: "请输入正确的邮箱",trigger: 'blur' }
                     ]
                 },
-                subCountNum: 1,
                 levelOpt: [
-                    {value:　'试用', label: '试用'},
+                    {value:　'试用会员', label: '试用'},
                     {value:　'A套餐', label: 'A级'},
                     {value:　'B套餐', label: 'B级'},
                     {value:　'C套餐', label: 'C级'},
@@ -303,15 +298,15 @@
             },
 
             collegeNumChange(val){
-                this.collegeNum = val;
+//                this.collegeNum = val;
             },
 
             characterNumChange(val){
-                this.characterNum = val;
+//                this.characterNum = val;
             },
 
             subAccountNumChange(val){
-                this.subAccountNum = val;
+//                this.subAccountNum = val;
             },
 
             changePackageType(val){
@@ -330,7 +325,6 @@
                                     for(let n = 0; n < this.allItemList.length; n++){
                                         if(itemList[j].name == this.allItemList[n].label){
                                             this.allItemList[n].value = true;
-                                            continue ;
                                         }
                                     }
                                 }
@@ -338,23 +332,106 @@
                             this.collegeNum = this.packageList[i].concernCollegeNum;
                             this.characterNum = this.packageList[i].concernPersonNum;
                             this.subAccountNum = this.packageList[i].subAccountNum;
+
+                            this.totalAmount = this.packageList[i].halfYearPrice;
                             break;
                         }
                     }
-                }
-
-                if(val == 'A套餐' || val == 'B套餐'){
-                    this.showCounter = false;
-                }else{
-                    this.showCounter = true;
                 }
             },
 
             /**
              * 向后台提交数据 先验证套餐数据 再验证会员信息
              */
-            submitData(){
+            submitData(formName){
+                let vm = this;
+                this.$refs[formName].validate(
+                    function (valid) {
+                        if(valid){
+                            let result = vm.judgePackage();
+                            if(!result){
+                                return ;
+                            }
 
+                            let data = jQuery.extend({}, vm.ruleForm);
+                            let startDate = vm.packageData.packageStartDate.format('yyyy-MM-dd hh:mm:ss'),
+                                endDate = vm.packageData.packageEndDate.format('yyyy-MM-dd 23:59:59');
+                            data.packageType = vm.packageData.packageType;
+                            data.effectDate = startDate;
+                            data.expireDate = endDate;
+                            data.timeLimit = Math.ceil((new Date(endDate).getTime() - new Date(startDate).getTime())/(24*3600*1000)) + '天';
+                            data.collegeNum = vm.collegeNum;
+                            data.personageNum = vm.characterNum;
+                            data.subAccountNum = vm.subAccountNum;
+
+                            vm.$http.post('/apis/userMgrt/addOrTransform.json', data).then(
+                                function (response) {
+                                    if(response.data.success){
+                                        vm.$message({
+                                            type: 'success',
+                                            message: '添加成功'
+                                        });
+                                    }else{
+                                        vm.$message.error('添加失败，请稍后再试');
+                                    }
+
+                                   vm.resetPage();
+                                }
+                            )
+                        }else {
+                            vm.$message.error('请完善会员信息');
+                            vm.activeName = 'add';
+                        }
+                    }
+                )
+            },
+
+            judgePackage(){
+                if(!this.packageData.packageType){
+                    this.$message.error('请选择套餐类型');
+                    return false;
+                }
+
+                let startDate = this.packageData.packageStartDate,
+                    endDate = this.packageData.packageEndDate;
+
+                if(!startDate){
+                    this.$message.error('请选择套餐周期开始时间');
+                    return false;
+                }
+
+                if(!endDate){
+                    this.$message.error('请选择套餐周期结束时间');
+                    return false;
+                }
+
+                if(startDate.getTime() > endDate.getTime()){
+                    this.$message.error('套餐周期开始时间不能大于结束时间');
+                    return false;
+                }
+
+                return true;
+            },
+
+            resetPage(){
+                this.ruleForm = {
+                    userAccount: '',
+                    realName: '',
+                    userDepartment: '',
+                    userEmail: '',
+                    userPhone: '',
+                    collegeName: '',
+                };
+                this.packageData = {
+                    packageType: '',
+                    packageStartDate: '',
+                    packageEndDate: ''
+                };
+                this.collegeNum = 1;
+                this.characterNum = 1;
+                this.subAccountNum = 1;
+                this.totalAmount = 0;
+                this.activeName = 'add';
             }
         },
         mounted(){
@@ -369,6 +446,7 @@
                 this.ruleForm.userPhone = data.userPhone;
                 this.ruleForm.userEmail = data.userEmail;
                 this.ruleForm.collegeName = data.collegeName;
+                this.ruleForm.userId = data.id;
                 this.ruleForm.status = 'edit';
 
                 this.levelOpt = [

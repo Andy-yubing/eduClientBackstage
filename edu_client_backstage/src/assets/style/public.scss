@@ -324,6 +324,12 @@ s, i, em {
             border-color: #20a0ff !important;
             background-color: #20a0ff !important;
         }
+
+        .el-input{
+            .el-input-group__append, .el-input-group__prepend{
+                padding: 0px 3px;
+            }
+        }
     }
 
 }

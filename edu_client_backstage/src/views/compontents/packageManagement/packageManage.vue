@@ -33,7 +33,7 @@
                         <el-switch v-model="item.packageC" @change="packageCItemChange(item)"></el-switch>
                     </el-col>
                     <el-col :span="3" v-if="item.textColor == 'black'" class="no-border-right">
-                        <el-input v-model="item.itemPrice"></el-input>
+                        <el-input v-model="item.itemPrice" @change="packageCItemChange(item)"></el-input>
                     </el-col>
                 </el-row>
 
@@ -128,7 +128,9 @@
                         </el-row>
                     </el-col>
                     <el-col :span="6" class="no-border-right">
-                        {{packageCTotal}} 元/半年 &nbsp;
+                        <el-input v-model="packageCTotal" :disabled="true">
+                            <template slot="append">元/半年</template>
+                        </el-input>
                     </el-col>
                 </el-row>
             </div>
@@ -164,10 +166,6 @@
 
                 .el-input, .el-input-number{
                     width: 80%;
-
-                    .el-input-group__append, .el-input-group__prepend{
-                        padding: 0px 2px;
-                    }
                 }
 
                 .mt7{
@@ -367,7 +365,8 @@
                         perCollegePrice: 0,
                         perCharacterPrice: 0,
                         packageItem: '',
-                        total: 6000
+                        halfYearPrice: this.halfYearPriceA,
+                        yearPrice: this.oneYearPriceA
                     },
                     packageB = {
                         name: 'B套餐',
@@ -377,7 +376,8 @@
                         perCollegePrice: 0,
                         perCharacterPrice: 0,
                         packageItem: '',
-                        total: 6000
+                        halfYearPrice: this.halfYearPriceB,
+                        yearPrice: this.oneYearPriceB
                     },
                     packageC = {
                         name: 'C套餐',
@@ -387,7 +387,7 @@
                         perCollegePrice: this.collegePrice,
                         perCharacterPrice:　this.characterPrice,
                         packageItem: '',
-                        total: this.packageCTotal
+                        halfYearPrice: this.packageCTotal
                     },
                     packageTrial = {
                         name: '试用会员',
@@ -397,7 +397,8 @@
                         perCollegePrice: 0,
                         perCharacterPrice: 0,
                         packageItem: '',
-                        total: 0
+                        halfYearPrice: 0,
+                        yearPrice: 0
                     };
 
                 for(let i = 0; i <　this.allItemList.length; i++){
