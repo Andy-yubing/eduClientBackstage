@@ -33,7 +33,7 @@
                         <el-switch v-model="item.packageC" @change="packageCItemChange(item)"></el-switch>
                     </el-col>
                     <el-col :span="3" v-if="item.textColor == 'black'" class="no-border-right">
-                        <el-input v-model="item.itemPrice" @change="packageCItemChange(item)"></el-input>
+                        <el-input v-model="item.itemPrice" @change="packageCItemChange(item)" class="mt12"></el-input>
                     </el-col>
                 </el-row>
 
@@ -41,19 +41,19 @@
                     <el-col :span="2">&nbsp;</el-col>
                     <el-col :span="2">可关注高校</el-col>
                     <el-col :span="4">
-                        <el-input-number v-model="collegeNumTrial" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="collegeNumTrial" :min="1" class="mt12"></el-input-number>
                     </el-col>
                     <el-col :span="5">
-                        <el-input-number v-model="collegeNumA" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="collegeNumA" :min="1" class="mt12"></el-input-number>
                     </el-col>
                     <el-col :span="5">
-                        <el-input-number v-model="collegeNumB" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="collegeNumB" :min="1" class="mt12"></el-input-number>
                     </el-col>
                     <el-col :span="3" class="no-border-right">
-                        <el-input-number v-model="collegeNumC" :min="1" class="mt7" @change="packageCItemChange"></el-input-number>
+                        <el-input-number v-model="collegeNumC" :min="1" class="mt12" @change="packageCItemChange"></el-input-number>
                     </el-col>
                     <el-col :span="3" class="no-border-right">
-                        <el-input v-model="collegePrice" @change="packageCItemChange">
+                        <el-input v-model="collegePrice" @change="packageCItemChange" class="mt12">
                             <template slot="append">元/所</template>
                         </el-input>
                     </el-col>
@@ -62,37 +62,37 @@
                     <el-col :span="2">&nbsp;</el-col>
                     <el-col :span="2">可关注人物</el-col>
                     <el-col :span="4">
-                        <el-input-number v-model="characterNumTrial" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="characterNumTrial" :min="1" class="mt12"></el-input-number>
                     </el-col>
                     <el-col :span="5">
-                        <el-input-number v-model="characterNumA" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="characterNumA" :min="1" class="mt12"></el-input-number>
                     </el-col>
                     <el-col :span="5">
-                        <el-input-number v-model="characterNumB" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="characterNumB" :min="1" class="mt12"></el-input-number>
                     </el-col>
                     <el-col :span="3" class="no-border-right">
-                        <el-input-number v-model="characterNumC" :min="1" class="mt7" @change="packageCItemChange"></el-input-number>
+                        <el-input-number v-model="characterNumC" :min="1" class="mt12" @change="packageCItemChange"></el-input-number>
                     </el-col>
                     <el-col :span="3" class="no-border-right">
-                        <el-input v-model="characterPrice" @change="packageCItemChange">
+                        <el-input v-model="characterPrice" @change="packageCItemChange" class="mt12">
                             <template slot="append">元/人</template>
                         </el-input>
                     </el-col>
                 </el-row>
-                <el-row class="text-center" type="flex" align="middle">
+                <el-row class="text-center" type="flex"  justify="space-around">
                     <el-col :span="2">&nbsp;</el-col>
                     <el-col :span="2">可添加子账号</el-col>
                     <el-col :span="4">
-                        <el-input-number v-model="subAccountNumTrial" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="subAccountNumTrial" :min="1" class="mt12"></el-input-number>
                     </el-col>
                     <el-col :span="5">
-                        <el-input-number v-model="subAccountNumA" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="subAccountNumA" :min="1" class="mt12"></el-input-number>
                     </el-col>
                     <el-col :span="5">
-                        <el-input-number v-model="subAccountNumB" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="subAccountNumB" :min="1" class="mt12"></el-input-number>
                     </el-col>
                     <el-col :span="6" class="no-border-right">
-                        <el-input-number v-model="subAccountNumC" :min="1" class="mt7"></el-input-number>
+                        <el-input-number v-model="subAccountNumC" :min="1" class="mt12"></el-input-number>
                     </el-col>
                 </el-row>
                 <el-row class="text-center" type="flex" align="middle">
@@ -102,12 +102,12 @@
                     <el-col :span="5">
                         <el-row>
                             <el-col :span="12">
-                                <el-input v-model="halfYearPriceA">
+                                <el-input v-model="halfYearPriceA" class="mt12">
                                     <template slot="append">元/半年</template>
                                 </el-input>
                             </el-col>
                             <el-col :span="12" class="no-border-right">
-                                <el-input v-model="oneYearPriceA">
+                                <el-input v-model="oneYearPriceA" class="mt12">
                                     <template slot="append">元/年</template>
                                 </el-input>
                             </el-col>
@@ -116,19 +116,19 @@
                     <el-col :span="5">
                         <el-row>
                             <el-col :span="12">
-                                <el-input v-model="halfYearPriceB">
+                                <el-input v-model="halfYearPriceB" class="mt12">
                                     <template slot="append">元/半年</template>
                                 </el-input>
                             </el-col>
                             <el-col :span="12" class="no-border-right">
-                                <el-input v-model="oneYearPriceB">
+                                <el-input v-model="oneYearPriceB" class="mt12">
                                     <template slot="append">元/年</template>
                                 </el-input>
                             </el-col>
                         </el-row>
                     </el-col>
                     <el-col :span="6" class="no-border-right">
-                        <el-input v-model="packageCTotal" :disabled="true">
+                        <el-input v-model="packageCTotal" :disabled="true" class="mt12">
                             <template slot="append">元/半年</template>
                         </el-input>
                     </el-col>
@@ -168,8 +168,8 @@
                     width: 80%;
                 }
 
-                .mt7{
-                    margin-top: 12px;
+                .mt12{
+                    margin: 12px auto;
                 }
             }
 
